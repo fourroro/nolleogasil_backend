@@ -38,10 +38,3 @@ out/
 ### VS Code ###
 .vscode/
 .DS_Store
-
-### .env ###
-/src/main/frontend/.env
-/src/main/frontend/.env.local
-/src/main/frontend/.env.development.local
-/src/main/frontend/.env.test.local
-/src/main/frontend/.env.production.local
