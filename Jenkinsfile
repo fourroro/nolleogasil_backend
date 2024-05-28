@@ -59,7 +59,7 @@ pipeline {
                            sh '''
                            docker stop jenkins || true
                            docker rm jenkins || true
-                           docker run -d -p 8080:8080 --name spring-container \
+                           docker run -d -p 8080:8080 --name jenkins \
                                -e SPRING_RABBITMQ_USERNAME=$SPRING_RABBITMQ_USERNAME \
                                -e SPRING_RABBITMQ_PASSWORD=$SPRING_RABBITMQ_PASSWORD \
                                -e SPRING_RABBITMQ_HOST=$SPRING_RABBITMQ_HOST \
