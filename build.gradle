@@ -89,3 +89,8 @@ tasks.named('bootBuildImage') {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+//.jar 생성 차단
+tasks.named("jar"){
+    enabled=false
+}
