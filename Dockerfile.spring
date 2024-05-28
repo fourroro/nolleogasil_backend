@@ -16,7 +16,7 @@ RUN gradle build --no-daemon -x test
 
 # Step 2: Run the Spring Boot app
 FROM openjdk:17-jdk-slim
-ARG JAR_FILE=./build/libs/*-SNAPSHOT.jar
-COPY ${JAR_FILE} app.jar
+#ARG JAR_FILE=./build/libs/*-SNAPSHOT.jar
+COPY ./build/libs/*-SNAPSHOT.jar ./app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/app.jar"]
