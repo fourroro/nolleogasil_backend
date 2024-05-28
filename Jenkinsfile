@@ -57,8 +57,8 @@ pipeline {
                 ]){
                    script {
                            sh '''
-                           docker stop jenkins || true
-                           docker rm jenkins || true
+                           docker stop jenkins
+                           docker rm jenkins
                            docker run -d -p 8080:8080 --name jenkins \
                                -e SPRING_RABBITMQ_USERNAME=$SPRING_RABBITMQ_USERNAME \
                                -e SPRING_RABBITMQ_PASSWORD=$SPRING_RABBITMQ_PASSWORD \
