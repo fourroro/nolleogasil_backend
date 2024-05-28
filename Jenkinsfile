@@ -13,7 +13,7 @@ pipeline {
                     branches: [[name: '*/master']],
                     doGenerateSubmoduleConfigurations: false,
                     extensions: [],
-                    userRemoteConfigs: [[url: 'https://github.com/fourroro/nolleogasil.git', credentialsId: 'nolleogasil']]
+                    userRemoteConfigs: [[url: 'https://github.com/fourroro/nolleogasil_backend.git', credentialsId: 'nolleogasil-jenkins-token']]
                 ])
             }
         }
@@ -22,7 +22,7 @@ pipeline {
                 script {
                     // Spring Boot Docker 이미지 빌드
                     sh '''
-                    docker build -t nolleogasil -f Dockerfile.spring .
+                    docker build -t nolleogasil_backend -f Dockerfile.spring .
                     '''
                 }
             }
@@ -36,26 +36,26 @@ pipeline {
                     '''
 
                     // Spring Boot 이미지 푸시
-                    sh 'docker tag my-spring-boot-app $DOCKER_CREDENTIALS_USR/nolleogasil'
-                    sh 'docker push $DOCKER_CREDENTIALS_USR/nolleogasil'
+                    sh 'docker tag my-spring-boot-app $DOCKER_CREDENTIALS_USR/nolleogasil_backend'
+                    sh 'docker push $DOCKER_CREDENTIALS_USR/nolleogasil_backend'
                 }
             }
         }
         stage('Deploy') {
             steps {
                 withCredentials([
-                                      string(credentialsId: 'spring-rabbitmq-username', variable: 'SPRING_RABBITMQ_USERNAME'),
-                                      string(credentialsId: 'spring-rabbitmq-password', variable: 'SPRING_RABBITMQ_PASSWORD'),
-                                      string(credentialsId: 'spring-rabbitmq-host', variable: 'SPRING_RABBITMQ_HOST'),
-                                      string(credentialsId: 'spring-rabbitmq-port', variable: 'SPRING_RABBITMQ_PORT'),
-                                      string(credentialsId: 'database-url', variable: 'DATABASE_URL'),
-                                      string(credentialsId: 'database-username', variable: 'DATABASE_USERNAME'),
-                                      string(credentialsId: 'database-password', variable: 'DATABASE_PASSWORD'),
-                                      string(credentialsId: 'openai-api-key', variable: 'OPENAI_API_KEY'),
-                                      string(credentialsId: 'openai-api-url', variable: 'OPENAI_API_URL'),
-                                      string(credentialsId: 'kakao-client-id', variable: 'KAKAO_CLIENT_ID')
-                                   ]){
-                    script {
+                      string(credentialsId: 'spring-rabbitmq-username', variable: 'SPRING_RABBITMQ_USERNAME'),
+                      string(credentialsId: 'spring-rabbitmq-password', variable: 'SPRING_RABBITMQ_PASSWORD'),
+                      string(credentialsId: 'spring-rabbitmq-host', variable: 'SPRING_RABBITMQ_HOST'),
+                      string(credentialsId: 'spring-rabbitmq-port', variable: 'SPRING_RABBITMQ_PORT'),
+                      string(credentialsId: 'database-url', variable: 'DATABASE_URL'),
+                      string(credentialsId: 'database-username', variable: 'DATABASE_USERNAME'),
+                      string(credentialsId: 'database-password', variable: 'DATABASE_PASSWORD'),
+                      string(credentialsId: 'openai-api-key', variable: 'OPENAI_API_KEY'),
+                      string(credentialsId: 'openai-api-url', variable: 'OPENAI_API_URL'),
+                      string(credentialsId: 'kakao-client-id', variable: 'KAKAO_CLIENT_ID')
+                ]){
+                   script {
                            sh '''
                            docker stop spring-container || true
                            docker rm spring-container || true
@@ -70,7 +70,7 @@ pipeline {
                                -e OPENAI_API_KEY=$OPENAI_API_KEY \
                                -e OPENAI_API_URL=$OPENAI_API_URL \
                                -e SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KAKAO_CLIENT_ID=$KAKAO_CLIENT_ID \
-                               $DOCKER_USERNAME/nolleogasil:$BUILD_TAG
+                               $DOCKER_USERNAME/nolleogasil_backend:$BUILD_TAG
                            '''
                     }
                 }
@@ -81,11 +81,11 @@ pipeline {
             failure {
                 script {
                     currentBuild.result = 'FAILURE'
-                    echo "Build failed with status: ${currentBuild.result}"
+                    echo "Nolleogasil_backend build failed with status: ${currentBuild.result}"
                 }
             }
             always {
-                echo 'Build and deployment completed.'
+                echo 'Nolleogasil_backend build and deployment completed.'
             }
         }
 }
