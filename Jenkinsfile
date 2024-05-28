@@ -36,7 +36,7 @@ pipeline {
                     '''
 
                     // Spring Boot 이미지 푸시
-                    sh 'docker tag my-spring-boot-app $DOCKER_CREDENTIALS_USR/nolleogasil_backend'
+                    sh 'docker tag nolleogasil_backend:latest $DOCKER_CREDENTIALS_USR/nolleogasil_backend'
                     sh 'docker push $DOCKER_CREDENTIALS_USR/nolleogasil_backend'
                 }
             }
