@@ -19,9 +19,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/bot")
 public class ChatGptController {
-    @Value("${openai.model}")
+    @Value("${classpath:openai.model}")
     private String model;
-    @Value("${openai.api.url}")
+    @Value("${classpath:openai.api.url}")
     private String apiURL;
 
     private final RestTemplate template;
