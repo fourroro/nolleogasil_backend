@@ -21,7 +21,7 @@ pipeline {
                 script {
                     // Spring Boot Docker 이미지 빌드
                     sh '''
-                    docker build -t nolleogasil_backend:${BUILD_TAG} -f Dockerfile.spring .
+                    docker build -t nolleogasil_backend -f Dockerfile.spring .
                     '''
                 }
             }
@@ -35,8 +35,7 @@ pipeline {
                     '''
 
                     // Spring Boot 이미지 푸시
-                    sh 'docker tag nolleogasil_backend:${BUILD_TAG} $DOCKER_CREDENTIALS_USR/nolleogasil_backend:${BUILD_TAG}'
-                    sh 'docker push $DOCKER_CREDENTIALS_USR/nolleogasil_backend:${BUILD_TAG}'
+                    sh 'docker push $DOCKER_CREDENTIALS_USR/nolleogasil_backend'
                 }
             }
         }
@@ -56,7 +55,7 @@ pipeline {
                 ]){
                     script {
                        sh '''
-                       docker pull $DOCKER_CREDENTIALS_USR/nolleogasil_backend:${BUILD_TAG}
+                       docker pull $DOCKER_CREDENTIALS_USR/nolleogasil_backend
 
                        # Docker에서 dangling 이미지 ID 목록 조회
                        dangling_images=$(docker images -f dangling=true -q)
@@ -66,6 +65,18 @@ pipeline {
                            docker rmi -f $dangling_images
                        else
                            echo "No dangling images to remove."
+                       fi
+
+                       // Stop and remove existing container
+                       # spring-container가 이미 있으면, 중지하고 삭제
+                       if [ $(docker ps -q -f name=${containerName}) ]; then
+                           echo "Stopping existing container..."
+                           docker stop ${containerName} || true
+                       fi
+
+                       if [ $(docker ps -aq -f name=${containerName}) ]; then
+                           echo "Removing existing container..."
+                           docker rm ${containerName} || true
                        fi
 
                        docker run -d -p 8080:8080 --name spring-container \
@@ -79,7 +90,7 @@ pipeline {
                            -e OPENAI_API_KEY=$OPENAI_API_KEY \
                            -e OPENAI_API_URL=$OPENAI_API_URL \
                            -e SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KAKAO_CLIENT_ID=$KAKAO_CLIENT_ID \
-                           $DOCKER_CREDENTIALS_USR/nolleogasil_backend:${BUILD_TAG}
+                           $DOCKER_CREDENTIALS_USR/nolleogasil_backend
                        '''
                     }
                 }
