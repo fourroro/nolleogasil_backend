@@ -56,9 +56,8 @@ pipeline {
                 ]){
                     script {
                        sh '''
-                       docker stop backend || true
-                       docker rm backend || true
                        docker pull $DOCKER_CREDENTIALS_USR/nolleogasil_backend:${BUILD_TAG}
+                       docker rmi -f $(docker images -f "dangling=true" -q)
                        docker run -d -p 8080:8080 --name backend \
                            -e SPRING_RABBITMQ_USERNAME=$SPRING_RABBITMQ_USERNAME \
                            -e SPRING_RABBITMQ_PASSWORD=$SPRING_RABBITMQ_PASSWORD \
