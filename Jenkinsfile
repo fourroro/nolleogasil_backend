@@ -67,7 +67,6 @@ pipeline {
                            -e SPRING_RABBITMQ_PASSWORD=$SPRING_RABBITMQ_PASSWORD \
                            -e SPRING_RABBITMQ_HOST=$SPRING_RABBITMQ_HOST \
                            -e SPRING_RABBITMQ_PORT=$SPRING_RABBITMQ_PORT \
-                           -e KAKAO_API_KEY=$KAKAO_API_KEY \
                            -e SPRING_DATASOURCE_URL=$DATABASE_URL \
                            -e SPRING_DATASOURCE_USERNAME=$DATABASE_USERNAME \
                            -e SPRING_DATASOURCE_PASSWORD=$DATABASE_PASSWORD \
