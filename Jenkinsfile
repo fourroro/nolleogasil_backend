@@ -68,14 +68,14 @@ pipeline {
                        fi
 
                        # spring-container가 이미 있으면, 중지하고 삭제
-                       if [ $(docker ps -q -f name=${containerName}) ]; then
+                       if [ $(docker ps -q -f name=spring-container) ]; then
                            echo "Stopping existing container..."
-                           docker stop ${containerName} || true
+                           docker stop spring-container || true
                        fi
 
-                       if [ $(docker ps -aq -f name=${containerName}) ]; then
+                       if [ $(docker ps -aq -f name=spring-container) ]; then
                            echo "Removing existing container..."
-                           docker rm ${containerName} || true
+                           docker rm spring-container || true
                        fi
 
                        docker run -d -p 8080:8080 --name spring-container \
