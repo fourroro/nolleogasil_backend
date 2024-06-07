@@ -35,8 +35,8 @@ pipeline {
                     '''
 
                     // Spring Boot 이미지 푸시
-                    sh 'docker tag nolleogasil_backend:latest $DOCKER_CREDENTIALS_USR/nolleogasil_backend'
-                    sh 'docker push $DOCKER_CREDENTIALS_USR/nolleogasil_backend'
+                    sh 'docker tag nolleogasil_backend:${BUILD_TAG} $DOCKER_CREDENTIALS_USR/nolleogasil_backend:${BUILD_TAG}'
+                    sh 'docker push $DOCKER_CREDENTIALS_USR/nolleogasil_backend:${BUILD_TAG}'
                 }
             }
         }
@@ -58,7 +58,7 @@ pipeline {
                        sh '''
                        docker stop backend || true
                        docker rm backend || true
-                       docker pull parkchoeun/nolleogasil_backend
+                       docker pull $DOCKER_CREDENTIALS_USR/nolleogasil_backend:${BUILD_TAG}
                        docker run -d -p 8080:8080 --name backend \
                            -e SPRING_RABBITMQ_USERNAME=$SPRING_RABBITMQ_USERNAME \
                            -e SPRING_RABBITMQ_PASSWORD=$SPRING_RABBITMQ_PASSWORD \
@@ -70,7 +70,7 @@ pipeline {
                            -e OPENAI_API_KEY=$OPENAI_API_KEY \
                            -e OPENAI_API_URL=$OPENAI_API_URL \
                            -e SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KAKAO_CLIENT_ID=$KAKAO_CLIENT_ID \
-                           parkchoeun/nolleogasil_backend:latest
+                           $DOCKER_CREDENTIALS_USR/nolleogasil_backend:${BUILD_TAG}
                        '''
                     }
                 }
