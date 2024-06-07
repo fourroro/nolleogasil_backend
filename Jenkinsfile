@@ -49,6 +49,7 @@ pipeline {
                     string(credentialsId: 'database-url', variable: 'DATABASE_URL'),
                     string(credentialsId: 'database-username', variable: 'DATABASE_USERNAME'),
                     string(credentialsId: 'database-password', variable: 'DATABASE_PASSWORD'),
+                    string(credentialsId: 'openai-api-model', variable: 'OPENAI_API_MODEL'),
                     string(credentialsId: 'openai-api-key', variable: 'OPENAI_API_KEY'),
                     string(credentialsId: 'openai-api-url', variable: 'OPENAI_API_URL'),
                     string(credentialsId: 'kakao-client-id', variable: 'KAKAO_CLIENT_ID')
@@ -86,6 +87,7 @@ pipeline {
                            -e SPRING_DATASOURCE_URL=$DATABASE_URL \
                            -e SPRING_DATASOURCE_USERNAME=$DATABASE_USERNAME \
                            -e SPRING_DATASOURCE_PASSWORD=$DATABASE_PASSWORD \
+                           -e OPENAI_API_MODEL=OPENAI_API_MODEL \
                            -e OPENAI_API_KEY=$OPENAI_API_KEY \
                            -e OPENAI_API_URL=$OPENAI_API_URL \
                            -e SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KAKAO_CLIENT_ID=$KAKAO_CLIENT_ID \
