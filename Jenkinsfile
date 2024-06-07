@@ -4,7 +4,6 @@ pipeline {
         DOCKER_CREDENTIALS = credentials('docker-credentials')  // Jenkins Credentials ID 사용
     }
 
-
     stages {
         stage('Checkout') {
             steps {
@@ -57,11 +56,8 @@ pipeline {
                 ]){
                     script {
                        sh '''
-                       docker stop react-container || true
-                       docker rm react-container || true
                        docker stop spring-container || true
                        docker rm spring-container || true
-                       docker run -d -p 3000:3000 --name react-container $DOCKER_USERNAME/react-nolleogasil:$BUILD_TAG
                        docker run -d -p 8080:8080 --name spring-container \
                            -e SPRING_RABBITMQ_USERNAME=$SPRING_RABBITMQ_USERNAME \
                            -e SPRING_RABBITMQ_PASSWORD=$SPRING_RABBITMQ_PASSWORD \
