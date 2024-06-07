@@ -56,9 +56,9 @@ pipeline {
                 ]){
                     script {
                        sh '''
-                       docker stop spring-container || true
-                       docker rm spring-container || true
-                       docker run -d -p 8080:8080 --name spring-container \
+                       docker stop backend || true
+                       docker rm backend || true
+                       docker run -d -p 8080:8080 --name backend \
                            -e SPRING_RABBITMQ_USERNAME=$SPRING_RABBITMQ_USERNAME \
                            -e SPRING_RABBITMQ_PASSWORD=$SPRING_RABBITMQ_PASSWORD \
                            -e SPRING_RABBITMQ_HOST=$SPRING_RABBITMQ_HOST \
