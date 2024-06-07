@@ -57,7 +57,17 @@ pipeline {
                     script {
                        sh '''
                        docker pull $DOCKER_CREDENTIALS_USR/nolleogasil_backend:${BUILD_TAG}
-                       docker rmi -f $(docker images -f "dangling=true" -q)
+
+                       # Docker에서 dangling 이미지 ID 목록 조회
+                       dangling_images=$(docker images -f dangling=true -q)
+
+                       # 결과가 비어 있지 않다면, 이미지 삭제
+                       if [ -n "$dangling_images" ]; then
+                           docker rmi -f $dangling_images
+                       else
+                           echo "No dangling images to remove."
+                       fi
+
                        docker run -d -p 8080:8080 --name spring-container \
                            -e SPRING_RABBITMQ_USERNAME=$SPRING_RABBITMQ_USERNAME \
                            -e SPRING_RABBITMQ_PASSWORD=$SPRING_RABBITMQ_PASSWORD \
