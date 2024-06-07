@@ -67,7 +67,6 @@ pipeline {
                            echo "No dangling images to remove."
                        fi
 
-                       // Stop and remove existing container
                        # spring-container가 이미 있으면, 중지하고 삭제
                        if [ $(docker ps -q -f name=${containerName}) ]; then
                            echo "Stopping existing container..."
