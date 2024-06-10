@@ -21,7 +21,7 @@ pipeline {
                 script {
                     // Spring Boot Docker 이미지 빌드
                     sh '''
-                    docker build -t nolleogasil_backend -f Dockerfile.spring .
+                    docker build -t $DOCKER_CREDENTIALS_USR/nolleogasil_backend -f Dockerfile.spring .
                     '''
                 }
             }
