@@ -2,10 +2,10 @@ pipeline {
     agent any
     environment {
         DOCKER_CREDENTIALS = credentials('docker-credentials')  // Jenkins Credentials ID 사용
-        SPRING_RABBITMQ_USERNAME = credentials('rabbitmq-username')
-        SPRING_RABBITMQ_PASSWORD = credentials('rabbitmq-password')
-        SPRING_RABBITMQ_HOST = credentials('rabbitmq-host')
-        SPRING_RABBITMQ_PORT = credentials('rabbitmq-port')
+        SPRING_RABBITMQ_USERNAME = credentials('spring-rabbitmq-username')
+        SPRING_RABBITMQ_PASSWORD = credentials('spring-rabbitmq-password')
+        SPRING_RABBITMQ_HOST = credentials('spring-rabbitmq-host')
+        SPRING_RABBITMQ_PORT = credentials('spring-rabbitmq-port')
 
         DATABASE_URL = credentials('database-url')
         DATABASE_USERNAME = credentials('database-username')
