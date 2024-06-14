@@ -14,6 +14,7 @@ public class HelloController {
     }
 */
 
+/*
     @GetMapping("/test")
     public String test(@RequestParam(value="id", required=false) Integer id, @RequestParam(value="title", required=false) String title){
         System.out.println("id>>>>>>" + id);
@@ -21,5 +22,10 @@ public class HelloController {
 
         return title;
     }
+*/
 
+    @GetMapping("/")
+    public String index() {
+        return "index"; // React 프로젝트의 index.html
+    }
 }
