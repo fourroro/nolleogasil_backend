@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping("/mate")
+@RequestMapping("/api/mate")
 @RequiredArgsConstructor
 public class MateController {
 
