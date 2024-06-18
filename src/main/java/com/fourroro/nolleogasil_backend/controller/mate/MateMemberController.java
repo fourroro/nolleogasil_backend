@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/mateMember")
 @RequiredArgsConstructor
+@RequestMapping("/api/mateMember")
 public class MateMemberController {
 
     private final MateMemberService mateMemberService;

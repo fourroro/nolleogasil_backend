@@ -17,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/apply")
 public class ApplyController {
 
     private final ApplyService applyService;
