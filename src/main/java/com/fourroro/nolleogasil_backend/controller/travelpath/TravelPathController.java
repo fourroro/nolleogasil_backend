@@ -17,6 +17,7 @@ import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/travelpath")
 public class TravelPathController {
 
     private final TravelPathService travelPathService;
@@ -50,7 +51,7 @@ public class TravelPathController {
 
 
     //user가 여행경로 정보 저장 시 Travelpath, Keyword, Recommendation 등 연관 관계 형성한 table에 insert
-    @PostMapping("/travelPath/insert")
+    @PostMapping("/insert")
     public ResponseEntity insertTravelPathData(@RequestBody TravelDetailDto travelDetailDto, HttpSession session){
         
         if(travelDetailDto.checkNullField()) {
@@ -182,7 +183,7 @@ public class TravelPathController {
 
 
     //user가 정보 수정 시 새로운 내용 저장
-    @PostMapping("/travelPath/update")
+    @PostMapping("/update")
     public ResponseEntity<String> updateTravelPathData(@RequestBody ResultDto resultDto, HttpSession session){
 
         Long recommendationId = (Long) session.getAttribute("recommendationId");
@@ -224,7 +225,7 @@ public class TravelPathController {
 
 
     //여행경로 정보 삭제
-    @DeleteMapping("/travelPath/delete/{travelpathId}")
+    @DeleteMapping("/delete/{travelpathId}")
     public ResponseEntity deleteTravelPath(@PathVariable Long travelpathId){
         travelPathService.deleteTravelPathById(travelpathId);
         return ResponseEntity.status(HttpStatus.OK).build();
