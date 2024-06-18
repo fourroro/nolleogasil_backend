@@ -21,8 +21,8 @@ import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/mate")
 @RequiredArgsConstructor
+@RequestMapping("/api/mate")
 public class MateController {
 
     private final MateService mateService;
