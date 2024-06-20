@@ -11,6 +11,10 @@ import org.springframework.web.servlet.HandlerInterceptor;
 public class SessionInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            return true;
+        }
+
         //세션 만료 여부 확인
         if(!isSessionExpired(request)){
             response.setStatus(HttpStatus.OK.value());
