@@ -117,7 +117,6 @@ public class TravelPathController {
     @GetMapping("/getTravelPathList")
     public ResponseEntity<List<Map<String, Object>>> getTravelPathList(@RequestParam(name="sortBy") String sortBy) {
 
-        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
         UsersDto users = (UsersDto) operations.get("users");
 
         Long usersId = users.getUsersId();
