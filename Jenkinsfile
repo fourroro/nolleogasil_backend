@@ -20,6 +20,9 @@ pipeline {
         KAKAO_USER_INFO_URI = credentials('kakao-user-info-uri')
         KAKAO_REDIRECT_URI = credentials('kakao-redirect-uri')
         KAKAO_API_KEY = credentials('kakao-api-key')
+
+        SPRING_REDIS_HOST = credentials('spring.redis.host')
+        SPRING_REDIS_PORT = credentials('spring.redis.port')
     }
 
     stages {
@@ -55,6 +58,8 @@ pipeline {
                        --build-arg SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KAKAO_USER_INFO_URI=${KAKAO_USER_INFO_URI} \
                        --build-arg SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KAKAO_REDIRECT_URI=${KAKAO_REDIRECT_URI} \
                        --build-arg KAKAO_API_KEY=${KAKAO_API_KEY} \
+                       --build-arg KAKAO_API_KEY=${SPRING_REDIS_HOST} \
+                       --build-arg KAKAO_API_KEY=${SPRING_REDIS_PORT} \
                     '''
                 }
             }
@@ -115,6 +120,8 @@ pipeline {
                         -e SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KAKAO_USER_INFO_URI=${KAKAO_USER_INFO_URI} \
                         -e SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KAKAO_REDIRECT_URI=${KAKAO_REDIRECT_URI} \
                         -e KAKAO_API_KEY=${KAKAO_API_KEY} \
+                        -e SPRING_REDIS_HOST=${SPRING_REDIS_HOST} \
+                        -e SPRING_REDIS_PORT=${SPRING_REDIS_PORT} \
                         $DOCKER_CREDENTIALS_USR/nolleogasil_backend
                     '''
                 }
