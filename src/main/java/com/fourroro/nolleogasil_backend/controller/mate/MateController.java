@@ -34,12 +34,11 @@ public class MateController {
     private final RedisTemplate<String, Object> redisTemplate;
 
     //session에 있는 usersId 가져오기
+
     private Long getSessionUsersId() {
-//        UsersDto usersSession = (UsersDto) session.getAttribute("users");
+
         ValueOperations<String, Object> operations = redisTemplate.opsForValue();
         UsersDto usersDto = (UsersDto) operations.get("users");
-        System.out.println("!!!!!!!!");
-        System.out.println(usersDto.getUsersId() + " / " + usersDto.getName());
 
         return usersDto.getUsersId();
     }

@@ -6,6 +6,8 @@ import com.fourroro.nolleogasil_backend.entity.mate.MateMember;
 import com.fourroro.nolleogasil_backend.service.mate.MateMemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,11 +20,14 @@ import java.util.Map;
 public class MateMemberController {
 
     private final MateMemberService mateMemberService;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     //session에 있는 usersId 가져오기
     private Long getSessionUsersId(HttpSession session) {
-        UsersDto usersSession = (UsersDto) session.getAttribute("users");
-        return usersSession.getUsersId();
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        UsersDto usersDto = (UsersDto) operations.get("users");
+
+        return usersDto.getUsersId();
     }
 
     //첫 입장인지......
