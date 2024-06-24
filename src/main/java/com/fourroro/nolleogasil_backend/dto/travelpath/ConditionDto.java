@@ -11,7 +11,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConditionDto implements Serializable{
+public class ConditionDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private String destination;         //목적지
