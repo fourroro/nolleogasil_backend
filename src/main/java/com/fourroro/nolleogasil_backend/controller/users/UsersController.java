@@ -25,11 +25,12 @@ public class UsersController {
     private final UsersServiceImpl usersService;
     private final KakaoService kakaoService;
     private final RedisTemplate<String, Object> redisTemplate;
+    private ValueOperations<String, Object> operations = redisTemplate.opsForValue();
 
     //회원가입 및 로그인
     //세션 확인하기
     @PostMapping("/profile")
-    public ResponseEntity<Long> setUserProfile(HttpSession session, @RequestBody KakaoDto kakaoRequest){
+    public ResponseEntity<Long> setUserProfile(@RequestBody KakaoDto kakaoRequest){
         try{
             //카카오로부터 받은 사용자 정보 中 phone_number
             String kakaoUsersPhone = kakaoRequest.getPhone();
@@ -49,12 +50,7 @@ public class UsersController {
                 }
                 UsersDto usersDto = UsersDto.changeToDto(existingUsers);
 
-                System.out.println("!!!!!!!!!!!");
-                System.out.println(usersDto.getUsersId() + " / " + usersDto.getName());
-
                 //세션에 사용자 정보 저장
-//                session.setAttribute("users", usersDto);
-                ValueOperations<String, Object> operations = redisTemplate.opsForValue();
                 operations.set("users", usersDto);
 
                 //프론트엔드로 기존 회원임을 전달
@@ -66,8 +62,6 @@ public class UsersController {
                 UsersDto usersDto = UsersDto.changeToDto(users);
 
                 //세션에 사용자 정보 저장
-//                session.setAttribute("users", usersDto);
-                ValueOperations<String, Object> operations = redisTemplate.opsForValue();
                 operations.set("users", usersDto);
 
                 //프론트엔드로 신규 회원임을 전달
@@ -94,7 +88,7 @@ public class UsersController {
 
     //회원정보 수정
     @GetMapping("/update/{usersId}")
-    public ResponseEntity<UsersDto> updateForm(HttpSession session, @PathVariable Long usersId){
+    public ResponseEntity<UsersDto> updateForm(@PathVariable Long usersId){
 
         try {
             Users users = usersService.findUsers(usersId);
@@ -111,24 +105,20 @@ public class UsersController {
     }
 
     @PostMapping("/update/{usersId}")
-    public ResponseEntity<String> updateUsers(HttpSession session, @PathVariable Long usersId, @RequestBody Map<String, String> requestBody, HttpServletRequest request){
+    public ResponseEntity<String> updateUsers(@PathVariable Long usersId, @RequestBody Map<String, String> requestBody, HttpServletRequest request){
         try{
             String nickname = requestBody.get("nickname");
 
             usersService.updateUsers(nickname, usersId);
-
             // 세션에 저장된 사용자 정보 업데이트
-            if(session.getAttribute("users") != null) {
-                UsersDto userInfo = (UsersDto) session.getAttribute("users");
+            if(operations.get("users") != null) {
+                UsersDto userInfo = (UsersDto) operations.get("users");
 
                 if(userInfo != null) {
                     userInfo.setNickname(nickname);
 
                     // 세션 무효화
-                    session.invalidate();
                     // 새로운 세션 생성 및 사용자 정보 설정
-                    HttpSession newSession = request.getSession(true);
-                    newSession.setAttribute("users", userInfo);
                 }
             }else{
                 System.out.println("session is empty!");

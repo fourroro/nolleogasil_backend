@@ -9,6 +9,8 @@ import com.fourroro.nolleogasil_backend.service.travelpath.*;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,22 +27,25 @@ public class TravelPathController {
     private final RecommendationService recommendationService;
     private final TravelDateService travelDateService;
     private final TravelInfoService travelInfoService;
+    private final RedisTemplate<String, Object> redisTemplate;
+    private ValueOperations<String, Object> operations = redisTemplate.opsForValue();
 
 
     //Form에서 받은 user가 선택한 데이터를 dto형태로 session에 저장
     @PostMapping("/form")
-    public ResponseEntity<String> dataFromForm(@RequestBody ConditionDto conditionDto, HttpSession session) {
-        
-        session.setAttribute("conditionDto", conditionDto);
+    public ResponseEntity<String> dataFromForm(@RequestBody ConditionDto conditionDto) {
+
+        operations.set("conditionDto", conditionDto);
+
         return ResponseEntity.ok("/travelPath/result"); // 리다이렉션 대신 응답 데이터에 리다이렉션할 주소를 담아서 전달
     }
 
 
     //Result.js로 데이터 전송
     @GetMapping("/toResult")
-    public ResponseEntity<ConditionDto> dataToResult(HttpSession session) {
-        
-        ConditionDto conditionDto = (ConditionDto) session.getAttribute("conditionDto");
+    public ResponseEntity<ConditionDto> dataToResult() {
+
+        ConditionDto conditionDto = (ConditionDto) operations.get("conditionDto");
 
         if (conditionDto != null) {
             return ResponseEntity.status(HttpStatus.OK).body(conditionDto);
@@ -52,13 +57,14 @@ public class TravelPathController {
 
     //user가 여행경로 정보 저장 시 Travelpath, Keyword, Recommendation 등 연관 관계 형성한 table에 insert
     @PostMapping("/insert")
-    public ResponseEntity insertTravelPathData(@RequestBody TravelDetailDto travelDetailDto, HttpSession session){
+    public ResponseEntity insertTravelPathData(@RequestBody TravelDetailDto travelDetailDto){
         
         if(travelDetailDto.checkNullField()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Some fields are null");
         }
 
-        UsersDto users = (UsersDto) session.getAttribute("users");
+        UsersDto users = (UsersDto) operations.get("users");
+
         Long usersId = users.getUsersId();
 
 
@@ -109,9 +115,11 @@ public class TravelPathController {
 
     //최신순으로 여행경로 정보 조회
     @GetMapping("/getTravelPathList")
-    public ResponseEntity<List<Map<String, Object>>> getTravelPathList(@RequestParam(name="sortBy") String sortBy, HttpSession session) {
+    public ResponseEntity<List<Map<String, Object>>> getTravelPathList(@RequestParam(name="sortBy") String sortBy) {
 
-        UsersDto users = (UsersDto) session.getAttribute("users");
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        UsersDto users = (UsersDto) operations.get("users");
+
         Long usersId = users.getUsersId();
 
         List<TravelPath> travelPathList = new ArrayList<>();
@@ -144,7 +152,7 @@ public class TravelPathController {
 
     //travelpathId에 해당하는 TravelPath 정보를 session에 저장
     @PostMapping("/showDetail")
-    public ResponseEntity showDetailByTravelPathId(@RequestBody Long  travelpathId, HttpSession session) {
+    public ResponseEntity showDetailByTravelPathId(@RequestBody Long  travelpathId) {
 
         TravelPath travelPath = travelPathService.getTravelPathById(travelpathId);
 
@@ -164,8 +172,9 @@ public class TravelPathController {
                 resultDto
         );
 
-        session.setAttribute("travelDetailDto", travelDetailDto);
-        session.setAttribute("recommendationId", recommendationId);
+        operations.set("travelDetailDto", travelDetailDto);
+        operations.set("recommendationId", recommendationId);
+
         return ResponseEntity.ok("/TravelDetail");
     }
 
@@ -173,7 +182,8 @@ public class TravelPathController {
     //session에 저장된 TravelPath 정보 전달
     @GetMapping("/getDetail")
     public ResponseEntity<TravelDetailDto> getTravelDetail(HttpSession session){
-        TravelDetailDto travelDetailDto = (TravelDetailDto) session.getAttribute("travelDetailDto");
+        TravelDetailDto travelDetailDto  = (TravelDetailDto) operations.get("travelDetailDto");
+
         if( travelDetailDto != null){
             return ResponseEntity.status(HttpStatus.OK).body(travelDetailDto);
         }else{
@@ -186,7 +196,7 @@ public class TravelPathController {
     @PostMapping("/update")
     public ResponseEntity<String> updateTravelPathData(@RequestBody ResultDto resultDto, HttpSession session){
 
-        Long recommendationId = (Long) session.getAttribute("recommendationId");
+        Long recommendationId  = (Long) operations.get("recommendationId");
         Optional<Recommendation> recommendation = recommendationService.getRecommendation(recommendationId);
 
         //조회 후 변경
@@ -207,7 +217,7 @@ public class TravelPathController {
         travelInfoService.updateTravelInfo(newTravelInfoDtos, recommendation.get());
         TravelDetailDto travelDetailDto = (TravelDetailDto) session.getAttribute("travelDetailDto");
         travelDetailDto.getResultDto().setInfos(newInfos);
-        session.setAttribute("travelDetailDto", travelDetailDto);
+        operations.set("travelDetailDto", travelDetailDto);
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }
