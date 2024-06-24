@@ -56,6 +56,9 @@ public class UsersController {
                 String redis = (String)operations.get("users");
                 log.info(redis);
 
+                System.out.println("!!!!!!!!!!!");
+                System.out.println("usersDto>>>" + usersDto.toString());
+
                 //프론트엔드로 기존 회원임을 전달
 //                return ResponseEntity.badRequest().body(usersDto.getUsersId());
                 return ResponseEntity.badRequest().body("기존회원");
