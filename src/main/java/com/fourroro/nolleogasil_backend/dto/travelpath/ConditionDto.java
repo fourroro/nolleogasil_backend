@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ConditionDto implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private String destination;         //목적지
     private String startDate;           //출발 날짜
     private String endDate;             //오는 날짜
