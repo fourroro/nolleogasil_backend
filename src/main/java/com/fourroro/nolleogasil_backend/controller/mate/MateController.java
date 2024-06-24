@@ -13,6 +13,8 @@ import com.fourroro.nolleogasil_backend.service.mate.MateService;
 import com.fourroro.nolleogasil_backend.service.place.PlaceService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,11 +31,15 @@ public class MateController {
     private final PlaceService placeService;
     private final MateMemberService mateMemberService;
     private final ChatRoomService chatRoomService;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     //session에 있는 usersId 가져오기
     private Long getSessionUsersId(HttpSession session) {
-        UsersDto usersSession = (UsersDto) session.getAttribute("users");
-        return usersSession.getUsersId();
+//        UsersDto usersSession = (UsersDto) session.getAttribute("users");
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        UsersDto usersDto = (UsersDto) operations.get("users");
+
+        return usersDto.getUsersId();
     }
 
     @PostMapping("/mateForm")
