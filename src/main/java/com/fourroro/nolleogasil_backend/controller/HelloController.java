@@ -26,6 +26,6 @@ public class HelloController {
 
     @GetMapping("/")
     public String index() {
-        return "놀러가실?"; // React 프로젝트의 index.html
+        return "놀러가실?";
     }
 }
