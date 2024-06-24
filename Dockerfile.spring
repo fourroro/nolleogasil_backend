@@ -34,6 +34,9 @@ ARG KAKAO_USER_INFO_URI
 ARG KAKAO_REDIRECT_URI
 ARG KAKAO_API_KEY
 
+ARG SPRING_REDIS_HOST
+ARG SPRING_REDIS_PORT
+
 # 환경 변수를 .env 파일에 기록
 RUN echo "SPRING_RABBITMQ_USERNAME=$SPRING_RABBITMQ_USERNAME" >> src/main/resources/application.properties
 RUN echo "SPRING_RABBITMQ_PASSWORD=$SPRING_RABBITMQ_PASSWORD" >> src/main/resources/application.properties
@@ -53,6 +56,9 @@ RUN echo "KAKAO_AUTHORIZATION_URI=$KAKAO_AUTHORIZATION_URI" >> src/main/resource
 RUN echo "KAKAO_USER_INFO_URI=$KAKAO_USER_INFO_URI" >> src/main/resources/application.properties
 RUN echo "KAKAO_REDIRECT_URI=$KAKAO_REDIRECT_URI" >> src/main/resources/application.properties
 RUN echo "KAKAO_API_KEY=$KAKAO_API_KEY" >> src/main/resources/application.properties
+
+RUN echo "SPRING_REDIS_HOST=$SPRING_REDIS_HOST" >> src/main/resources/application.properties
+RUN echo "SPRING_REDIS_PORT=$SPRING_REDIS_PORT" >> src/main/resources/application.properties
 
 # Gradle 빌드 실행 (테스트 제외)
 RUN gradle build --no-daemon -x test
