@@ -29,7 +29,7 @@ public class ApplyController {
     private final RedisTemplate<String, Object> redisTemplate;
 
     //session에 있는 usersId 가져오기
-    private Long getSessionUsersId(HttpSession session) {
+    private Long getSessionUsersId() {
         ValueOperations<String, Object> operations = redisTemplate.opsForValue();
         UsersDto usersDto = (UsersDto) operations.get("users");
 
@@ -38,12 +38,12 @@ public class ApplyController {
 
     //apply 추가
     @PostMapping("/insertApply")
-    public String insertApply(@RequestParam Long mateId, HttpSession session) {
+    public String insertApply(@RequestParam Long mateId) {
         if (mateId == null) {
             return "failed";
         }
 
-        Long usersId = getSessionUsersId(session);
+        Long usersId = getSessionUsersId();
         ApplyDto applyDto = ApplyDto.builder()
                 .mateId(mateId)
                 .applicantId(usersId)
@@ -97,8 +97,8 @@ public class ApplyController {
 
     //apply유무 확인 후 해당 apply의 isApply 반환 -> Mate.js의 버튼상태에서 사용
     @GetMapping("/checkingApplyStatus")
-    public String checkingApplyStatus(@RequestParam Long mateId, HttpSession session) {
-        Long usersId = getSessionUsersId(session);
+    public String checkingApplyStatus(@RequestParam Long mateId) {
+        Long usersId = getSessionUsersId();
         boolean checkingApply = applyService.checkApplyColumn(mateId, usersId);
         if (checkingApply) {
             ApplyDto applyDto = applyService.getApplyByMateIdAndUsersId(mateId, usersId);
@@ -110,15 +110,15 @@ public class ApplyController {
 
     //보낸 신청 목록 조회
     @GetMapping("/getSendApply")
-    public List<ApplyDto> getSendApply(HttpSession session) {
-        Long usersId = getSessionUsersId(session);
+    public List<ApplyDto> getSendApply() {
+        Long usersId = getSessionUsersId();
         return applyService.getSendApplyList(usersId);
     }
 
     //받은 신청 목록 조회
     @GetMapping("/getReceivedApply")
-    public List<ApplyDto> getReceivedApply(HttpSession session) {
-        Long usersId = getSessionUsersId(session);
+    public List<ApplyDto> getReceivedApply() {
+        Long usersId = getSessionUsersId();
         return applyService.getReceivedApplyList(usersId);
     }
 
