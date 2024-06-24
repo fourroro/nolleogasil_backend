@@ -117,8 +117,10 @@ public class UsersController {
                 if(userInfo != null) {
                     userInfo.setNickname(nickname);
 
-                    // 세션 무효화
-                    // 새로운 세션 생성 및 사용자 정보 설정
+                    //세션에서 users의 value 삭제
+                    redisTemplate.delete("users");
+                    //세션에 새로 저장
+                    operations.set("users", userInfo);
                 }
             }else{
                 System.out.println("session is empty!");
@@ -142,10 +144,9 @@ public class UsersController {
     @RequestMapping("/logout")
     public ResponseEntity<String> logout(HttpSession session) throws Exception{
         //세션에서 사용자 정보 제거
-        if(session != null) {
-            UsersDto user = (UsersDto) session.getAttribute("users");
-            //세션 무효화
-            session.invalidate();
+        if(operations.get("users") != null) {
+            //세션에서 users의 value 삭제
+            redisTemplate.delete("users");
 
             return ResponseEntity.ok("Logout successful");
         }else{
@@ -155,10 +156,10 @@ public class UsersController {
 
     //회원탈퇴
     @DeleteMapping("/delete/{usersId}")
-    public ResponseEntity<String> deleteUsers(HttpSession session, @PathVariable Long usersId){
+    public ResponseEntity<String> deleteUsers(@PathVariable Long usersId){
         usersService.deleteUsers(usersId);
         //세션 무효화
-        session.invalidate();
+        redisTemplate.delete("users");
         return ResponseEntity.ok("User delete successfully");
     }
 }
