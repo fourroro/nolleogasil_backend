@@ -58,8 +58,8 @@ pipeline {
                        --build-arg SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KAKAO_USER_INFO_URI=${KAKAO_USER_INFO_URI} \
                        --build-arg SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KAKAO_REDIRECT_URI=${KAKAO_REDIRECT_URI} \
                        --build-arg KAKAO_API_KEY=${KAKAO_API_KEY} \
-                       --build-arg KAKAO_API_KEY=${SPRING_REDIS_HOST} \
-                       --build-arg KAKAO_API_KEY=${SPRING_REDIS_PORT} \
+                       --build-arg SPRING_REDIS_HOST=${SPRING_REDIS_HOST} \
+                       --build-arg SPRING_REDIS_PORT=${SPRING_REDIS_PORT} \
                     '''
                 }
             }
