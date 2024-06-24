@@ -13,6 +13,8 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 public class UsersDto implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @NotNull
     private Long usersId;
     @NotNull
