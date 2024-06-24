@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,7 @@ import java.util.Map;
 public class UsersController {
     private final UsersServiceImpl usersService;
     private final KakaoService kakaoService;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     //회원가입 및 로그인
     //세션 확인하기
@@ -45,16 +48,28 @@ public class UsersController {
                     System.out.println("phone number not changed...");
                 }
                 UsersDto usersDto = UsersDto.changeToDto(existingUsers);
+
                 //세션에 사용자 정보 저장
-                session.setAttribute("users", usersDto);
+                //session.setAttribute("users", usersDto);
+                ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+                operations.set("users", usersDto);
+                String redis = (String)operations.get("users");
+                log.info(redis);
+
                 //프론트엔드로 기존 회원임을 전달
                 return ResponseEntity.badRequest().body(usersDto.getUsersId());
             }else { //신규 회원인 경우
                 usersService.insertUsers(kakaoRequest.toDto());
                 Users users = usersService.findByEmail(kakaoRequest.getEmail());
                 UsersDto usersDto = UsersDto.changeToDto(users);
+
                 //세션에 사용자 정보 저장
-                session.setAttribute("users", usersDto);
+                //session.setAttribute("users", usersDto);
+                ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+                operations.set("users", usersDto);
+                String redis = (String)operations.get("users");
+                log.info(redis);
+
                 //프론트엔드로 신규 회원임을 전달
                 return ResponseEntity.ok(usersDto.getUsersId());
             }
