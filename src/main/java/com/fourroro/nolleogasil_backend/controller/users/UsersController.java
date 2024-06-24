@@ -29,7 +29,7 @@ public class UsersController {
     //회원가입 및 로그인
     //세션 확인하기
     @PostMapping("/profile")
-    public ResponseEntity<Long> setUserProfile(HttpSession session, @RequestBody KakaoDto kakaoRequest){
+    public ResponseEntity<String> setUserProfile(HttpSession session, @RequestBody KakaoDto kakaoRequest){
         try{
             //카카오로부터 받은 사용자 정보 中 phone_number
             String kakaoUsersPhone = kakaoRequest.getPhone();
@@ -57,7 +57,8 @@ public class UsersController {
                 log.info(redis);
 
                 //프론트엔드로 기존 회원임을 전달
-                return ResponseEntity.badRequest().body(usersDto.getUsersId());
+//                return ResponseEntity.badRequest().body(usersDto.getUsersId());
+                return ResponseEntity.badRequest().body("기존회원");
             }else { //신규 회원인 경우
                 usersService.insertUsers(kakaoRequest.toDto());
                 Users users = usersService.findByEmail(kakaoRequest.getEmail());
@@ -71,10 +72,11 @@ public class UsersController {
                 log.info(redis);
 
                 //프론트엔드로 신규 회원임을 전달
-                return ResponseEntity.ok(usersDto.getUsersId());
+//                return ResponseEntity.ok(usersDto.getUsersId());
+                return ResponseEntity.ok("신규회원");
             }
         }catch(Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(-1L);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
