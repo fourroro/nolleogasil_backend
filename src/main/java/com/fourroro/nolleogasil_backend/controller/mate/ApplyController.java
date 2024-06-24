@@ -11,6 +11,8 @@ import com.fourroro.nolleogasil_backend.service.mate.MateMemberService;
 import com.fourroro.nolleogasil_backend.service.mate.MateService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,11 +26,17 @@ public class ApplyController {
     private final MateService mateService;
     private final MateMemberService mateMemberService;
     private final ChatRoomService chatRoomService;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     //session에 있는 usersId 가져오기
     private Long getSessionUsersId(HttpSession session) {
-        UsersDto usersSession = (UsersDto) session.getAttribute("users");
-        return usersSession.getUsersId();
+//        UsersDto usersSession = (UsersDto) session.getAttribute("users");
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        UsersDto usersDto = (UsersDto) operations.get("users");
+        System.out.println("!!!!!!!!");
+        System.out.println(usersDto.getUsersId() + " / " + usersDto.getName());
+
+        return usersDto.getUsersId();
     }
 
     //apply 추가
