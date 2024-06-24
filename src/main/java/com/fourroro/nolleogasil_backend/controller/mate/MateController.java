@@ -34,7 +34,9 @@ public class MateController {
     private final RedisTemplate<String, Object> redisTemplate;
 
     //session에 있는 usersId 가져오기
-    private Long getSessionUsersId(HttpSession session) {
+
+    private Long getSessionUsersId() {
+
         ValueOperations<String, Object> operations = redisTemplate.opsForValue();
         UsersDto usersDto = (UsersDto) operations.get("users");
 
@@ -43,7 +45,7 @@ public class MateController {
 
     @PostMapping("/mateForm")
     public ResponseEntity<ChatRoomAndPlaceDto> creatMateForm(@RequestBody RequestMateDto requestMateDto,
-                                                             @RequestParam(name = "category") String category, HttpSession session) {
+                                                             @RequestParam(name = "category") String category) {
 
        System.out.println("!!!");
         try {
@@ -72,7 +74,7 @@ public class MateController {
             }
 
             // 사용자 정보 얻어오기
-            Long userId = getSessionUsersId(session);
+            Long userId = getSessionUsersId();
             System.out.println(userId);
             //메이트 공고글 생성
             MateDto mateDto = mateService.insertMate(requestMateDto.getMateFormDto(),requestMateDto.getPlaceDto(),userId);
@@ -104,8 +106,8 @@ public class MateController {
 
     //로그인한 사용자가 개설한 mate 공고 글 조회
     @GetMapping("/getMateListByUsersId")
-    public List<MateDto> getMateListByUsersId(HttpSession session) {
-        Long usersId = getSessionUsersId(session);
+    public List<MateDto> getMateListByUsersId() {
+        Long usersId = getSessionUsersId();
         return mateService.getMateListByUsersId(usersId);
     }
 
@@ -118,14 +120,6 @@ public class MateController {
         Mate mate = mateService.getMate(mateId);
         return MateDto.changeToDto(mate);
     }
-  /*  @GetMapping("/getMate")
-    public MateDto getMate(Long chatroomId) {
-        if (mateId == null) {
-            return (MateDto)Collections.emptyList();
-        }
-        Mate mate = mateService.getMate(mateId);
-        return MateDto.changeToDto(mate);
-    }*/
 
     //mate 공고 글 개수 -> 아직 사용 안함
     @GetMapping("/countMate")
