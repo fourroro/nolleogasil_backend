@@ -50,7 +50,7 @@ public class UsersController {
                 UsersDto usersDto = UsersDto.changeToDto(existingUsers);
 
                 System.out.println("!!!!!!!!!!!");
-                System.out.println("usersDto>>>" + usersDto.toString());
+                System.out.println(usersDto.getUsersId() + " / " + usersDto.getName());
 
                 //세션에 사용자 정보 저장
 //                session.setAttribute("users", usersDto);
