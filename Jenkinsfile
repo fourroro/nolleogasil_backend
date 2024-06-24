@@ -21,8 +21,8 @@ pipeline {
         KAKAO_REDIRECT_URI = credentials('kakao-redirect-uri')
         KAKAO_API_KEY = credentials('kakao-api-key')
 
-        SPRING_REDIS_HOST = credentials('spring.redis.host')
-        SPRING_REDIS_PORT = credentials('spring.redis.port')
+        SPRING_REDIS_HOST = credentials('spring-redis-host')
+        SPRING_REDIS_PORT = credentials('spring-redis-port')
     }
 
     stages {
