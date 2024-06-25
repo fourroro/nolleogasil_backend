@@ -53,9 +53,9 @@ public class RedisConfig {
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
 
-        // 값과 해시 값은 JSON으로 직렬화
-        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-        redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+        // 값과 해시 값은 직렬화 없이 그대로 저장
+        redisTemplate.setValueSerializer(new StringRedisSerializer());
+        redisTemplate.setHashValueSerializer(new StringRedisSerializer());
 
         redisTemplate.setEnableTransactionSupport(true);
         redisTemplate.afterPropertiesSet();
