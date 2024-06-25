@@ -28,11 +28,14 @@ public class TravelPathController {
     private final TravelInfoService travelInfoService;
 
     private final RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<String, Long> longRedisTemplate;
     private ValueOperations<String, Object> operations;
+    private ValueOperations<String, Long> longOperations;
     //redisTemplate이 초기화된 후에 ValueOperations를 초기화
     @PostConstruct
     private void init() {
         this.operations = redisTemplate.opsForValue();
+        this.longOperations = longRedisTemplate.opsForValue();
     }
 
 
@@ -174,7 +177,7 @@ public class TravelPathController {
         );
 
         operations.set("travelDetailDto", travelDetailDto);
-        operations.set("recommendationId", recommendationId);
+        longOperations.set("recommendationId", recommendationId);
 
         return ResponseEntity.ok("/TravelDetail");
     }
@@ -196,7 +199,7 @@ public class TravelPathController {
     @PostMapping("/update")
     public ResponseEntity<String> updateTravelPathData(@RequestBody ResultDto resultDto){
 
-        Long recommendationId  = (Long) operations.get("recommendationId");
+        Long recommendationId  = longOperations.get("recommendationId");
         Optional<Recommendation> recommendation = recommendationService.getRecommendation(recommendationId);
 
         //조회 후 변경
