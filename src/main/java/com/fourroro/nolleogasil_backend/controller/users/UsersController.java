@@ -7,6 +7,7 @@ import com.fourroro.nolleogasil_backend.service.users.KakaoService;
 import com.fourroro.nolleogasil_backend.service.users.UsersServiceImpl;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -36,7 +37,7 @@ public class UsersController {
     //회원가입 및 로그인
     //세션 확인하기
     @PostMapping("/profile")
-    public ResponseEntity<Long> setUserProfile(@RequestBody KakaoDto kakaoRequest){
+    public ResponseEntity<Long> setUserProfile(@RequestBody KakaoDto kakaoRequest, HttpSession session){
         try{
             //카카오로부터 받은 사용자 정보 中 phone_number
             String kakaoUsersPhone = kakaoRequest.getPhone();
@@ -57,7 +58,9 @@ public class UsersController {
                 UsersDto usersDto = UsersDto.changeToDto(existingUsers);
 
                 //세션에 사용자 정보 저장
-                operations.set("users", usersDto);
+//                operations.set("users", usersDto);
+                session.setAttribute("users", usersDto);
+                operations.set("users:" + session.getId(), usersDto);
 
                 //프론트엔드로 기존 회원임을 전달
                 return ResponseEntity.badRequest().body(usersDto.getUsersId());
@@ -68,7 +71,9 @@ public class UsersController {
                 UsersDto usersDto = UsersDto.changeToDto(users);
 
                 //세션에 사용자 정보 저장
-                operations.set("users", usersDto);
+//                operations.set("users", usersDto);
+                session.setAttribute("users", usersDto);
+                operations.set("users:" + session.getId(), usersDto);
 
                 //프론트엔드로 신규 회원임을 전달
                 return ResponseEntity.ok(usersDto.getUsersId());
@@ -148,14 +153,19 @@ public class UsersController {
     
     //로그아웃
     @RequestMapping("/logout")
-    public ResponseEntity<String> logout() {
+    public ResponseEntity<String> logout(HttpSession session) {
         //세션에서 사용자 정보 제거
-        if(operations.get("users") != null) {
-            //세션에서 users의 value 삭제
-            redisTemplate.delete("users");
-
-            return ResponseEntity.ok("Logout successful");
-        }else{
+        if (session != null) {
+            if(operations.get("users") != null) {
+                //세션에서 users의 value 삭제
+                redisTemplate.delete("users");
+                session.invalidate();
+                return ResponseEntity.ok("Logout successful");
+            } else{
+                session.invalidate();
+                return ResponseEntity.ok("No active redis session found");
+            }
+        } else{
             return ResponseEntity.ok("No active session found");
         }
     }

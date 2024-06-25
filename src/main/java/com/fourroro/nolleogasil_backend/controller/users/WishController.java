@@ -6,6 +6,7 @@ import com.fourroro.nolleogasil_backend.dto.users.WishDto;
 import com.fourroro.nolleogasil_backend.entity.users.Wish;
 import com.fourroro.nolleogasil_backend.service.place.PlaceService;
 import com.fourroro.nolleogasil_backend.service.users.WishService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -24,22 +25,22 @@ public class WishController {
     private final RedisTemplate<String, Object> redisTemplate;
 
     //session에 있는 usersId 가져오기
-    private Long getSessionUsersId() {
+    private Long getSessionUsersId(HttpSession session) {
         ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-        UsersDto usersDto = (UsersDto) operations.get("users");
+        UsersDto usersDto = (UsersDto) operations.get("users:" + session.getId());
 
         return usersDto.getUsersId();
     }
 
     //wish 추가
     @PostMapping("/insertWish")
-    public String insertWish(@RequestBody PlaceDto placeDto, @RequestParam String category) {
+    public String insertWish(@RequestBody PlaceDto placeDto, @RequestParam String category, HttpSession session) {
         int placeCat = placeService.changeToPlaceCat(category);
         if (placeCat == 0) {
             return "failed";
         }
 
-        Long usersId = getSessionUsersId();
+        Long usersId = getSessionUsersId(session);
         placeDto.setPlaceCat(placeCat);
         WishDto wishDto = WishDto.builder()
                         .usersId(usersId)
@@ -63,15 +64,15 @@ public class WishController {
 
     //wish column 유무 확인 -> wish에 없으면 false반환
     @GetMapping("/checkingWishStatus")
-    public boolean checkingWishStatus(Integer placeId) {
-        Long usersId = getSessionUsersId();
+    public boolean checkingWishStatus(Integer placeId, HttpSession session) {
+        Long usersId = getSessionUsersId(session);
         return wishService.checkWishColumn(usersId, placeId);
     }
 
     //wishList 조회
     @GetMapping("/getWishList")
-    public List<WishDto> getWishList(int placeCat, String sortBy) {
-        Long usersId = getSessionUsersId();
+    public List<WishDto> getWishList(int placeCat, String sortBy, HttpSession session) {
+        Long usersId = getSessionUsersId(session);
         List<Wish> wishList;
 
         if (sortBy.equals("기본순")) {
@@ -90,8 +91,8 @@ public class WishController {
 
     //wish개수 조회
     @GetMapping("/countWish")
-    public Long countWish(int placeCat) {
-        Long usersId = getSessionUsersId();
+    public Long countWish(int placeCat, HttpSession session) {
+        Long usersId = getSessionUsersId(session);
 
         if (placeCat == 0) {  //0: 전체
             return wishService.countWish(usersId);
@@ -102,9 +103,9 @@ public class WishController {
 
     //wish 삭제
     @PostMapping("/deleteWish")
-    public String deleteWish(@RequestBody PlaceDto placeDto, @RequestParam Long wishId) {
+    public String deleteWish(@RequestBody PlaceDto placeDto, @RequestParam Long wishId, HttpSession session) {
         try {
-            Long usersId = getSessionUsersId();
+            Long usersId = getSessionUsersId(session);
             Integer placeId = placeDto.getPlaceId();
 
             if (wishId == 0) {
