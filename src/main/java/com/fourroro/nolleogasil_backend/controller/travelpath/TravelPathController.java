@@ -40,9 +40,9 @@ public class TravelPathController {
     }
 
     //session에 있는 usersId 가져오기
-    private Long getSessionUsersId(HttpSession session) {
+    private Long getSessionUsersId() {
         ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-        UsersDto usersDto = (UsersDto) operations.get("users:" + session.getId());
+        UsersDto usersDto = (UsersDto) operations.get("users");
 
         return usersDto.getUsersId();
     }
@@ -72,13 +72,13 @@ public class TravelPathController {
 
     //user가 여행경로 정보 저장 시 Travelpath, Keyword, Recommendation 등 연관 관계 형성한 table에 insert
     @PostMapping("/insert")
-    public ResponseEntity insertTravelPathData(@RequestBody TravelDetailDto travelDetailDto, HttpSession session){
+    public ResponseEntity insertTravelPathData(@RequestBody TravelDetailDto travelDetailDto){
         
         if(travelDetailDto.checkNullField()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Some fields are null");
         }
 
-        Long usersId = getSessionUsersId(session);
+        Long usersId = getSessionUsersId();
 
         TravelPathDto travelPathDto = TravelPathDto.builder()
                 .arrival(travelDetailDto.getDestination())
@@ -127,9 +127,9 @@ public class TravelPathController {
 
     //최신순으로 여행경로 정보 조회
     @GetMapping("/getTravelPathList")
-    public ResponseEntity<List<Map<String, Object>>> getTravelPathList(@RequestParam(name="sortBy") String sortBy, HttpSession session) {
+    public ResponseEntity<List<Map<String, Object>>> getTravelPathList(@RequestParam(name="sortBy") String sortBy) {
 
-        Long usersId = getSessionUsersId(session);
+        Long usersId = getSessionUsersId();
 
         List<TravelPath> travelPathList = new ArrayList<>();
         if(sortBy.equals("최신순")){
@@ -233,8 +233,8 @@ public class TravelPathController {
 
     //user가 저장한 여행경로 정보 개수 조회
     @GetMapping("/getCount")
-    public ResponseEntity<Long> countTravelPath (HttpSession session){
-        Long usersId = getSessionUsersId(session);
+    public ResponseEntity<Long> countTravelPath (){
+        Long usersId = getSessionUsersId();
         Long count = travelPathService.countTravelPath(usersId);
 
         return ResponseEntity.status(HttpStatus.OK).body(count);

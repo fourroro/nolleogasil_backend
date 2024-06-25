@@ -58,9 +58,7 @@ public class UsersController {
                 UsersDto usersDto = UsersDto.changeToDto(existingUsers);
 
                 //세션에 사용자 정보 저장
-//                operations.set("users", usersDto);
-                session.setAttribute("users", usersDto);
-                operations.set("users:" + session.getId(), usersDto);
+                operations.set("users", usersDto);
 
                 //프론트엔드로 기존 회원임을 전달
                 return ResponseEntity.badRequest().body(usersDto.getUsersId());
@@ -71,9 +69,7 @@ public class UsersController {
                 UsersDto usersDto = UsersDto.changeToDto(users);
 
                 //세션에 사용자 정보 저장
-//                operations.set("users", usersDto);
-                session.setAttribute("users", usersDto);
-                operations.set("users:" + session.getId(), usersDto);
+                operations.set("users", usersDto);
 
                 //프론트엔드로 신규 회원임을 전달
                 return ResponseEntity.ok(usersDto.getUsersId());
@@ -155,19 +151,15 @@ public class UsersController {
     @RequestMapping("/logout")
     public ResponseEntity<String> logout(HttpSession session) {
         //세션에서 사용자 정보 제거
-        if (session != null) {
-            if(operations.get("users") != null) {
-                //세션에서 users의 value 삭제
-                redisTemplate.delete("users");
-                session.invalidate();
-                return ResponseEntity.ok("Logout successful");
-            } else{
-                session.invalidate();
-                return ResponseEntity.ok("No active redis session found");
-            }
+        if(operations.get("users") != null) {
+            //세션에서 users의 value 삭제
+            redisTemplate.delete("users");
+
+            return ResponseEntity.ok("Logout successful");
         } else{
-            return ResponseEntity.ok("No active session found");
+            return ResponseEntity.ok("No active redis session found");
         }
+
     }
 
     //회원탈퇴
