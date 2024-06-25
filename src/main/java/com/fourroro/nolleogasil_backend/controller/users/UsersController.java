@@ -25,7 +25,7 @@ public class UsersController {
     private final UsersServiceImpl usersService;
     private final KakaoService kakaoService;
     private final RedisTemplate<String, Object> redisTemplate;
-    private ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+    private final ValueOperations<String, Object> operations = redisTemplate.opsForValue();
 
     //회원가입 및 로그인
     //세션 확인하기
