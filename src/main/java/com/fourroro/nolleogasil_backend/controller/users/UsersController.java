@@ -26,7 +26,7 @@ public class UsersController {
     private final KakaoService kakaoService;
 
     private final RedisTemplate<String, Object> redisTemplate;
-    private ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+    private ValueOperations<String, Object> operations;
     //redisTemplate이 초기화된 후에 ValueOperations를 초기화
     @PostConstruct
     private void init() {
