@@ -11,7 +11,6 @@ import com.fourroro.nolleogasil_backend.service.chat.ChatRoomService;
 import com.fourroro.nolleogasil_backend.service.mate.MateMemberService;
 import com.fourroro.nolleogasil_backend.service.mate.MateService;
 import com.fourroro.nolleogasil_backend.service.place.PlaceService;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
