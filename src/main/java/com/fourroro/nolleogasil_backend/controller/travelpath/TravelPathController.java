@@ -7,7 +7,6 @@ import com.fourroro.nolleogasil_backend.entity.travelpath.TravelInfo;
 import com.fourroro.nolleogasil_backend.entity.travelpath.TravelPath;
 import com.fourroro.nolleogasil_backend.service.travelpath.*;
 import jakarta.annotation.PostConstruct;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -183,7 +182,7 @@ public class TravelPathController {
 
     //session에 저장된 TravelPath 정보 전달
     @GetMapping("/getDetail")
-    public ResponseEntity<TravelDetailDto> getTravelDetail(HttpSession session){
+    public ResponseEntity<TravelDetailDto> getTravelDetail(){
         TravelDetailDto travelDetailDto  = (TravelDetailDto) operations.get("travelDetailDto");
         if( travelDetailDto != null){
             return ResponseEntity.status(HttpStatus.OK).body(travelDetailDto);
@@ -195,7 +194,7 @@ public class TravelPathController {
 
     //user가 정보 수정 시 새로운 내용 저장
     @PostMapping("/update")
-    public ResponseEntity<String> updateTravelPathData(@RequestBody ResultDto resultDto, HttpSession session){
+    public ResponseEntity<String> updateTravelPathData(@RequestBody ResultDto resultDto){
 
         Long recommendationId  = (Long) operations.get("recommendationId");
         Optional<Recommendation> recommendation = recommendationService.getRecommendation(recommendationId);
@@ -216,7 +215,7 @@ public class TravelPathController {
         }
 
         travelInfoService.updateTravelInfo(newTravelInfoDtos, recommendation.get());
-        TravelDetailDto travelDetailDto = (TravelDetailDto) session.getAttribute("travelDetailDto");
+        TravelDetailDto travelDetailDto = (TravelDetailDto) operations.get("travelDetailDto");
         travelDetailDto.getResultDto().setInfos(newInfos);
         operations.set("travelDetailDto", travelDetailDto);
 
@@ -226,8 +225,8 @@ public class TravelPathController {
 
     //user가 저장한 여행경로 정보 개수 조회
     @GetMapping("/getCount")
-    public ResponseEntity<Long> countTravelPath (HttpSession session){
-        UsersDto users = (UsersDto) session.getAttribute("users");
+    public ResponseEntity<Long> countTravelPath (){
+        UsersDto users = (UsersDto) operations.get("users");
         Long usersId = users.getUsersId();
         Long count = travelPathService.countTravelPath(usersId);
 
