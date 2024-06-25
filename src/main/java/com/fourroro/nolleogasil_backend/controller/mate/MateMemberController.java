@@ -37,7 +37,6 @@ public class MateMemberController {
         Long chatRoomId = Long.parseLong(chatroomId);
         Long userId = getSessionUsersId();
 
-
         boolean isFirst = mateMemberService.checkFirstEnterRoom(chatRoomId,userId);
 
         if(isFirst) {

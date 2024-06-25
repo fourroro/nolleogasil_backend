@@ -5,7 +5,6 @@ import com.fourroro.nolleogasil_backend.dto.chat.ChatRoomAndPlaceDto;
 import com.fourroro.nolleogasil_backend.dto.users.UsersDto;
 import com.fourroro.nolleogasil_backend.service.chat.ChatRoomService;
 import com.fourroro.nolleogasil_backend.service.mate.MateMemberServiceImpl;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -24,8 +23,7 @@ public class ChatRoomController {
     private final MateMemberServiceImpl mateMemberService;
     private final RedisTemplate<String, Object> redisTemplate;
 
-
-    private Long getSessionUsersId(HttpSession session) {
+    private Long getSessionUsersId() {
         ValueOperations<String, Object> operations = redisTemplate.opsForValue();
         UsersDto usersDto = (UsersDto) operations.get("users");
 
@@ -43,9 +41,9 @@ public class ChatRoomController {
 
     }
     @GetMapping("/myRooms")
-    public List<ChatRoomAndPlaceDto> getMyRooms(@RequestParam String sortedBy, HttpSession session) {
+    public List<ChatRoomAndPlaceDto> getMyRooms(@RequestParam String sortedBy) {
         System.out.println(sortedBy);
-        Long userId = getSessionUsersId(session);
+        Long userId = getSessionUsersId();
         List<ChatRoomAndPlaceDto> chatRoomAndPlaceDtoList = null;
 
         if(sortedBy.equals("기본순")) {
@@ -55,12 +53,12 @@ public class ChatRoomController {
         }
 
         return chatRoomAndPlaceDtoList;
-
     }
-  @GetMapping("/joinedRooms")
-    public List<ChatRoomAndPlaceDto> getJoinedRooms(@RequestParam String sortedBy,HttpSession session) {
 
-        Long userId = getSessionUsersId(session);
+    @GetMapping("/joinedRooms")
+    public List<ChatRoomAndPlaceDto> getJoinedRooms(@RequestParam String sortedBy) {
+
+        Long userId = getSessionUsersId();
         List<ChatRoomAndPlaceDto> chatRoomAndPlaceDtoList = null;
           if(sortedBy.equals("기본순")) {
               chatRoomAndPlaceDtoList = mateMemberService.getChatRoomListByMate(userId);
@@ -69,7 +67,6 @@ public class ChatRoomController {
           }
 
         return chatRoomAndPlaceDtoList;
-
     }
 
 

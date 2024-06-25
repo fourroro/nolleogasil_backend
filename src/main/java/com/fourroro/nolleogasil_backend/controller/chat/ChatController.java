@@ -16,17 +16,14 @@ import java.util.List;
 @RequestMapping("/api/chat")
 public class ChatController {
 
-
     private final ChatService chatService;
 
     @GetMapping("/messages/{chatroomId}")
     public List<ChatDto> getChatList(@PathVariable Long chatroomId) {
 
         List<ChatDto> chatList = chatService.getChatList(chatroomId);
-
         return chatList;
     }
-
 
 }
 
