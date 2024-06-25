@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 public class RedisController {
+
     private final RedisService redisService;
 
     @GetMapping("/redis")
