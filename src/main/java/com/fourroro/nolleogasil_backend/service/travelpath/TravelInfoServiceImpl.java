@@ -49,11 +49,13 @@ public class TravelInfoServiceImpl implements TravelInfoService{
     @Transactional
     public void updateTravelInfo(List<TravelInfoDto> travelInfoDtos,  Recommendation recommendation){
         List<TravelInfo> travelInfos = new ArrayList<>();
-        for(int i = 0; i < travelInfoDtos.size(); i++) {
-            travelInfos.add(TravelInfo.changeToEntity(travelInfoDtos.get(i), recommendation));
+        try {
+            for (int i = 0; i < travelInfoDtos.size(); i++) {
+                travelInfos.add(TravelInfo.changeToEntity(travelInfoDtos.get(i), recommendation));
+            }
+            travelInfoRepository.saveAllAndFlush(travelInfos);
+        }catch(Exception e){
+            e.printStackTrace();
         }
-
-        travelInfoRepository.saveAllAndFlush(travelInfos);
-
     }
 }
