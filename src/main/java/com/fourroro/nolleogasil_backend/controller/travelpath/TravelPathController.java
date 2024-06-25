@@ -8,7 +8,6 @@ import com.fourroro.nolleogasil_backend.entity.travelpath.TravelPath;
 import com.fourroro.nolleogasil_backend.service.travelpath.*;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.apache.poi.ss.usermodel.*;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpStatus;
@@ -28,7 +27,7 @@ public class TravelPathController {
     private final TravelDateService travelDateService;
     private final TravelInfoService travelInfoService;
     private final RedisTemplate<String, Object> redisTemplate;
-    private ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+    private final ValueOperations<String, Object> operations = redisTemplate.opsForValue();
 
 
     //Form에서 받은 user가 선택한 데이터를 dto형태로 session에 저장
@@ -36,7 +35,6 @@ public class TravelPathController {
     public ResponseEntity<String> dataFromForm(@RequestBody ConditionDto conditionDto) {
 
         operations.set("conditionDto", conditionDto);
-
         return ResponseEntity.ok("/travelPath/result"); // 리다이렉션 대신 응답 데이터에 리다이렉션할 주소를 담아서 전달
     }
 
@@ -64,7 +62,6 @@ public class TravelPathController {
         }
 
         UsersDto users = (UsersDto) operations.get("users");
-
         Long usersId = users.getUsersId();
 
 
@@ -118,7 +115,6 @@ public class TravelPathController {
     public ResponseEntity<List<Map<String, Object>>> getTravelPathList(@RequestParam(name="sortBy") String sortBy) {
 
         UsersDto users = (UsersDto) operations.get("users");
-
         Long usersId = users.getUsersId();
 
         List<TravelPath> travelPathList = new ArrayList<>();
@@ -182,7 +178,6 @@ public class TravelPathController {
     @GetMapping("/getDetail")
     public ResponseEntity<TravelDetailDto> getTravelDetail(HttpSession session){
         TravelDetailDto travelDetailDto  = (TravelDetailDto) operations.get("travelDetailDto");
-
         if( travelDetailDto != null){
             return ResponseEntity.status(HttpStatus.OK).body(travelDetailDto);
         }else{
