@@ -5,8 +5,8 @@ import com.fourroro.nolleogasil_backend.dto.users.UsersDto;
 import com.fourroro.nolleogasil_backend.entity.users.Users;
 import com.fourroro.nolleogasil_backend.service.users.KakaoService;
 import com.fourroro.nolleogasil_backend.service.users.UsersServiceImpl;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -24,8 +24,14 @@ import java.util.Map;
 public class UsersController {
     private final UsersServiceImpl usersService;
     private final KakaoService kakaoService;
+
     private final RedisTemplate<String, Object> redisTemplate;
-    private final ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+    private ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+    //redisTemplate이 초기화된 후에 ValueOperations를 초기화
+    @PostConstruct
+    private void init() {
+        this.operations = redisTemplate.opsForValue();
+    }
 
     //회원가입 및 로그인
     //세션 확인하기
@@ -142,7 +148,7 @@ public class UsersController {
     
     //로그아웃
     @RequestMapping("/logout")
-    public ResponseEntity<String> logout(HttpSession session) throws Exception{
+    public ResponseEntity<String> logout() {
         //세션에서 사용자 정보 제거
         if(operations.get("users") != null) {
             //세션에서 users의 value 삭제

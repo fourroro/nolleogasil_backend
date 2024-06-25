@@ -6,6 +6,7 @@ import com.fourroro.nolleogasil_backend.entity.travelpath.Recommendation;
 import com.fourroro.nolleogasil_backend.entity.travelpath.TravelInfo;
 import com.fourroro.nolleogasil_backend.entity.travelpath.TravelPath;
 import com.fourroro.nolleogasil_backend.service.travelpath.*;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -26,8 +27,14 @@ public class TravelPathController {
     private final RecommendationService recommendationService;
     private final TravelDateService travelDateService;
     private final TravelInfoService travelInfoService;
+
     private final RedisTemplate<String, Object> redisTemplate;
-    private final ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+    private ValueOperations<String, Object> operations;
+    //redisTemplate이 초기화된 후에 ValueOperations를 초기화
+    @PostConstruct
+    private void init() {
+        this.operations = redisTemplate.opsForValue();
+    }
 
 
     //Form에서 받은 user가 선택한 데이터를 dto형태로 session에 저장
