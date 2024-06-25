@@ -7,6 +7,7 @@ import com.fourroro.nolleogasil_backend.entity.travelpath.TravelInfo;
 import com.fourroro.nolleogasil_backend.entity.travelpath.TravelPath;
 import com.fourroro.nolleogasil_backend.service.travelpath.*;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -38,6 +39,13 @@ public class TravelPathController {
         this.longOperations = longRedisTemplate.opsForValue();
     }
 
+    //session에 있는 usersId 가져오기
+    private Long getSessionUsersId(HttpSession session) {
+        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+        UsersDto usersDto = (UsersDto) operations.get("users:" + session.getId());
+
+        return usersDto.getUsersId();
+    }
 
     //Form에서 받은 user가 선택한 데이터를 dto형태로 session에 저장
     @PostMapping("/form")
@@ -64,15 +72,13 @@ public class TravelPathController {
 
     //user가 여행경로 정보 저장 시 Travelpath, Keyword, Recommendation 등 연관 관계 형성한 table에 insert
     @PostMapping("/insert")
-    public ResponseEntity insertTravelPathData(@RequestBody TravelDetailDto travelDetailDto){
+    public ResponseEntity insertTravelPathData(@RequestBody TravelDetailDto travelDetailDto, HttpSession session){
         
         if(travelDetailDto.checkNullField()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Some fields are null");
         }
 
-        UsersDto users = (UsersDto) operations.get("users");
-        Long usersId = users.getUsersId();
-
+        Long usersId = getSessionUsersId(session);
 
         TravelPathDto travelPathDto = TravelPathDto.builder()
                 .arrival(travelDetailDto.getDestination())
@@ -121,10 +127,9 @@ public class TravelPathController {
 
     //최신순으로 여행경로 정보 조회
     @GetMapping("/getTravelPathList")
-    public ResponseEntity<List<Map<String, Object>>> getTravelPathList(@RequestParam(name="sortBy") String sortBy) {
+    public ResponseEntity<List<Map<String, Object>>> getTravelPathList(@RequestParam(name="sortBy") String sortBy, HttpSession session) {
 
-        UsersDto users = (UsersDto) operations.get("users");
-        Long usersId = users.getUsersId();
+        Long usersId = getSessionUsersId(session);
 
         List<TravelPath> travelPathList = new ArrayList<>();
         if(sortBy.equals("최신순")){
@@ -228,9 +233,8 @@ public class TravelPathController {
 
     //user가 저장한 여행경로 정보 개수 조회
     @GetMapping("/getCount")
-    public ResponseEntity<Long> countTravelPath (){
-        UsersDto users = (UsersDto) operations.get("users");
-        Long usersId = users.getUsersId();
+    public ResponseEntity<Long> countTravelPath (HttpSession session){
+        Long usersId = getSessionUsersId(session);
         Long count = travelPathService.countTravelPath(usersId);
 
         return ResponseEntity.status(HttpStatus.OK).body(count);
