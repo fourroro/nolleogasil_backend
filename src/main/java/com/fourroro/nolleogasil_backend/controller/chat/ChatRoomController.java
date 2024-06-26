@@ -5,6 +5,7 @@ import com.fourroro.nolleogasil_backend.dto.chat.ChatRoomAndPlaceDto;
 import com.fourroro.nolleogasil_backend.dto.users.UsersDto;
 import com.fourroro.nolleogasil_backend.service.chat.ChatRoomService;
 import com.fourroro.nolleogasil_backend.service.mate.MateMemberServiceImpl;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -21,11 +22,12 @@ public class ChatRoomController {
 
     private final ChatRoomService chatRoomService;
     private final MateMemberServiceImpl mateMemberService;
-    private final RedisTemplate<String, Object> redisTemplate;
+//    private final RedisTemplate<String, Object> redisTemplate;
 
-    private Long getSessionUsersId() {
-        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-        UsersDto usersDto = (UsersDto) operations.get("users");
+    private Long getSessionUsersId(HttpSession session) {
+//        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+//        UsersDto usersDto = (UsersDto) operations.get("users");
+        UsersDto usersDto = (UsersDto) session.getAttribute("users");
 
         return usersDto.getUsersId();
     }
@@ -40,10 +42,11 @@ public class ChatRoomController {
         return chatRoomAndPlaceDto;
 
     }
+
     @GetMapping("/myRooms")
-    public List<ChatRoomAndPlaceDto> getMyRooms(@RequestParam String sortedBy) {
+    public List<ChatRoomAndPlaceDto> getMyRooms(@RequestParam String sortedBy, HttpSession session) {
         System.out.println(sortedBy);
-        Long userId = getSessionUsersId();
+        Long userId = getSessionUsersId(session);
         List<ChatRoomAndPlaceDto> chatRoomAndPlaceDtoList = null;
 
         if(sortedBy.equals("기본순")) {
@@ -56,9 +59,9 @@ public class ChatRoomController {
     }
 
     @GetMapping("/joinedRooms")
-    public List<ChatRoomAndPlaceDto> getJoinedRooms(@RequestParam String sortedBy) {
+    public List<ChatRoomAndPlaceDto> getJoinedRooms(@RequestParam String sortedBy, HttpSession session) {
 
-        Long userId = getSessionUsersId();
+        Long userId = getSessionUsersId(session);
         List<ChatRoomAndPlaceDto> chatRoomAndPlaceDtoList = null;
         if(sortedBy.equals("기본순")) {
             chatRoomAndPlaceDtoList = mateMemberService.getChatRoomListByMate(userId);

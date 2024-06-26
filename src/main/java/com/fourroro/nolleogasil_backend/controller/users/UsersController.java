@@ -26,13 +26,13 @@ public class UsersController {
     private final UsersServiceImpl usersService;
     private final KakaoService kakaoService;
 
-    private final RedisTemplate<String, Object> redisTemplate;
-    private ValueOperations<String, Object> operations;
-    //redisTemplate이 초기화된 후에 ValueOperations를 초기화
-    @PostConstruct
-    private void init() {
-        this.operations = redisTemplate.opsForValue();
-    }
+//    private final RedisTemplate<String, Object> redisTemplate;
+//    private ValueOperations<String, Object> operations;
+//    //redisTemplate이 초기화된 후에 ValueOperations를 초기화
+//    @PostConstruct
+//    private void init() {
+//        this.operations = redisTemplate.opsForValue();
+//    }
 
     //회원가입 및 로그인
     //세션 확인하기
@@ -114,22 +114,24 @@ public class UsersController {
     }
 
     @PostMapping("/update/{usersId}")
-    public ResponseEntity<String> updateUsers(@PathVariable Long usersId, @RequestBody Map<String, String> requestBody, HttpServletRequest request){
+    public ResponseEntity<String> updateUsers(@PathVariable Long usersId, @RequestBody Map<String, String> requestBody,
+                                              HttpServletRequest request, HttpSession session) {
         try{
             String nickname = requestBody.get("nickname");
 
             usersService.updateUsers(nickname, usersId);
             // 세션에 저장된 사용자 정보 업데이트
-            if(operations.get("users") != null) {
-                UsersDto userInfo = (UsersDto) operations.get("users");
+            if(session.getAttribute("users") != null) {
+                UsersDto userInfo = (UsersDto) session.getAttribute("users");
 
                 if(userInfo != null) {
                     userInfo.setNickname(nickname);
 
-                    //세션에서 users의 value 삭제
-                    redisTemplate.delete("users");
-                    //세션에 새로 저장
-                    operations.set("users", userInfo);
+                    // 세션 무효화
+                    session.invalidate();
+                    // 새로운 세션 생성 및 사용자 정보 설정
+                    HttpSession newSession = request.getSession(true);
+                    newSession.setAttribute("users", userInfo);
                 }
             }else{
                 System.out.println("session is empty!");
@@ -153,23 +155,23 @@ public class UsersController {
     @RequestMapping("/logout")
     public ResponseEntity<String> logout(HttpSession session) {
         //세션에서 사용자 정보 제거
-        if(operations.get("users") != null) {
-            //세션에서 users의 value 삭제
-            redisTemplate.delete("users");
+        if(session != null) {
+            //세션 무효화
+            session.invalidate();
 
             return ResponseEntity.ok("Logout successful");
-        } else{
-            return ResponseEntity.ok("No active redis session found");
+        }else{
+            return ResponseEntity.ok("No active session found");
         }
 
     }
 
     //회원탈퇴
     @DeleteMapping("/delete/{usersId}")
-    public ResponseEntity<String> deleteUsers(@PathVariable Long usersId){
+    public ResponseEntity<String> deleteUsers(@PathVariable Long usersId, HttpSession session){
         usersService.deleteUsers(usersId);
         //세션 무효화
-        redisTemplate.delete("users");
+        session.invalidate();
         return ResponseEntity.ok("User delete successfully");
     }
 }
