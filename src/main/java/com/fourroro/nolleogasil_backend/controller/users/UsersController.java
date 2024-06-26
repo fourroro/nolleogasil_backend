@@ -58,7 +58,8 @@ public class UsersController {
                 UsersDto usersDto = UsersDto.changeToDto(existingUsers);
 
                 //세션에 사용자 정보 저장
-                operations.set("users", usersDto);
+                session.setAttribute("users", usersDto);
+//                operations.set("users", usersDto);
 
                 //프론트엔드로 기존 회원임을 전달
                 return ResponseEntity.badRequest().body(usersDto.getUsersId());
@@ -69,7 +70,8 @@ public class UsersController {
                 UsersDto usersDto = UsersDto.changeToDto(users);
 
                 //세션에 사용자 정보 저장
-                operations.set("users", usersDto);
+//                operations.set("users", usersDto);
+                session.setAttribute("users", usersDto);
 
                 //프론트엔드로 신규 회원임을 전달
                 return ResponseEntity.ok(usersDto.getUsersId());
