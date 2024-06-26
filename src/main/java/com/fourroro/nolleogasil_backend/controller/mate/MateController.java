@@ -47,7 +47,7 @@ public class MateController {
                                                              @RequestParam(name = "category") String category,
                                                              HttpSession session) {
 
-       System.out.println("!!!");
+        System.out.println("!!!");
         try {
             System.out.println(category);
             System.out.println(requestMateDto.getMateFormDto().getTitle());
