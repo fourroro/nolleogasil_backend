@@ -9,6 +9,7 @@ import com.fourroro.nolleogasil_backend.service.chat.ChatRoomService;
 import com.fourroro.nolleogasil_backend.service.mate.ApplyService;
 import com.fourroro.nolleogasil_backend.service.mate.MateMemberService;
 import com.fourroro.nolleogasil_backend.service.mate.MateService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -25,24 +26,25 @@ public class ApplyController {
     private final MateService mateService;
     private final MateMemberService mateMemberService;
     private final ChatRoomService chatRoomService;
-    private final RedisTemplate<String, Object> redisTemplate;
+//    private final RedisTemplate<String, Object> redisTemplate;
 
     //session에 있는 usersId 가져오기
-    private Long getSessionUsersId() {
-        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-        UsersDto usersDto = (UsersDto) operations.get("users");
+    private Long getSessionUsersId(HttpSession session) {
+//        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+//        UsersDto usersDto = (UsersDto) operations.get("users");
+        UsersDto usersDto = (UsersDto) session.getAttribute("users");
 
         return usersDto.getUsersId();
     }
 
     //apply 추가
     @PostMapping("/insertApply")
-    public String insertApply(@RequestParam Long mateId) {
+    public String insertApply(@RequestParam Long mateId, HttpSession session) {
         if (mateId == null) {
             return "failed";
         }
 
-        Long usersId = getSessionUsersId();
+        Long usersId = getSessionUsersId(session);
         ApplyDto applyDto = ApplyDto.builder()
                 .mateId(mateId)
                 .applicantId(usersId)
@@ -96,8 +98,8 @@ public class ApplyController {
 
     //apply유무 확인 후 해당 apply의 isApply 반환 -> Mate.js의 버튼상태에서 사용
     @GetMapping("/checkingApplyStatus")
-    public String checkingApplyStatus(@RequestParam Long mateId) {
-        Long usersId = getSessionUsersId();
+    public String checkingApplyStatus(@RequestParam Long mateId, HttpSession session) {
+        Long usersId = getSessionUsersId(session);
         boolean checkingApply = applyService.checkApplyColumn(mateId, usersId);
         if (checkingApply) {
             ApplyDto applyDto = applyService.getApplyByMateIdAndUsersId(mateId, usersId);
@@ -109,15 +111,15 @@ public class ApplyController {
 
     //보낸 신청 목록 조회
     @GetMapping("/getSendApply")
-    public List<ApplyDto> getSendApply() {
-        Long usersId = getSessionUsersId();
+    public List<ApplyDto> getSendApply(HttpSession session) {
+        Long usersId = getSessionUsersId(session);
         return applyService.getSendApplyList(usersId);
     }
 
     //받은 신청 목록 조회
     @GetMapping("/getReceivedApply")
-    public List<ApplyDto> getReceivedApply() {
-        Long usersId = getSessionUsersId();
+    public List<ApplyDto> getReceivedApply(HttpSession session) {
+        Long usersId = getSessionUsersId(session);
         return applyService.getReceivedApplyList(usersId);
     }
 
