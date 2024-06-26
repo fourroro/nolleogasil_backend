@@ -41,7 +41,6 @@ public class TravelPathController {
 
     //session에 있는 usersId 가져오기
     private Long getSessionUsersId() {
-        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
         UsersDto usersDto = (UsersDto) operations.get("users");
 
         return usersDto.getUsersId();
