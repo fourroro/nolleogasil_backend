@@ -22,7 +22,7 @@ public class WishController {
 
     private final WishService wishService;
     private final PlaceService placeService;
-//    private final RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     //session에 있는 usersId 가져오기
     private Long getSessionUsersId(HttpSession session) {
@@ -44,9 +44,9 @@ public class WishController {
         Long usersId = getSessionUsersId(session);
         placeDto.setPlaceCat(placeCat);
         WishDto wishDto = WishDto.builder()
-                        .usersId(usersId)
-                        .place(placeDto)
-                        .build();
+                .usersId(usersId)
+                .place(placeDto)
+                .build();
 
         try {
             //이미 place table에 해당 place가 존재하는지 구분
