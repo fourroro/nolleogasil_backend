@@ -11,6 +11,7 @@ import com.fourroro.nolleogasil_backend.service.chat.ChatRoomService;
 import com.fourroro.nolleogasil_backend.service.mate.MateMemberService;
 import com.fourroro.nolleogasil_backend.service.mate.MateService;
 import com.fourroro.nolleogasil_backend.service.place.PlaceService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -30,19 +31,21 @@ public class MateController {
     private final PlaceService placeService;
     private final MateMemberService mateMemberService;
     private final ChatRoomService chatRoomService;
-    private final RedisTemplate<String, Object> redisTemplate;
+//    private final RedisTemplate<String, Object> redisTemplate;
 
     //session에 있는 usersId 가져오기
-    private Long getSessionUsersId() {
-        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-        UsersDto usersDto = (UsersDto) operations.get("users");
+    private Long getSessionUsersId(HttpSession session) {
+//        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+//        UsersDto usersDto = (UsersDto) operations.get("users");
+        UsersDto usersDto = (UsersDto) session.getAttribute("users");
 
         return usersDto.getUsersId();
     }
 
     @PostMapping("/mateForm")
     public ResponseEntity<ChatRoomAndPlaceDto> creatMateForm(@RequestBody RequestMateDto requestMateDto,
-                                                             @RequestParam(name = "category") String category) {
+                                                             @RequestParam(name = "category") String category,
+                                                             HttpSession session) {
 
        System.out.println("!!!");
         try {
@@ -71,7 +74,7 @@ public class MateController {
             }
 
             // 사용자 정보 얻어오기
-            Long userId = getSessionUsersId();
+            Long userId = getSessionUsersId(session);
             System.out.println(userId);
             //메이트 공고글 생성
             MateDto mateDto = mateService.insertMate(requestMateDto.getMateFormDto(),requestMateDto.getPlaceDto(),userId);
@@ -103,8 +106,8 @@ public class MateController {
 
     //로그인한 사용자가 개설한 mate 공고 글 조회
     @GetMapping("/getMateListByUsersId")
-    public List<MateDto> getMateListByUsersId() {
-        Long usersId = getSessionUsersId();
+    public List<MateDto> getMateListByUsersId(HttpSession session) {
+        Long usersId = getSessionUsersId(session);
         return mateService.getMateListByUsersId(usersId);
     }
 
