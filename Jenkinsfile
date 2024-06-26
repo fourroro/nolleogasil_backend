@@ -23,7 +23,7 @@ pipeline {
 
         SPRING_DATA_REDIS_HOST = credentials('spring-data-redis-host')
         SPRING_DATA_REDIS_PORT = credentials('spring-data-redis-port')
-        SPRING_DATA_REDIS_PASSWORD = = credentials('spring-data-redis-password')
+        SPRING_DATA_REDIS_PASSWORD = credentials('spring-data-redis-password')
     }
 
     stages {
