@@ -74,7 +74,7 @@ public class TravelPathController {
     //user가 여행경로 정보 저장 시 Travelpath, Keyword, Recommendation 등 연관 관계 형성한 table에 insert
     @PostMapping("/insert")
     public ResponseEntity insertTravelPathData(@RequestBody TravelDetailDto travelDetailDto, HttpSession session){
-        
+
         if(travelDetailDto.checkNullField()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Some fields are null");
         }

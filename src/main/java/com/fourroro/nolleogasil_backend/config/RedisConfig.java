@@ -19,7 +19,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 
 @Configuration
 public class RedisConfig {
-    //
+
     @Value("${spring.data.redis.host}")
     private String redisHost;
 
@@ -46,4 +46,3 @@ public class RedisConfig {
         return lettuceConnectionFactory;
     }
 }
-

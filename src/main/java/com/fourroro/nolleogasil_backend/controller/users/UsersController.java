@@ -150,7 +150,7 @@ public class UsersController {
         Users users = usersService.findByUsersId(usersId);
         return UsersDto.changeToDto(users);
     }
-    
+
     //로그아웃
     @RequestMapping("/logout")
     public ResponseEntity<String> logout(HttpSession session) {

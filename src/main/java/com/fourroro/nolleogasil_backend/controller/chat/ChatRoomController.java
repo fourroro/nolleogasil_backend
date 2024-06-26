@@ -63,11 +63,11 @@ public class ChatRoomController {
 
         Long userId = getSessionUsersId(session);
         List<ChatRoomAndPlaceDto> chatRoomAndPlaceDtoList = null;
-          if(sortedBy.equals("기본순")) {
-              chatRoomAndPlaceDtoList = mateMemberService.getChatRoomListByMate(userId);
-          } else {
-              chatRoomAndPlaceDtoList = mateMemberService.getJoinedRoomsBySorted(userId,sortedBy);
-          }
+        if(sortedBy.equals("기본순")) {
+            chatRoomAndPlaceDtoList = mateMemberService.getChatRoomListByMate(userId);
+        } else {
+            chatRoomAndPlaceDtoList = mateMemberService.getJoinedRoomsBySorted(userId,sortedBy);
+        }
 
         return chatRoomAndPlaceDtoList;
     }
