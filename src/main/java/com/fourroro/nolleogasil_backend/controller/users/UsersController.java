@@ -156,7 +156,6 @@ public class UsersController {
     public ResponseEntity<String> logout(HttpSession session) {
         //세션에서 사용자 정보 제거
         if(session != null) {
-            UsersDto user = (UsersDto) session.getAttribute("users");
             //세션 무효화
             session.invalidate();
 
