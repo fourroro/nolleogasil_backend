@@ -20,22 +20,23 @@ import java.util.Map;
 public class MateMemberController {
 
     private final MateMemberService mateMemberService;
-    private final RedisTemplate<String, Object> redisTemplate;
+//    private final RedisTemplate<String, Object> redisTemplate;
 
     //session에 있는 usersId 가져오기
-    private Long getSessionUsersId() {
-        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-        UsersDto usersDto = (UsersDto) operations.get("users");
+    private Long getSessionUsersId(HttpSession session) {
+//        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+//        UsersDto usersDto = (UsersDto) operations.get("users");
+        UsersDto usersDto = (UsersDto) session.getAttribute("users");
 
         return usersDto.getUsersId();
     }
 
     //첫 입장인지......
     @GetMapping("/{chatroomId}")
-    public ResponseEntity<String> checkFirstEnterRoom(@PathVariable String chatroomId) {
+    public ResponseEntity<String> checkFirstEnterRoom(@PathVariable String chatroomId, HttpSession session) {
 
         Long chatRoomId = Long.parseLong(chatroomId);
-        Long userId = getSessionUsersId();
+        Long userId = getSessionUsersId(session);
 
         boolean isFirst = mateMemberService.checkFirstEnterRoom(chatRoomId,userId);
 
@@ -48,8 +49,8 @@ public class MateMemberController {
 
     //사용자의 mate이력 조회
     @GetMapping("/getMateHistory")
-    public List<MateMemberDto> getMateHistory() {
-        Long usersId = getSessionUsersId();
+    public List<MateMemberDto> getMateHistory(HttpSession session) {
+        Long usersId = getSessionUsersId(session);
         return mateMemberService.getMateHistory(usersId);
     }
 
@@ -61,8 +62,8 @@ public class MateMemberController {
 
     //해당 mate의 mateMember 목록 조회(단, 로그인한 사용자는 제외) -> 온도 부여할 때 사용
     @GetMapping("/getMateMemberListWithoutMe")
-    public List<MateMemberDto> getMateMemberListWithoutMe(@RequestParam Long mateId) {
-        Long usersId = getSessionUsersId();
+    public List<MateMemberDto> getMateMemberListWithoutMe(@RequestParam Long mateId, HttpSession session) {
+        Long usersId = getSessionUsersId(session);
         return mateMemberService.getMateMemberListWithoutMe(mateId, usersId);
     }
 
@@ -74,17 +75,18 @@ public class MateMemberController {
 
     //1명의 mateMember 정보 조회(usersId, mateId 이용) -> 해당 member의 isGiven 조회할 때 사용
     @GetMapping("/getMateMemberByUsersIdAndMateId")
-    public MateMemberDto getMateMemberByUsersIdAndMateId(@RequestParam Long mateId) {
-        Long usersId = getSessionUsersId();
+    public MateMemberDto getMateMemberByUsersIdAndMateId(@RequestParam Long mateId, HttpSession session) {
+        Long usersId = getSessionUsersId(session);
         MateMember mateMember = mateMemberService.getMateMemberByUsersIdAndMateId(usersId, mateId);
         return MateMemberDto.changeToDto(mateMember);
     }
 
     //본인 제외, 다른 member들에게 mateTemp 부여
     @PostMapping("/setMemberMateTemp")
-    public String setMemberMateTemp(@RequestBody Map<Long, Float> memberMateTempMap, @RequestParam Long mateId) {
+    public String setMemberMateTemp(@RequestBody Map<Long, Float> memberMateTempMap, @RequestParam Long mateId,
+                                    HttpSession session) {
         try {
-            Long usersId = getSessionUsersId();
+            Long usersId = getSessionUsersId(session);
 
             for (Map.Entry<Long, Float> entry : memberMateTempMap.entrySet()) {
                 Long memberId = entry.getKey();

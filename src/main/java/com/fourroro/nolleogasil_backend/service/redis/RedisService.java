@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class RedisService {
-    private final RedisTemplate<String, Object> redisTemplate;
-
-    public void redisString() {
-        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-        operations.set("redisHello", "redisHello");
-        String redis = (String)operations.get("redisHello");
-        log.info(redis);
-    }
+//    private final RedisTemplate<String, Object> redisTemplate;
+//
+//    public void redisString() {
+//        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+//        operations.set("redisHello", "redisHello");
+//        String redis = (String)operations.get("redisHello");
+//        log.info(redis);
+//    }
 }
