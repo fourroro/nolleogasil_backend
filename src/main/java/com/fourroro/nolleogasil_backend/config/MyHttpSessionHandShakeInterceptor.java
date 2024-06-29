@@ -21,8 +21,6 @@ public class MyHttpSessionHandShakeInterceptor extends HttpSessionHandshakeInter
             if (session != null) {
                 // Assume 'users' is a session attribute that holds a UsersDto object
                 UsersDto users = (UsersDto) session.getAttribute("users");
-                System.out.println("!!!!!!!!!세션 인터셉터!!!!!!!!!!");
-                System.out.println(users.getName());
                 if (users != null) {
                     // You can decide to store the entire UsersDto object or just specific attributes
                     attributes.put("users", users);
