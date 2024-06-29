@@ -36,31 +36,29 @@ ARG KAKAO_API_KEY
 
 ARG SPRING_DATA_REDIS_HOST
 ARG SPRING_DATA_REDIS_PORT
-ARG SPRING_DATA_REDIS_PASSWORD
 
-# 환경 변수를 application.properties 파일에 기록
-RUN echo "SPRING_RABBITMQ_USERNAME=$SPRING_RABBITMQ_USERNAME" >> src/main/resources/application-dev.properties
-RUN echo "SPRING_RABBITMQ_PASSWORD=$SPRING_RABBITMQ_PASSWORD" >> src/main/resources/application-dev.properties
-RUN echo "SPRING_RABBITMQ_HOST=$SPRING_RABBITMQ_HOST" >> src/main/resources/application-dev.properties
-RUN echo "SPRING_RABBITMQ_PORT=$SPRING_RABBITMQ_PORT" >> src/main/resources/application-dev.properties
+# 환경 변수를 Spring Boot 애플리케이션에 전달
+ENV SPRING_RABBITMQ_USERNAME=${SPRING_RABBITMQ_USERNAME}
+ENV SPRING_RABBITMQ_PASSWORD=${SPRING_RABBITMQ_PASSWORD}
+ENV SPRING_RABBITMQ_HOST=${SPRING_RABBITMQ_HOST}
+ENV SPRING_RABBITMQ_PORT=${SPRING_RABBITMQ_PORT}
 
-RUN echo "DATABASE_URL=$DATABASE_URL" >> src/main/resources/application-dev.properties
-RUN echo "DATABASE_USERNAME=$DATABASE_USERNAME" >> src/main/resources/application-dev.properties
-RUN echo "DATABASE_PASSWORD=$DATABASE_PASSWORD" >> src/main/resources/application-dev.properties
+ENV DATABASE_URL=${DATABASE_URL}
+ENV DATABASE_USERNAME=${DATABASE_USERNAME}
+ENV DATABASE_PASSWORD=${DATABASE_PASSWORD}
 
-RUN echo "OPENAI_API_KEY=$OPENAI_API_KEY" >> src/main/resources/application-dev.properties
-RUN echo "OPENAI_API_URL=$OPENAI_API_URL" >> src/main/resources/application-dev.properties
-RUN echo "OPENAI_MODEL=$OPENAI_MODEL" >> src/main/resources/application-dev.properties
+ENV OPENAI_API_KEY=${OPENAI_API_KEY}
+ENV OPENAI_API_URL=${OPENAI_API_URL}
+ENV OPENAI_MODEL=${OPENAI_MODEL}
 
-RUN echo "KAKAO_CLIENT_ID=$KAKAO_CLIENT_ID" >> src/main/resources/application-dev.properties
-RUN echo "KAKAO_AUTHORIZATION_URI=$KAKAO_AUTHORIZATION_URI" >> src/main/resources/application-dev.properties
-RUN echo "KAKAO_USER_INFO_URI=$KAKAO_USER_INFO_URI" >> src/main/resources/application-dev.properties
-RUN echo "KAKAO_REDIRECT_URI=$KAKAO_REDIRECT_URI" >> src/main/resources/application-dev.properties
-RUN echo "KAKAO_API_KEY=$KAKAO_API_KEY" >> src/main/resources/application-dev.properties
+ENV KAKAO_CLIENT_ID=${KAKAO_CLIENT_ID}
+ENV KAKAO_AUTHORIZATION_URI=${KAKAO_AUTHORIZATION_URI}
+ENV KAKAO_USER_INFO_URI=${KAKAO_USER_INFO_URI}
+ENV KAKAO_REDIRECT_URI=${KAKAO_REDIRECT_URI}
+ENV KAKAO_API_KEY=${KAKAO_API_KEY}
 
-RUN echo "SPRING_DATA_REDIS_HOST=$SPRING_DATA_REDIS_HOST" >> src/main/resources/application-dev.properties
-RUN echo "SPRING_DATA_REDIS_PORT=$SPRING_DATA_REDIS_PORT" >> src/main/resources/application-dev.properties
-RUN echo "SPRING_DATA_REDIS_PASSWORD=SPRING_DATA_REDIS_PASSWORD" >> src/main/resources/application-dev.properties
+ENV SPRING_DATA_REDIS_HOST=${SPRING_DATA_REDIS_HOST}
+ENV SPRING_DATA_REDIS_PORT=${SPRING_DATA_REDIS_PORT}
 
 # Gradle 빌드 실행 (테스트 제외)
 RUN gradle build --no-daemon -x test
