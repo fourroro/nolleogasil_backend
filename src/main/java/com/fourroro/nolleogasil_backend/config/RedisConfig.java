@@ -14,9 +14,8 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 
 @Configuration
 @EnableRedisRepositories
-@EnableRedisHttpSession
 public class RedisConfig {
-    //
+
     @Value("${spring.data.redis.host}")
     private String redisHost;
 
