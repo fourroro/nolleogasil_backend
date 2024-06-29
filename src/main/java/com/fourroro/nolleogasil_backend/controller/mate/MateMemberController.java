@@ -6,6 +6,8 @@ import com.fourroro.nolleogasil_backend.entity.mate.MateMember;
 import com.fourroro.nolleogasil_backend.service.mate.MateMemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,26 +15,28 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/mateMember")
 @RequiredArgsConstructor
+@RequestMapping("/api/mateMember")
 public class MateMemberController {
 
     private final MateMemberService mateMemberService;
+//    private final RedisTemplate<String, Object> redisTemplate;
 
     //session에 있는 usersId 가져오기
     private Long getSessionUsersId(HttpSession session) {
-        UsersDto usersSession = (UsersDto) session.getAttribute("users");
-        return usersSession.getUsersId();
+//        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+//        UsersDto usersDto = (UsersDto) operations.get("users");
+        UsersDto usersDto = (UsersDto) session.getAttribute("users");
+
+        return usersDto.getUsersId();
     }
 
     //첫 입장인지......
     @GetMapping("/{chatroomId}")
-    public ResponseEntity<String> checkFirstEnterRoom(@PathVariable String chatroomId,
-                                                     HttpSession session) {
+    public ResponseEntity<String> checkFirstEnterRoom(@PathVariable String chatroomId, HttpSession session) {
 
         Long chatRoomId = Long.parseLong(chatroomId);
         Long userId = getSessionUsersId(session);
-
 
         boolean isFirst = mateMemberService.checkFirstEnterRoom(chatRoomId,userId);
 

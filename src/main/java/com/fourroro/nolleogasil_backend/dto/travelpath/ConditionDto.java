@@ -2,6 +2,7 @@ package com.fourroro.nolleogasil_backend.dto.travelpath;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -10,8 +11,9 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConditionDto {
+public class ConditionDto implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private String destination;         //목적지
     private String startDate;           //출발 날짜
     private String endDate;             //오는 날짜

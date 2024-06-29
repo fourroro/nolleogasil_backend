@@ -8,6 +8,8 @@ import com.fourroro.nolleogasil_backend.service.mate.MateMemberServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,15 +17,19 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/chatRoom")
+@RequestMapping("/api/chatRoom")
 public class ChatRoomController {
 
     private final ChatRoomService chatRoomService;
     private final MateMemberServiceImpl mateMemberService;
+//    private final RedisTemplate<String, Object> redisTemplate;
 
     private Long getSessionUsersId(HttpSession session) {
-        UsersDto usersSession = (UsersDto) session.getAttribute("users");
-        return usersSession.getUsersId();
+//        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+//        UsersDto usersDto = (UsersDto) operations.get("users");
+        UsersDto usersDto = (UsersDto) session.getAttribute("users");
+
+        return usersDto.getUsersId();
     }
 
 
@@ -36,6 +42,7 @@ public class ChatRoomController {
         return chatRoomAndPlaceDto;
 
     }
+
     @GetMapping("/myRooms")
     public List<ChatRoomAndPlaceDto> getMyRooms(@RequestParam String sortedBy, HttpSession session) {
         System.out.println(sortedBy);
@@ -49,21 +56,20 @@ public class ChatRoomController {
         }
 
         return chatRoomAndPlaceDtoList;
-
     }
-  @GetMapping("/joinedRooms")
-    public List<ChatRoomAndPlaceDto> getJoinedRooms(@RequestParam String sortedBy,HttpSession session) {
+
+    @GetMapping("/joinedRooms")
+    public List<ChatRoomAndPlaceDto> getJoinedRooms(@RequestParam String sortedBy, HttpSession session) {
 
         Long userId = getSessionUsersId(session);
-      List<ChatRoomAndPlaceDto> chatRoomAndPlaceDtoList = null;
-          if(sortedBy.equals("기본순")) {
-              chatRoomAndPlaceDtoList = mateMemberService.getChatRoomListByMate(userId);
-          } else {
-              chatRoomAndPlaceDtoList = mateMemberService.getJoinedRoomsBySorted(userId,sortedBy);
-          }
+        List<ChatRoomAndPlaceDto> chatRoomAndPlaceDtoList = null;
+        if(sortedBy.equals("기본순")) {
+            chatRoomAndPlaceDtoList = mateMemberService.getChatRoomListByMate(userId);
+        } else {
+            chatRoomAndPlaceDtoList = mateMemberService.getJoinedRoomsBySorted(userId,sortedBy);
+        }
 
         return chatRoomAndPlaceDtoList;
-
     }
 
 

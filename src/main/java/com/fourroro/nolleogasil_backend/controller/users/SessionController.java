@@ -1,7 +1,9 @@
 package com.fourroro.nolleogasil_backend.controller.users;
 
 import com.fourroro.nolleogasil_backend.config.SessionInterceptor;
+import com.fourroro.nolleogasil_backend.dto.users.UsersDto;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,10 @@ public class SessionController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Session expired");
         } else {
             // 세션이 유효한 경우
+            HttpSession session = request.getSession();
+            UsersDto users = (UsersDto) session.getAttribute("users");
+            System.out.println("!!!!!!!!!!!세션 컨트롤러!!!!!!!!!!!!");
+            System.out.println(users.getName());
             return ResponseEntity.ok("Session valid");
         }
     }
