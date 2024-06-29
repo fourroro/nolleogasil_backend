@@ -173,7 +173,6 @@ public class UsersController {
             System.out.println("!!!!!!!!!!!!!!!!!!!!세션 없음");
             return ResponseEntity.ok("No active redis session found");
         }
-
     }
 
     //회원탈퇴
