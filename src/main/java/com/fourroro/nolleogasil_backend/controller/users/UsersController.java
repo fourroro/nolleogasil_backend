@@ -14,6 +14,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -21,6 +22,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@EnableRedisHttpSession
 @RequestMapping("/api/user")
 public class UsersController {
     private final UsersServiceImpl usersService;
@@ -37,14 +39,13 @@ public class UsersController {
     //회원가입 및 로그인
     //세션 확인하기
     @PostMapping("/profile")
-    public ResponseEntity<Long> setUserProfile(@RequestBody KakaoDto kakaoRequest, HttpServletRequest request){
+    public ResponseEntity<Long> setUserProfile(@RequestBody KakaoDto kakaoRequest, HttpSession session){
         try{
             //카카오로부터 받은 사용자 정보 中 phone_number
             String kakaoUsersPhone = kakaoRequest.getPhone();
             String kakaoUsersEmail = kakaoRequest.getEmail();
             //기존 회원 여부 확인
             boolean isDuplicate = usersService.validateDuplicateUsers(kakaoRequest.toDto());
-            HttpSession session = request.getSession();
 
             if(isDuplicate) { //기존 회원인 경우
                 Users existingUsers = usersService.findByEmail(kakaoUsersEmail);
@@ -61,7 +62,7 @@ public class UsersController {
                 //세션에 사용자 정보 저장
                 session.setAttribute("users", usersDto);
                 UsersDto sessionUsersDto = (UsersDto) session.getAttribute("users");
-                System.out.println("!!!!!!!!!!!!!!!!!!!!");
+                System.out.println("!!!!!!!!!로그인!!!!!!!!!!!");
                 System.out.println(sessionUsersDto.getName());
 //                operations.set("users", usersDto);
 
@@ -155,17 +156,17 @@ public class UsersController {
 
     //로그아웃
     @RequestMapping("/logout")
-    public ResponseEntity<String> logout(HttpServletRequest request) {
+    public ResponseEntity<String> logout(HttpSession session) {
         //세션에서 사용자 정보 제거
 //        if(operations.get("users") != null) {
-        HttpSession session = request.getSession();
         UsersDto sessionUsersDto = (UsersDto) session.getAttribute("users");
+        System.out.println("!!!!!!!!!로그아웃!!!!!!!!!!!");
+        System.out.println(sessionUsersDto.getName());
+
         if (sessionUsersDto != null) {
             //세션에서 users의 value 삭제
 //            redisTemplate.delete("users");
             session.invalidate();
-            System.out.println("!!!!!!!!!!!!!!!!!!!!");
-            System.out.println(sessionUsersDto.getName());
 
             return ResponseEntity.ok("Logout successful");
         } else{
