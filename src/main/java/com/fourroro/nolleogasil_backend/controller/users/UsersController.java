@@ -157,13 +157,17 @@ public class UsersController {
     public ResponseEntity<String> logout(HttpSession session) {
         //세션에서 사용자 정보 제거
 //        if(operations.get("users") != null) {
-        if (session.getAttribute("users") != null) {
+        UsersDto sessionUsersDto = (UsersDto) session.getAttribute("users");
+        if (sessionUsersDto != null) {
             //세션에서 users의 value 삭제
 //            redisTemplate.delete("users");
             session.invalidate();
+            System.out.println("!!!!!!!!!!!!!!!!!!!!");
+            System.out.println(sessionUsersDto.getName());
 
             return ResponseEntity.ok("Logout successful");
         } else{
+            System.out.println("!!!!!!!!!!!!!!!!!!!!세션 없음");
             return ResponseEntity.ok("No active redis session found");
         }
 
