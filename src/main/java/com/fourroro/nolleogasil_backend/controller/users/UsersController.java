@@ -37,13 +37,14 @@ public class UsersController {
     //회원가입 및 로그인
     //세션 확인하기
     @PostMapping("/profile")
-    public ResponseEntity<Long> setUserProfile(@RequestBody KakaoDto kakaoRequest, HttpSession session){
+    public ResponseEntity<Long> setUserProfile(@RequestBody KakaoDto kakaoRequest, HttpServletRequest request){
         try{
             //카카오로부터 받은 사용자 정보 中 phone_number
             String kakaoUsersPhone = kakaoRequest.getPhone();
             String kakaoUsersEmail = kakaoRequest.getEmail();
             //기존 회원 여부 확인
             boolean isDuplicate = usersService.validateDuplicateUsers(kakaoRequest.toDto());
+            HttpSession session = request.getSession();
 
             if(isDuplicate) { //기존 회원인 경우
                 Users existingUsers = usersService.findByEmail(kakaoUsersEmail);
@@ -154,9 +155,10 @@ public class UsersController {
 
     //로그아웃
     @RequestMapping("/logout")
-    public ResponseEntity<String> logout(HttpSession session) {
+    public ResponseEntity<String> logout(HttpServletRequest request) {
         //세션에서 사용자 정보 제거
 //        if(operations.get("users") != null) {
+        HttpSession session = request.getSession();
         UsersDto sessionUsersDto = (UsersDto) session.getAttribute("users");
         if (sessionUsersDto != null) {
             //세션에서 users의 value 삭제
