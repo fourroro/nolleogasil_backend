@@ -9,7 +9,7 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000", "http://43.202.20.141:3000", "http://nolleogasil.com:3000", "https://nolleogasil.com:3000")  // 리액트 서버 주소
+                .allowedOrigins("http://localhost:3000", "http://43.202.20.141:3000", "http://www.nolleogasil.com:3000", "https://www.nolleogasil.com:3000")  // 리액트 서버 주소
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowCredentials(true)
                 .allowedHeaders("*");
