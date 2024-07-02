@@ -11,7 +11,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
 public class SessionInterceptor implements HandlerInterceptor {
-    private static final Logger logger = LoggerFactory.getLogger(SessionInterceptor.class);
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -22,12 +21,12 @@ public class SessionInterceptor implements HandlerInterceptor {
         //세션 만료 여부 확인
         if(!isSessionExpired(request)){
             response.setStatus(HttpStatus.OK.value());
-            logger.info("Session is valid.");
+            System.out.println("Session is valid.");
             return true;
         }else {
             //세션이 만료되었다면, 401 상태 코드 전달
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            logger.info("Session is invalid or expired.");
+            System.out.println("Session is invalid or expired.");
             return false;
         }
     }
