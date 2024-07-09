@@ -162,8 +162,7 @@ public class UsersController {
 
         if (sessionUsersDto != null) {
             //세션에서 users의 value 삭
-//            session.invalidate();
-            session.removeAttribute("users");
+            session.invalidate();
             System.out.println("!!!!!!!!!로그아웃!!!!!!!!!!!");
             System.out.println(sessionUsersDto.getName());
 
