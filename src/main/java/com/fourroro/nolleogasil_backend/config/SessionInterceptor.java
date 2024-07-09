@@ -1,5 +1,6 @@
 package com.fourroro.nolleogasil_backend.config;
 
+import com.fourroro.nolleogasil_backend.dto.users.UsersDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -11,6 +12,12 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
 public class SessionInterceptor implements HandlerInterceptor {
+
+    //session에 있는 usersId 가져오기
+    private Long getSessionUsersId(HttpSession session) {
+        UsersDto usersDto = (UsersDto) session.getAttribute("users");
+        return usersDto.getUsersId();
+    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -39,7 +46,14 @@ public class SessionInterceptor implements HandlerInterceptor {
             return true;
         }else{
             //세션이 유효한 경우
-            return false;
+            UsersDto usersDto = (UsersDto) session.getAttribute("users");
+            if (usersDto == null) {
+                //세션에 사용자 정보가 없는 경우
+                return true;
+            } else {
+                //세션에 사용자 정보가 있는 경우
+                return false;
+            }
         }
     }
 }
