@@ -158,13 +158,12 @@ public class UsersController {
     @RequestMapping("/logout")
     public ResponseEntity<String> logout(HttpSession session) {
         //세션에서 사용자 정보 제거
-//        if(operations.get("users") != null) {
         UsersDto sessionUsersDto = (UsersDto) session.getAttribute("users");
 
         if (sessionUsersDto != null) {
-            //세션에서 users의 value 삭제
-//            redisTemplate.delete("users");
-            session.invalidate();
+            //세션에서 users의 value 삭
+//            session.invalidate();
+            session.removeAttribute("users");
             System.out.println("!!!!!!!!!로그아웃!!!!!!!!!!!");
             System.out.println(sessionUsersDto.getName());
 
