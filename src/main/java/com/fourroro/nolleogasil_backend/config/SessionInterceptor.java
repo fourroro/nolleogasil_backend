@@ -13,18 +13,13 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Component
 public class SessionInterceptor implements HandlerInterceptor {
 
-    //session에 있는 usersId 가져오기
-    private Long getSessionUsersId(HttpSession session) {
-        UsersDto usersDto = (UsersDto) session.getAttribute("users");
-        return usersDto.getUsersId();
-    }
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             return true;
         }
 
+        System.out.println("!!!!!!!!!!!!!세션 인터셉터!!!!!!!!!!!!!!!");
         //세션 만료 여부 확인
         if(!isSessionExpired(request)){
             response.setStatus(HttpStatus.OK.value());
@@ -39,6 +34,7 @@ public class SessionInterceptor implements HandlerInterceptor {
     }
 
     public boolean isSessionExpired(HttpServletRequest request){
+        System.out.println("!!!!!!isSessionExpired!!!!!!!");
         HttpSession session = request.getSession(false);
 
         if(session == null){
@@ -47,6 +43,7 @@ public class SessionInterceptor implements HandlerInterceptor {
         }else{
             //세션이 유효한 경우
             UsersDto usersDto = (UsersDto) session.getAttribute("users");
+            System.out.println(usersDto.getName());
             if (usersDto == null) {
                 //세션에 사용자 정보가 없는 경우
                 return true;
