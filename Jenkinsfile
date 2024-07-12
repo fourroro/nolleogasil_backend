@@ -42,7 +42,7 @@ pipeline {
                 script {
                     // Spring Boot Docker 이미지 빌드
                     sh '''
-                    docker build -t $DOCKER_CREDENTIALS_USR/nolleogasil_backend -f Dockerfile.spring .\
+                    docker build -t $DOCKER_CREDENTIALS_USR/nolleogasil_backend -f Dockerfile.spring \
                        --build-arg SPRING_RABBITMQ_USERNAME=${SPRING_RABBITMQ_USERNAME} \
                        --build-arg SPRING_RABBITMQ_PASSWORD=${SPRING_RABBITMQ_PASSWORD} \
                        --build-arg SPRING_RABBITMQ_HOST=${SPRING_RABBITMQ_HOST} \
@@ -59,7 +59,7 @@ pipeline {
                        --build-arg SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KAKAO_REDIRECT_URI=${KAKAO_REDIRECT_URI} \
                        --build-arg KAKAO_API_KEY=${KAKAO_API_KEY} \
                        --build-arg SPRING_DATA_REDIS_HOST=${SPRING_DATA_REDIS_HOST} \
-                       --build-arg SPRING_DATA_REDIS_PORT=${SPRING_DATA_REDIS_PORT} \
+                       --build-arg SPRING_DATA_REDIS_PORT=${SPRING_DATA_REDIS_PORT} .
                     '''
                 }
             }
