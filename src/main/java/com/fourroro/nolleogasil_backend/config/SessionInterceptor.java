@@ -23,12 +23,12 @@ public class SessionInterceptor implements HandlerInterceptor {
         //세션 만료 여부 확인
         if(!isSessionExpired(request)){
             response.setStatus(HttpStatus.OK.value());
-            System.out.println("Session is valid.");
+            System.out.println(">>Session is valid.");
             return true;
         }else {
             //세션이 만료되었다면, 401 상태 코드 전달
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            System.out.println("Session is invalid or expired.");
+            System.out.println(">>Session is invalid or expired.");
             return false;
         }
     }
@@ -39,18 +39,12 @@ public class SessionInterceptor implements HandlerInterceptor {
 
         if(session == null){
             //세션이 존재하지 않거나 만료된 경우
+            System.out.println("세션이 존재하지 않거나 만료됨");
             return true;
         }else{
             //세션이 유효한 경우
-            UsersDto usersDto = (UsersDto) session.getAttribute("users");
-            System.out.println(usersDto.getName());
-            if (usersDto == null) {
-                //세션에 사용자 정보가 없는 경우
-                return true;
-            } else {
-                //세션에 사용자 정보가 있는 경우
-                return false;
-            }
+            System.out.println("세션이 유효함");
+            return false;
         }
     }
 }
