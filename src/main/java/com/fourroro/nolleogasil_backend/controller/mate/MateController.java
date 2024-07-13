@@ -13,6 +13,8 @@ import com.fourroro.nolleogasil_backend.service.mate.MateService;
 import com.fourroro.nolleogasil_backend.service.place.PlaceService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,26 +23,31 @@ import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping("/mate")
 @RequiredArgsConstructor
+@RequestMapping("/api/mate")
 public class MateController {
 
     private final MateService mateService;
     private final PlaceService placeService;
     private final MateMemberService mateMemberService;
     private final ChatRoomService chatRoomService;
+//    private final RedisTemplate<String, Object> redisTemplate;
 
     //session에 있는 usersId 가져오기
     private Long getSessionUsersId(HttpSession session) {
-        UsersDto usersSession = (UsersDto) session.getAttribute("users");
-        return usersSession.getUsersId();
+//        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+//        UsersDto usersDto = (UsersDto) operations.get("users");
+        UsersDto usersDto = (UsersDto) session.getAttribute("users");
+
+        return usersDto.getUsersId();
     }
 
     @PostMapping("/mateForm")
     public ResponseEntity<ChatRoomAndPlaceDto> creatMateForm(@RequestBody RequestMateDto requestMateDto,
-                                                             @RequestParam(name = "category") String category, HttpSession session) {
+                                                             @RequestParam(name = "category") String category,
+                                                             HttpSession session) {
 
-       System.out.println("!!!");
+        System.out.println("!!!");
         try {
             System.out.println(category);
             System.out.println(requestMateDto.getMateFormDto().getTitle());
@@ -113,14 +120,6 @@ public class MateController {
         Mate mate = mateService.getMate(mateId);
         return MateDto.changeToDto(mate);
     }
-  /*  @GetMapping("/getMate")
-    public MateDto getMate(Long chatroomId) {
-        if (mateId == null) {
-            return (MateDto)Collections.emptyList();
-        }
-        Mate mate = mateService.getMate(mateId);
-        return MateDto.changeToDto(mate);
-    }*/
 
     //mate 공고 글 개수 -> 아직 사용 안함
     @GetMapping("/countMate")

@@ -13,9 +13,8 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/chat")
+@RequestMapping("/api/chat")
 public class ChatController {
-
 
     private final ChatService chatService;
 
@@ -23,10 +22,8 @@ public class ChatController {
     public List<ChatDto> getChatList(@PathVariable Long chatroomId) {
 
         List<ChatDto> chatList = chatService.getChatList(chatroomId);
-
         return chatList;
     }
-
 
 }
 

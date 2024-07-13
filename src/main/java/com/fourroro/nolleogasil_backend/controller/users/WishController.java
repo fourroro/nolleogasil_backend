@@ -8,6 +8,8 @@ import com.fourroro.nolleogasil_backend.service.place.PlaceService;
 import com.fourroro.nolleogasil_backend.service.users.WishService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -15,16 +17,20 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/wish")
 public class WishController {
 
     private final WishService wishService;
     private final PlaceService placeService;
-
+//    private final RedisTemplate<String, Object> redisTemplate;
 
     //session에 있는 usersId 가져오기
     private Long getSessionUsersId(HttpSession session) {
-        UsersDto usersSession = (UsersDto) session.getAttribute("users");
-        return usersSession.getUsersId();
+//        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+//        UsersDto usersDto = (UsersDto) operations.get("users");
+        UsersDto usersDto = (UsersDto) session.getAttribute("users");
+
+        return usersDto.getUsersId();
     }
 
     //wish 추가
@@ -38,9 +44,9 @@ public class WishController {
         Long usersId = getSessionUsersId(session);
         placeDto.setPlaceCat(placeCat);
         WishDto wishDto = WishDto.builder()
-                        .usersId(usersId)
-                        .place(placeDto)
-                        .build();
+                .usersId(usersId)
+                .place(placeDto)
+                .build();
 
         try {
             //이미 place table에 해당 place가 존재하는지 구분
