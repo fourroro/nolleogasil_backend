@@ -24,13 +24,9 @@ public class SessionController {
         System.out.println("!!!!!!!!!!!세션 컨트롤러!!!!!!!!!!!!");
         if (sessionInterceptor.isSessionExpired(request)) {
             //세션이 존재하지 않거나 만료된 경우
-            System.out.println("세션 없음");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Session expired");
         } else {
             // 세션이 유효한 경우
-            HttpSession session = request.getSession();
-            UsersDto users = (UsersDto) session.getAttribute("users");
-            System.out.println(users.getName());
             return ResponseEntity.ok("Session valid");
         }
     }
