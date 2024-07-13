@@ -40,27 +40,6 @@ pipeline {
         stage('Build Spring Boot') {
             steps {
                 script {
-                    // 환경 변수 값 확인을 위해 출력
-                    sh '''
-                    echo SPRING_RABBITMQ_USERNAME=${SPRING_RABBITMQ_USERNAME}
-                    echo SPRING_RABBITMQ_PASSWORD=${SPRING_RABBITMQ_PASSWORD}
-                    echo SPRING_RABBITMQ_HOST=${SPRING_RABBITMQ_HOST}
-                    echo SPRING_RABBITMQ_PORT=${SPRING_RABBITMQ_PORT}
-                    echo SPRING_DATASOURCE_URL=${DATABASE_URL}
-                    echo SPRING_DATASOURCE_USERNAME=${DATABASE_USERNAME}
-                    echo SPRING_DATASOURCE_PASSWORD=${DATABASE_PASSWORD}
-                    echo OPENAI_API_KEY=${OPENAI_API_KEY}
-                    echo OPENAI_API_URL=${OPENAI_API_URL}
-                    echo OPENAI_MODEL=${OPENAI_MODEL}
-                    echo SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KAKAO_CLIENT_ID=${KAKAO_CLIENT_ID}
-                    echo SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KAKAO_AUTHORIZATION_URI=${KAKAO_AUTHORIZATION_URI}
-                    echo SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KAKAO_USER_INFO_URI=${KAKAO_USER_INFO_URI}
-                    echo SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KAKAO_REDIRECT_URI=${KAKAO_REDIRECT_URI}
-                    echo KAKAO_API_KEY=${KAKAO_API_KEY}
-                    echo SPRING_DATA_REDIS_HOST=${SPRING_DATA_REDIS_HOST}
-                    echo SPRING_DATA_REDIS_PORT=${SPRING_DATA_REDIS_PORT}
-                    '''
-
                     // Spring Boot Docker 이미지 빌드
                     sh '''
                     docker build -t $DOCKER_CREDENTIALS_USR/nolleogasil_backend -f Dockerfile.spring . \
