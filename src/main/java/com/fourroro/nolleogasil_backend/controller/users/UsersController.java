@@ -14,6 +14,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -21,18 +22,19 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@EnableRedisHttpSession
 @RequestMapping("/api/user")
 public class UsersController {
     private final UsersServiceImpl usersService;
     private final KakaoService kakaoService;
 
-//    private final RedisTemplate<String, Object> redisTemplate;
-//    private ValueOperations<String, Object> operations;
-//    //redisTemplate이 초기화된 후에 ValueOperations를 초기화
-//    @PostConstruct
-//    private void init() {
-//        this.operations = redisTemplate.opsForValue();
-//    }
+    private final RedisTemplate<String, Object> redisTemplate;
+    private ValueOperations<String, Object> operations;
+    //redisTemplate이 초기화된 후에 ValueOperations를 초기화
+    @PostConstruct
+    private void init() {
+        this.operations = redisTemplate.opsForValue();
+    }
 
     //회원가입 및 로그인
     //세션 확인하기
@@ -59,6 +61,9 @@ public class UsersController {
 
                 //세션에 사용자 정보 저장
                 session.setAttribute("users", usersDto);
+                UsersDto sessionUsersDto = (UsersDto) session.getAttribute("users");
+                System.out.println("!!!!!!!!!로그인!!!!!!!!!!!");
+                System.out.println(sessionUsersDto.getName());
 //                operations.set("users", usersDto);
 
                 //프론트엔드로 기존 회원임을 전달
@@ -114,24 +119,22 @@ public class UsersController {
     }
 
     @PostMapping("/update/{usersId}")
-    public ResponseEntity<String> updateUsers(@PathVariable Long usersId, @RequestBody Map<String, String> requestBody,
-                                              HttpServletRequest request, HttpSession session) {
+    public ResponseEntity<String> updateUsers(@PathVariable Long usersId, @RequestBody Map<String, String> requestBody, HttpServletRequest request){
         try{
             String nickname = requestBody.get("nickname");
 
             usersService.updateUsers(nickname, usersId);
             // 세션에 저장된 사용자 정보 업데이트
-            if(session.getAttribute("users") != null) {
-                UsersDto userInfo = (UsersDto) session.getAttribute("users");
+            if(operations.get("users") != null) {
+                UsersDto userInfo = (UsersDto) operations.get("users");
 
                 if(userInfo != null) {
                     userInfo.setNickname(nickname);
 
-                    // 세션 무효화
-                    session.invalidate();
-                    // 새로운 세션 생성 및 사용자 정보 설정
-                    HttpSession newSession = request.getSession(true);
-                    newSession.setAttribute("users", userInfo);
+                    //세션에서 users의 value 삭제
+                    redisTemplate.delete("users");
+                    //세션에 새로 저장
+                    operations.set("users", userInfo);
                 }
             }else{
                 System.out.println("session is empty!");
@@ -155,23 +158,27 @@ public class UsersController {
     @RequestMapping("/logout")
     public ResponseEntity<String> logout(HttpSession session) {
         //세션에서 사용자 정보 제거
-        if(session != null) {
-            //세션 무효화
+        UsersDto sessionUsersDto = (UsersDto) session.getAttribute("users");
+
+        if (sessionUsersDto != null) {
+            //세션에서 users의 value 삭
             session.invalidate();
+            System.out.println("!!!!!!!!!로그아웃!!!!!!!!!!!");
+            System.out.println(sessionUsersDto.getName());
 
             return ResponseEntity.ok("Logout successful");
-        }else{
-            return ResponseEntity.ok("No active session found");
+        } else{
+            System.out.println("!!!!!!!!!!!!!!!!!!!!세션 없음");
+            return ResponseEntity.ok("No active redis session found");
         }
-
     }
 
     //회원탈퇴
     @DeleteMapping("/delete/{usersId}")
-    public ResponseEntity<String> deleteUsers(@PathVariable Long usersId, HttpSession session){
+    public ResponseEntity<String> deleteUsers(@PathVariable Long usersId){
         usersService.deleteUsers(usersId);
         //세션 무효화
-        session.invalidate();
+        redisTemplate.delete("users");
         return ResponseEntity.ok("User delete successfully");
     }
 }

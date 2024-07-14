@@ -23,7 +23,6 @@ pipeline {
 
         SPRING_DATA_REDIS_HOST = credentials('spring-data-redis-host')
         SPRING_DATA_REDIS_PORT = credentials('spring-data-redis-port')
-        SPRING_DATA_REDIS_PASSWORD = credentials('spring-data-redis-password')
     }
 
     stages {
@@ -43,7 +42,7 @@ pipeline {
                 script {
                     // Spring Boot Docker 이미지 빌드
                     sh '''
-                    docker build -t $DOCKER_CREDENTIALS_USR/nolleogasil_backend -f Dockerfile.spring .\
+                    docker build -t $DOCKER_CREDENTIALS_USR/nolleogasil_backend -f Dockerfile.spring . \
                        --build-arg SPRING_RABBITMQ_USERNAME=${SPRING_RABBITMQ_USERNAME} \
                        --build-arg SPRING_RABBITMQ_PASSWORD=${SPRING_RABBITMQ_PASSWORD} \
                        --build-arg SPRING_RABBITMQ_HOST=${SPRING_RABBITMQ_HOST} \
@@ -61,7 +60,6 @@ pipeline {
                        --build-arg KAKAO_API_KEY=${KAKAO_API_KEY} \
                        --build-arg SPRING_DATA_REDIS_HOST=${SPRING_DATA_REDIS_HOST} \
                        --build-arg SPRING_DATA_REDIS_PORT=${SPRING_DATA_REDIS_PORT} \
-                       --build-arg SPRING_DATA_REDIS_PASSWORD=${SPRING_DATA_REDIS_PASSWORD} \
                     '''
                 }
             }
@@ -124,7 +122,6 @@ pipeline {
                         -e KAKAO_API_KEY=${KAKAO_API_KEY} \
                         -e SPRING_DATA_REDIS_HOST=${SPRING_DATA_REDIS_HOST} \
                         -e SPRING_DATA_REDIS_PORT=${SPRING_DATA_REDIS_PORT} \
-                        -e SPRING_DATA_REDIS_PASSWORD=${SPRING_DATA_REDIS_PASSWORD} \
                         $DOCKER_CREDENTIALS_USR/nolleogasil_backend
                     '''
                 }
