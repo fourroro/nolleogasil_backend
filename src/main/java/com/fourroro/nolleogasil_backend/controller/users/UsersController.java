@@ -63,7 +63,6 @@ public class UsersController {
                 session.setAttribute("users", usersDto);
                 UsersDto sessionUsersDto = (UsersDto) session.getAttribute("users");
                 System.out.println("!!!!!!!!!로그인!!!!!!!!!!!");
-                System.out.println(session.getId());
                 System.out.println(sessionUsersDto.getName());
 //                operations.set("users", usersDto);
 
@@ -159,7 +158,7 @@ public class UsersController {
     @RequestMapping("/logout")
     public ResponseEntity<String> logout(HttpSession session) {
         //세션에서 사용자 정보 제거
-        UsersDto sessionUsersDto = (UsersDto) session.getAttribute("users");
+        UsersDto sessionUsersDto = (UsersDto) session.getAttribute("spring:session:sessions" + session.getId());
 
         if (sessionUsersDto != null) {
             //세션에서 users의 value 삭
