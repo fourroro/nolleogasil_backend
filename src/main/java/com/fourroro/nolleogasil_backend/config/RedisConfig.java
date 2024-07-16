@@ -35,7 +35,6 @@ public class RedisConfig {
         return new GenericJackson2JsonRedisSerializer();
     }
 
-
 //    @Bean
 //    public RedisConnectionFactory redisConnectionFactory() {
 //        return new LettuceConnectionFactory(redisHost, redisPort);
@@ -73,10 +72,11 @@ public class RedisConfig {
 //        DefaultCookieSerializer serializer = new DefaultCookieSerializer();
 //        serializer.setCookieName("JSESSIONID");
 //        serializer.setCookiePath("/");
-//        serializer.setDomainName("nolleogasil.com");  // 도메인 설정
+//        serializer.setDomainName("backend.nolleogasil.com");  // 도메인 설정
 //        serializer.setUseHttpOnlyCookie(true);
 //        serializer.setSameSite("None");
 //        serializer.setUseSecureCookie(true);
 //        return serializer;
 //    }
+
 }
