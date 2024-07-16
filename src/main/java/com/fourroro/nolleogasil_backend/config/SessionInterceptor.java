@@ -33,18 +33,24 @@ public class SessionInterceptor implements HandlerInterceptor {
         }
     }
 
-    public boolean isSessionExpired(HttpServletRequest request){
-        System.out.println("!!!!!!isSessionExpired!!!!!!!");
-        HttpSession session = request.getSession(false);
-
-        if(session == null){
-            //세션이 존재하지 않거나 만료된 경우
-            System.out.println("세션이 존재하지 않거나 만료됨");
-            return true;
-        }else{
-            //세션이 유효한 경우
-            System.out.println("세션이 유효함");
-            return false;
+    public boolean isSessionExpired(HttpServletRequest request) {
+        try {
+            System.out.println("!!!!!!isSessionExpired!!!!!!!");
+            HttpSession session = request.getSession(false);
+            System.out.println(session.getId());
+            if (session == null) {
+                //세션이 존재하지 않거나 만료된 경우
+                System.out.println("세션이 존재하지 않거나 만료됨");
+                return true;
+            } else {
+                //세션이 유효한 경우
+                System.out.println("세션이 유효함");
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+        return false;
     }
 }
