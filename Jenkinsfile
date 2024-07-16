@@ -42,7 +42,7 @@ pipeline {
                 script {
                     // Spring Boot Docker 이미지 빌드
                     sh '''
-                    docker build -t $DOCKER_CREDENTIALS_USR/nolleogasil_backend -f Dockerfile.spring .\
+                    docker build -t $DOCKER_CREDENTIALS_USR/nolleogasil_backend -f Dockerfile.spring . \
                        --build-arg SPRING_RABBITMQ_USERNAME=${SPRING_RABBITMQ_USERNAME} \
                        --build-arg SPRING_RABBITMQ_PASSWORD=${SPRING_RABBITMQ_PASSWORD} \
                        --build-arg SPRING_RABBITMQ_HOST=${SPRING_RABBITMQ_HOST} \
