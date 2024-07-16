@@ -10,11 +10,13 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.session.web.http.CookieSerializer;
 import org.springframework.session.web.http.DefaultCookieSerializer;
 
 @Configuration
 @EnableRedisRepositories
+@EnableRedisHttpSession
 public class RedisConfig {
 
     @Value("${spring.data.redis.host}")
@@ -59,10 +61,11 @@ public class RedisConfig {
     public CookieSerializer cookieSerializer() {
         DefaultCookieSerializer serializer = new DefaultCookieSerializer();
         serializer.setCookieName("JSESSIONID");
-        serializer.setCookiePath("/"); // 필요한 경우 애플리케이션의 컨텍스트 경로로 변경
-        serializer.setDomainNamePattern("^.+?\\.(\\w+\\.[a-z]+)$"); // 필요한 경우 도메인 패턴 설정
+        serializer.setCookiePath("/");
+        serializer.setDomainName(".nolleogasil.com");  // 도메인 설정
         serializer.setUseHttpOnlyCookie(true);
-        serializer.setSameSite("Lax"); // 필요한 경우 SameSite 설정
+        serializer.setSameSite("None");
+        serializer.setUseSecureCookie(true);
         return serializer;
     }
 }
