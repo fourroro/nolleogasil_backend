@@ -63,6 +63,7 @@ public class UsersController {
                 session.setAttribute("users", usersDto);
                 UsersDto sessionUsersDto = (UsersDto) session.getAttribute("users");
                 System.out.println("!!!!!!!!!로그인!!!!!!!!!!!");
+                System.out.println(session.getId());
                 System.out.println(sessionUsersDto.getName());
 //                operations.set("users", usersDto);
 
