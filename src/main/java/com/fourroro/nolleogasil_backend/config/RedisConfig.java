@@ -61,7 +61,7 @@ public class RedisConfig {
         DefaultCookieSerializer serializer = new DefaultCookieSerializer();
         serializer.setCookieName("JSESSIONID");
         serializer.setCookiePath("/");
-        serializer.setDomainName("backend.nolleogasil.com");  // 도메인 설정
+        serializer.setDomainName(".nolleogasil.com");  // 도메인 설정
         serializer.setUseHttpOnlyCookie(true);
         serializer.setSameSite("None");
         serializer.setUseSecureCookie(true);
