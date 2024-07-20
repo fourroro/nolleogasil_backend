@@ -60,14 +60,14 @@ pipeline {
                        --build-arg KAKAO_API_KEY=${KAKAO_API_KEY} \
                        --build-arg SPRING_DATA_REDIS_HOST=${SPRING_DATA_REDIS_HOST} \
                        --build-arg SPRING_DATA_REDIS_PORT=${SPRING_DATA_REDIS_PORT} \
-                       --build-arg SESSION_STORE_TYPE=redis \
-                       --build-arg SESSION_REDIS_NAMESPACE=nolleogasil:session \
-                       --build-arg SESSION_REDIS_FLUSH_MODE=on-save \
-                       --build-arg SESSION_COOKIE_NAME=JSESSIONID \
-                       --build-arg SESSION_COOKIE_DOMAIN=nolleogasil.com \
-                       --build-arg SESSION_COOKIE_SECURE=true \
-                       --build-arg SESSION_COOKIE_HTTP_ONLY=true \
-                       --build-arg SESSION_TIMEOUT=30m \
+                       --build-arg SPRING_SESSION_STORE_TYPE=redis \
+                       --build-arg SPRING_SESSION_REDIS_NAMESPACE=nolleogasil:session \
+                       --build-arg SPRING_SESSION_REDIS_FLUSH_MODE=on-save \
+                       --build-arg SERVER_SERVLET_SESSION_COOKIE_NAME=JSESSIONID \
+                       --build-arg SERVER_SERVLET_SESSION_COOKIE_DOMAIN=nolleogasil.com \
+                       --build-arg SERVER_SERVLET_SESSION_COOKIE_SECURE=true \
+                       --build-arg SERVER_SERVLET_SESSION_COOKIE_HTTP_ONLY=true \
+                       --build-arg SERVER_SERVLET_SESSION_TIMEOUT=30m \
                     '''
                 }
             }
@@ -130,14 +130,14 @@ pipeline {
                         -e KAKAO_API_KEY=${KAKAO_API_KEY} \
                         -e SPRING_DATA_REDIS_HOST=${SPRING_DATA_REDIS_HOST} \
                         -e SPRING_DATA_REDIS_PORT=${SPRING_DATA_REDIS_PORT} \
-                        -e SESSION_STORE_TYPE=redis \
-                        -e SESSION_REDIS_NAMESPACE=nolleogasil:session \
-                        -e SESSION_REDIS_FLUSH_MODE=on-save \
-                        -e SESSION_COOKIE_NAME=JSESSIONID \
-                        -e SESSION_COOKIE_DOMAIN=nolleogasil.com \
-                        -e SESSION_COOKIE_SECURE=true \
-                        -e SESSION_COOKIE_HTTP_ONLY=true \
-                        -e SESSION_TIMEOUT=30m \
+                        -e SPRING_SESSION_STORE_TYPE=redis \
+                        -e SPRING_SESSION_REDIS_NAMESPACE=nolleogasil:session \
+                        -e SPRING_SESSION_REDIS_FLUSH_MODE=on-save \
+                        -e SERVER_SERVLET_SESSION_COOKIE_NAME=JSESSIONID \
+                        -e SERVER_SERVLET_SESSION_COOKIE_DOMAIN=nolleogasil.com \
+                        -e SERVER_SERVLET_SESSION_COOKIE_SECURE=true \
+                        -e SERVER_SERVLET_SESSION_COOKIE_HTTP_ONLY=true \
+                        -e SERVER_SERVLET_SESSION_TIMEOUT=30m \
                         $DOCKER_CREDENTIALS_USR/nolleogasil_backend
                     '''
                 }
