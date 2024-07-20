@@ -38,6 +38,13 @@ public class SessionInterceptor implements HandlerInterceptor {
             System.out.println("!!!!!!isSessionExpired!!!!!!!");
             HttpSession session = request.getSession(false);
             System.out.println(session.getId());
+
+            Long usersId = (Long) session.getAttribute("nolleogasil:session:session" + session.getId());
+            System.out.println("sessionId로 조회한 usersId>> " + usersId);
+
+            Long usersId2 = (Long) session.getAttribute("usersId");
+            System.out.println("usersId로 조회한 usersId>> " + usersId2);
+
             if (session == null) {
                 //세션이 존재하지 않거나 만료된 경우
                 System.out.println("세션이 존재하지 않거나 만료됨");

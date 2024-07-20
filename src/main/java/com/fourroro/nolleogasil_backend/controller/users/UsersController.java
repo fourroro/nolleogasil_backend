@@ -60,8 +60,8 @@ public class UsersController {
                 UsersDto usersDto = UsersDto.changeToDto(existingUsers);
 
                 //세션에 사용자 정보 저장
-                session.setAttribute("users", usersDto);
-                UsersDto sessionUsersDto = (UsersDto) session.getAttribute("users");
+                session.setAttribute("usersId", usersDto.getUsersId());
+                UsersDto sessionUsersDto = (UsersDto) session.getAttribute("usersId");
                 System.out.println("!!!!!!!!!로그인!!!!!!!!!!!");
                 System.out.println(sessionUsersDto.getName());
 //                operations.set("users", usersDto);
