@@ -25,8 +25,7 @@ public class ChatRoomController {
 //    private final RedisTemplate<String, Object> redisTemplate;
 
     private Long getSessionUsersId(HttpSession session) {
-//        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-//        UsersDto usersDto = (UsersDto) operations.get("users");
+
         UsersDto usersDto = (UsersDto) session.getAttribute("users");
 
         return usersDto.getUsersId();
