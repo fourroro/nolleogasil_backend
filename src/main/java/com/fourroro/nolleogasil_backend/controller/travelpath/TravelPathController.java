@@ -28,20 +28,8 @@ public class TravelPathController {
     private final TravelDateService travelDateService;
     private final TravelInfoService travelInfoService;
 
-//    private final RedisTemplate<String, Object> redisTemplate;
-//    private final RedisTemplate<String, Long> longRedisTemplate;
-//    private ValueOperations<String, Object> operations;
-//    private ValueOperations<String, Long> longOperations;
-//    //redisTemplate이 초기화된 후에 ValueOperations를 초기화
-//    @PostConstruct
-//    private void init() {
-//        this.operations = redisTemplate.opsForValue();
-//        this.longOperations = longRedisTemplate.opsForValue();
-//    }
-
     //session에 있는 usersId 가져오기
     private Long getSessionUsersId(HttpSession session) {
-//        UsersDto usersDto = (UsersDto) operations.get("users");
         UsersDto usersDto = (UsersDto) session.getAttribute("users");
         return usersDto.getUsersId();
     }

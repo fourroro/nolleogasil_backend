@@ -20,14 +20,10 @@ import java.util.Map;
 public class MateMemberController {
 
     private final MateMemberService mateMemberService;
-//    private final RedisTemplate<String, Object> redisTemplate;
 
     //session에 있는 usersId 가져오기
     private Long getSessionUsersId(HttpSession session) {
-//        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-//        UsersDto usersDto = (UsersDto) operations.get("users");
         UsersDto usersDto = (UsersDto) session.getAttribute("users");
-
         return usersDto.getUsersId();
     }
 
