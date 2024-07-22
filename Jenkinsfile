@@ -60,6 +60,7 @@ pipeline {
                        --build-arg KAKAO_API_KEY=${KAKAO_API_KEY} \
                        --build-arg SPRING_DATA_REDIS_HOST=${SPRING_DATA_REDIS_HOST} \
                        --build-arg SPRING_DATA_REDIS_PORT=${SPRING_DATA_REDIS_PORT} \
+                       --build-arg SPRING_SESSION_REDIS_NAMESPACE=nolleogasil:session \
                     '''
                 }
             }
@@ -122,6 +123,7 @@ pipeline {
                         -e KAKAO_API_KEY=${KAKAO_API_KEY} \
                         -e SPRING_DATA_REDIS_HOST=${SPRING_DATA_REDIS_HOST} \
                         -e SPRING_DATA_REDIS_PORT=${SPRING_DATA_REDIS_PORT} \
+                        -e SPRING_SESSION_REDIS_NAMESPACE=nolleogasil:session \
                         $DOCKER_CREDENTIALS_USR/nolleogasil_backend
                     '''
                 }
