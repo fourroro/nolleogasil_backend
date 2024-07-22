@@ -39,11 +39,8 @@ public class SessionInterceptor implements HandlerInterceptor {
             HttpSession session = request.getSession(false);
             System.out.println(session.getId());
 
-            Long usersId = (Long) session.getAttribute("nolleogasil:session:session" + session.getId());
-            System.out.println("sessionId로 조회한 usersId>> " + usersId);
-
-            Long usersId2 = (Long) session.getAttribute("usersId");
-            System.out.println("usersId로 조회한 usersId>> " + usersId2);
+            UsersDto usersDto = (UsersDto) session.getAttribute("nolleogasil:session:session" + session.getId());
+            System.out.println("sessionId로 조회>> " + usersDto.getName());
 
             if (session == null) {
                 //세션이 존재하지 않거나 만료된 경우

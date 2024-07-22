@@ -60,10 +60,10 @@ public class UsersController {
                 UsersDto usersDto = UsersDto.changeToDto(existingUsers);
 
                 //세션에 사용자 정보 저장
-                session.setAttribute("usersId", usersDto.getUsersId());
-                Long usersId = (Long) session.getAttribute("usersId");
+                session.setAttribute("users", usersDto);
+                UsersDto users = (UsersDto) session.getAttribute("users");
                 System.out.println("!!!!!!!!!로그인!!!!!!!!!!!");
-                System.out.println(usersId);
+                System.out.println(users);
 //                operations.set("users", usersDto);
 
                 //프론트엔드로 기존 회원임을 전달
