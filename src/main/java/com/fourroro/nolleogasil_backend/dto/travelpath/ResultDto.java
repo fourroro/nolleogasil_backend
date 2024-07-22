@@ -2,6 +2,7 @@ package com.fourroro.nolleogasil_backend.dto.travelpath;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -11,7 +12,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResultDto {
+public class ResultDto implements Serializable {
     private List<String> dates;     //여행 일자
     private List<String> infos;     //여행 정보
 
