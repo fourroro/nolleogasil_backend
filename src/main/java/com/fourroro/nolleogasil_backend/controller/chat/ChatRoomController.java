@@ -22,12 +22,9 @@ public class ChatRoomController {
 
     private final ChatRoomService chatRoomService;
     private final MateMemberServiceImpl mateMemberService;
-//    private final RedisTemplate<String, Object> redisTemplate;
 
     private Long getSessionUsersId(HttpSession session) {
-
         UsersDto usersDto = (UsersDto) session.getAttribute("users");
-
         return usersDto.getUsersId();
     }
 

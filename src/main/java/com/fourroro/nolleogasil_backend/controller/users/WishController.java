@@ -22,13 +22,10 @@ public class WishController {
 
     private final WishService wishService;
     private final PlaceService placeService;
-//    private final RedisTemplate<String, Object> redisTemplate;
 
     //session에 있는 usersId 가져오기
     private Long getSessionUsersId(HttpSession session) {
-
         UsersDto usersDto = (UsersDto) session.getAttribute("users");
-
         return usersDto.getUsersId();
     }
 

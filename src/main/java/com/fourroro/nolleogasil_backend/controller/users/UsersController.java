@@ -28,18 +28,10 @@ public class UsersController {
     private final UsersServiceImpl usersService;
     private final KakaoService kakaoService;
 
-    private final RedisTemplate<String, Object> redisTemplate;
-    private ValueOperations<String, Object> operations;
-    //redisTemplate이 초기화된 후에 ValueOperations를 초기화
-    @PostConstruct
-    private void init() {
-        this.operations = redisTemplate.opsForValue();
-    }
-
     //회원가입 및 로그인
     //세션 확인하기
     @PostMapping("/profile")
-    public ResponseEntity<Long> setUserProfile(@RequestBody KakaoDto kakaoRequest, HttpSession session){
+    public ResponseEntity<Long> setUserProfile(HttpSession session, @RequestBody KakaoDto kakaoRequest){
         try{
             //카카오로부터 받은 사용자 정보 中 phone_number
             String kakaoUsersPhone = kakaoRequest.getPhone();
@@ -50,6 +42,7 @@ public class UsersController {
             if(isDuplicate) { //기존 회원인 경우
                 Users existingUsers = usersService.findByEmail(kakaoUsersEmail);
                 String existingPhone = existingUsers.getPhone();
+
                 //전화번호 변경되었으면
                 if(!existingPhone.equals(kakaoUsersPhone)){
                     System.out.println("phone number changed...");
@@ -57,25 +50,20 @@ public class UsersController {
                 }else{
                     System.out.println("phone number not changed...");
                 }
+
                 UsersDto usersDto = UsersDto.changeToDto(existingUsers);
 
                 //세션에 사용자 정보 저장
                 session.setAttribute("users", usersDto);
-                UsersDto users = (UsersDto) session.getAttribute("users");
-                System.out.println("!!!!!!!!!로그인!!!!!!!!!!!");
-                System.out.println(users);
-//                operations.set("users", usersDto);
 
                 //프론트엔드로 기존 회원임을 전달
                 return ResponseEntity.badRequest().body(usersDto.getUsersId());
-
             }else { //신규 회원인 경우
                 usersService.insertUsers(kakaoRequest.toDto());
                 Users users = usersService.findByEmail(kakaoRequest.getEmail());
                 UsersDto usersDto = UsersDto.changeToDto(users);
 
                 //세션에 사용자 정보 저장
-//                operations.set("users", usersDto);
                 session.setAttribute("users", usersDto);
 
                 //프론트엔드로 신규 회원임을 전달
@@ -102,7 +90,7 @@ public class UsersController {
 
     //회원정보 수정
     @GetMapping("/update/{usersId}")
-    public ResponseEntity<UsersDto> updateForm(@PathVariable Long usersId){
+    public ResponseEntity<UsersDto> updateForm(HttpSession session, @PathVariable Long usersId){
 
         try {
             Users users = usersService.findUsers(usersId);
@@ -119,22 +107,24 @@ public class UsersController {
     }
 
     @PostMapping("/update/{usersId}")
-    public ResponseEntity<String> updateUsers(@PathVariable Long usersId, @RequestBody Map<String, String> requestBody, HttpServletRequest request){
+    public ResponseEntity<String> updateUsers(HttpSession session, @PathVariable Long usersId, @RequestBody Map<String, String> requestBody, HttpServletRequest request){
         try{
             String nickname = requestBody.get("nickname");
 
             usersService.updateUsers(nickname, usersId);
+
             // 세션에 저장된 사용자 정보 업데이트
-            if(operations.get("users") != null) {
-                UsersDto userInfo = (UsersDto) operations.get("users");
+            if(session.getAttribute("users") != null) {
+                UsersDto userInfo = (UsersDto) session.getAttribute("users");
 
                 if(userInfo != null) {
                     userInfo.setNickname(nickname);
 
-                    //세션에서 users의 value 삭제
-                    redisTemplate.delete("users");
-                    //세션에 새로 저장
-                    operations.set("users", userInfo);
+                    // 세션 무효화
+                    session.invalidate();
+                    // 새로운 세션 생성 및 사용자 정보 설정
+                    HttpSession newSession = request.getSession(true);
+                    newSession.setAttribute("users", userInfo);
                 }
             }else{
                 System.out.println("session is empty!");
@@ -156,29 +146,24 @@ public class UsersController {
 
     //로그아웃
     @RequestMapping("/logout")
-    public ResponseEntity<String> logout(HttpSession session) {
+    public ResponseEntity<String> logout(HttpSession session) throws Exception{
         //세션에서 사용자 정보 제거
-        UsersDto sessionUsersDto = (UsersDto) session.getAttribute("spring:session:sessions" + session.getId());
-
-        if (sessionUsersDto != null) {
-            //세션에서 users의 value 삭
+        if(session != null) {
+            //세션 무효화
             session.invalidate();
-            System.out.println("!!!!!!!!!로그아웃!!!!!!!!!!!");
-            System.out.println(sessionUsersDto.getName());
 
             return ResponseEntity.ok("Logout successful");
-        } else{
-            System.out.println("!!!!!!!!!!!!!!!!!!!!세션 없음");
-            return ResponseEntity.ok("No active redis session found");
+        }else{
+            return ResponseEntity.ok("No active session found");
         }
     }
 
     //회원탈퇴
     @DeleteMapping("/delete/{usersId}")
-    public ResponseEntity<String> deleteUsers(@PathVariable Long usersId){
+    public ResponseEntity<String> deleteUsers(HttpSession session, @PathVariable Long usersId){
         usersService.deleteUsers(usersId);
         //세션 무효화
-        redisTemplate.delete("users");
+        session.invalidate();
         return ResponseEntity.ok("User delete successfully");
     }
 }
