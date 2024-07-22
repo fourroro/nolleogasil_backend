@@ -23,7 +23,6 @@ public class StompRabbitController {
     private final Map<String, Long> simpSessionIdMap = new HashMap<>(); // stomp에 CONNECTION 한 유저 정보
 
     private final RabbitTemplate rabbitTemplate;
-    private final static String CHAT_QUEUE_NAME = "chat.queue";
     private static final String CHAT_EXCHANGE_NAME = "chat.exchange";
 
     @MessageMapping("chat.enter")
