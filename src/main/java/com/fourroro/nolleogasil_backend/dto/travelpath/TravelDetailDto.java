@@ -2,6 +2,8 @@ package com.fourroro.nolleogasil_backend.dto.travelpath;
 
 import lombok.*;
 
+import java.io.Serializable;
+
 
 @Setter
 @Getter
@@ -9,7 +11,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class TravelDetailDto {
+public class TravelDetailDto implements Serializable {
     private String destination;                 //목적지
     private String startDate;                   //출발 날짜
     private String endDate;		                //오는 날짜
