@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties
 @EnableRabbit
 @RequiredArgsConstructor
-public class RabbitConfig {
+public class  RabbitConfig {
 
     private static final String CHAT_QUEUE_NAME = "chat.queue";
     private static final String CHAT_EXCHANGE_NAME = "chat.exchange";
@@ -41,7 +41,7 @@ public class RabbitConfig {
 
     //Queue등록
     @Bean
-   public Queue queue() { return new Queue(CHAT_QUEUE_NAME, true); }
+    public Queue queue() { return new Queue(CHAT_QUEUE_NAME, true); }
 
     //Exchange 등록
     @Bean
@@ -54,17 +54,14 @@ public class RabbitConfig {
     }
 
     @Bean
-    SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
-        final SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+    public SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
         factory.setMessageConverter(jsonMessageConverter());
-
         return factory;
 
+
     }
-
-    /* messageConverter 를 커스터마이징 하기 위해 bean 새로 등록*/
-
 
     @Bean
     public CachingConnectionFactory connectionFactory() {
