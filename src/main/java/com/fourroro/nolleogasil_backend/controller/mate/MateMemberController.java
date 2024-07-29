@@ -28,8 +28,8 @@ public class MateMemberController {
     }
 
     //첫 입장인지......
-    @GetMapping("/{chatroomId}")
-    public ResponseEntity<String> checkFirstEnterRoom(@PathVariable String chatroomId, HttpSession session) {
+    @GetMapping("/checkedMember")
+    public ResponseEntity<String> checkFirstEnterRoom(@RequestParam String chatroomId, HttpSession session) {
 
         Long chatRoomId = Long.parseLong(chatroomId);
         Long userId = getSessionUsersId(session);
