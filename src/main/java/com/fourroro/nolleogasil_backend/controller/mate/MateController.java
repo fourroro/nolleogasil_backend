@@ -91,7 +91,7 @@ public class MateController {
     }
 
     //mate 공고 글 조회
-    @GetMapping("/getMateList")
+    @GetMapping("/mateList")
     public List<MateDto> getMateList(Integer placeId, int placeCat, double currentLat, double currentLng, String sorted) {
         if (sorted.equals("날짜순")) {
             return mateService.getMateList(placeId, placeCat);
@@ -101,14 +101,14 @@ public class MateController {
     }
 
     //로그인한 사용자가 개설한 mate 공고 글 조회
-    @GetMapping("/getMateListByUsersId")
+    @GetMapping("/mateListByUsersId")
     public List<MateDto> getMateListByUsersId(HttpSession session) {
         Long usersId = getSessionUsersId(session);
         return mateService.getMateListByUsersId(usersId);
     }
 
     //하나의 mate 공고 글 조회
-    @GetMapping("/getMate")
+    @GetMapping("/")
     public MateDto getMate(@RequestParam Long mateId) {
         if (mateId == null) {
             return (MateDto)Collections.emptyList();
@@ -128,7 +128,7 @@ public class MateController {
     }
 
     //mate 삭제
-    @PostMapping("/deleteMate")
+    @DeleteMapping("/")
     public String deleteMate(Long mateId) {
         try {
             mateService.deleteMate(mateId);
