@@ -60,5 +60,4 @@ public class StompRabbitController {
             System.err.println("Failed to send message to RabbitMQ: " + e.getMessage());
         }
     }
-
 }
