@@ -35,6 +35,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
             config.enableStompBrokerRelay( "/exchange","/topic")
                     .setRelayHost(rabbitHost) //rabbitmq 설정
                     .setRelayPort(rabbitPort)
+                    .setVirtualHost("/")
                     .setClientLogin(rabbitUser)
                     .setClientPasscode(rabbitPw);
             config.setPathMatcher(new AntPathMatcher("."));
