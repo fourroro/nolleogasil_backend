@@ -52,7 +52,13 @@ public class StompRabbitController {
         System.out.println(chatroomId);
         chatService.sendMessage(chatroomId,usersId,sendMessage);
 
-        rabbitTemplate.convertAndSend(CHAT_EXCHANGE_NAME,"room." + chatroomId, message);
+        try {
+            rabbitTemplate.convertAndSend(CHAT_EXCHANGE_NAME, "room." + chatroomId, message);
+            System.out.println("Message sent to RabbitMQ: " + message);
+
+        } catch  (Exception e) {
+            System.err.println("Failed to send message to RabbitMQ: " + e.getMessage());
+        }
     }
 
 }
