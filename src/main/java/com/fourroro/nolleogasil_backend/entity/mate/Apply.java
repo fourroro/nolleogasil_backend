@@ -46,4 +46,5 @@ public class Apply {
                 .isApply(dto.getIsApply())
                 .build();
     }
+
 }
