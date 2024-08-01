@@ -41,9 +41,9 @@ public class MateMember {
     @JoinColumn(name = "chatroomId")
     private ChatRoom chatRoom;
 
-    private int isFirst;
+    private int isFirst;    //채팅방에 처음 입장인지(처음입장이라면 1, 아니면 0)
 
-    private int isGiven;
+    private int isGiven;    //동일 mate의 member들에게 온도를 부여했는지(default: 1, 부여했다면 0으로 변경)
 
     public void setIsFirst(int isFirst) {
         this.isFirst = isFirst;
@@ -53,6 +53,7 @@ public class MateMember {
         this.isGiven = isGiven;
     }
 
+    //dto -> entity
     public static MateMember changeToEntity(MateMemberDto dto, Users users, Mate mate, ChatRoom chatRoom) {
         return MateMember.builder()
                 .matememberId(dto.getMatememberId())

@@ -36,8 +36,9 @@ public class Apply {
     private Users users;
 
     @Enumerated(EnumType.STRING)
-    private ApplyStatus isApply;
+    private ApplyStatus isApply;    //신청 상태("대기", "수락", "거절" 中 1)
 
+    //dto -> entity
     public static Apply changeToEntity(ApplyDto dto, Mate mate, Users users) {
         return Apply.builder()
                 .mate(mate)

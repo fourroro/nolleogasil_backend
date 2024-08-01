@@ -33,6 +33,7 @@ public class Wish {
     @JoinColumn(name = "placeId")
     private Place place;
 
+    //dto -> entity
     public static Wish changeToEntity(Users users, Place place) {
         return Wish.builder()
                 .users(users)

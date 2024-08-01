@@ -40,7 +40,7 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 
     public Users findByPhone(String phone);
 
-    //동일 mate의 다른 member들에게 mateTemp부여
+    //사용자의 mateTemp 값 변경
     @Modifying
     @Query("update Users u set u.matetemp = :mateTemp where u.usersId = :usersId")
     public void setMateTemp(@Param("usersId")Long usersId, @Param("mateTemp")float mateTemp);

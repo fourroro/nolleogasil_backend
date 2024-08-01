@@ -12,7 +12,8 @@ import java.util.Optional;
 
 public interface ApplyRepository extends JpaRepository<Apply, Long> {
     //save()(=persist())
-    //delete()
+    //findById()
+    //deleteById()
 
     //보낸 신청 목록 조회
     @Query("select a from Apply a where a.users.usersId = :applicantId order by a.applyId DESC")
@@ -25,11 +26,12 @@ public interface ApplyRepository extends JpaRepository<Apply, Long> {
     //apply 유무 확인
     public boolean existsByMateMateIdAndUsersUsersId(Long mateId, Long applicantId);
 
-    //mateId, usersId(applicantId)로 apply가져오기
+    //mateId, usersId(applicantId)로 apply 조회
     public Optional<Apply> findByMateMateIdAndUsersUsersId(Long mateId, Long applicantId);
-    
-    //isApply 업데이트
+
+    //isApply값 변경
     @Modifying
     @Query("update Apply a set a.isApply = :isApply where a.applyId = :applyId")
     public void updateIsApply(@Param("applyId")Long applyId, @Param("isApply")ApplyStatus isApply);
+
 }

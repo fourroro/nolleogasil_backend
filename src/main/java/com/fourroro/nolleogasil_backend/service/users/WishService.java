@@ -6,27 +6,29 @@ import com.fourroro.nolleogasil_backend.entity.users.Wish;
 import java.util.List;
 
 public interface WishService {
-    //wish 추가
+
+    //insert wish
     public void insertWish(WishDto wishDto);
 
-    //wish목록 조회
+    //wish 목록 조회
     public List<Wish> getWishList(Long usersId, int placeCat);
 
-    //wishList 정렬
+    //wish 목록 정렬 조회
     public List<Wish> getSortedWishList(Long usersId, int placeCat, String sortBy);
 
-    //wishId찾기
+    //1개의 wish 조회(wishId를 찾기 위해)
     public Wish getWishByUsersIdAndPlaceId(Long usersId, Integer placeId);
 
-    //wish column 유무 확인
+    //wish 유무 확인
     public Boolean checkWishColumn(Long usersId, Integer placeId);
 
-    //저장한 총 wish개수 조회
+    //저장된 총 wish 개수 조회
     public Long countWish(Long usersId);
 
-    //placeCate에 따른 저장한 wish개수 조회
+    //저장된 해당 placeCate의 wish 개수 조회
     public Long countWishByPlaceCat(Long usersId, int placeCat);
 
     //wish 삭제
     public void deleteWish(Long wishId);
+
 }

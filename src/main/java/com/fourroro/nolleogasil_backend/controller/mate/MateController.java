@@ -13,13 +13,10 @@ import com.fourroro.nolleogasil_backend.service.mate.MateService;
 import com.fourroro.nolleogasil_backend.service.place.PlaceService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -34,14 +31,13 @@ public class MateController {
 
     //session에 있는 usersId 가져오기
     private Long getSessionUsersId(HttpSession session) {
-        UsersDto usersDto = (UsersDto) session.getAttribute("users");
-        return usersDto.getUsersId();
+        UsersDto usersSession = (UsersDto) session.getAttribute("users");
+        return usersSession.getUsersId();
     }
 
     @PostMapping("/mateForm")
     public ResponseEntity<ChatRoomAndPlaceDto> creatMateForm(@RequestBody RequestMateDto requestMateDto,
-                                                             @RequestParam(name = "category") String category,
-                                                             HttpSession session) {
+                                                             @RequestParam(name = "category") String category, HttpSession session) {
 
         System.out.println("!!!");
         try {
@@ -59,7 +55,6 @@ public class MateController {
         ChatRoomAndPlaceDto chatRoomAndPlaceDto = null;
         try {
             // 장소 카테고리 변경 후 mateDto에 저장
-
             int placeCat = requestMateDto.getPlaceDto().getPlaceCat();
             if (placeCat == 0) {
 
@@ -90,52 +85,73 @@ public class MateController {
         return new ResponseEntity<>(chatRoomAndPlaceDto, HttpStatus.OK);
     }
 
-    //mate 공고 글 조회
-    @GetMapping("/getMateList")
-    public List<MateDto> getMateList(Integer placeId, int placeCat, double currentLat, double currentLng, String sorted) {
-        if (sorted.equals("날짜순")) {
-            return mateService.getMateList(placeId, placeCat);
-        } else {  //거리순
-            return mateService.getMateListOrderByDistance(placeId, placeCat, currentLat, currentLng);
+    //전체 mate 공고 글 조회
+    @GetMapping
+    public ResponseEntity<List<MateDto>> getMateList(@RequestParam Integer placeId,
+                                                     @RequestParam Integer placeCat,
+                                                     @RequestParam Double currentLat,
+                                                     @RequestParam Double currentLng,
+                                                     @RequestParam(defaultValue = "날짜순") String sorted) {
+        try {
+            List<MateDto> mateList;
+            if (sorted.equals("날짜순")) {
+                mateList = mateService.getMateList(placeId, placeCat);
+            } else {
+                mateList = mateService.getMateListOrderByDistance(placeId, placeCat, currentLat, currentLng);
+            }
+            return ResponseEntity.ok(mateList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    //1개의 mate 공고 글 조회
+    @GetMapping("/{mateId}")
+    public ResponseEntity<MateDto> getMate(@PathVariable Long mateId) {
+        try {
+            if (mateId == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+
+            Mate mate = mateService.getMate(mateId);
+            if (mate == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+
+            return ResponseEntity.ok(MateDto.changeToDto(mate));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
     //로그인한 사용자가 개설한 mate 공고 글 조회
-    @GetMapping("/getMateListByUsersId")
-    public List<MateDto> getMateListByUsersId(HttpSession session) {
-        Long usersId = getSessionUsersId(session);
-        return mateService.getMateListByUsersId(usersId);
-    }
-
-    //하나의 mate 공고 글 조회
-    @GetMapping("/getMate")
-    public MateDto getMate(@RequestParam Long mateId) {
-        if (mateId == null) {
-            return (MateDto)Collections.emptyList();
-        }
-        Mate mate = mateService.getMate(mateId);
-        return MateDto.changeToDto(mate);
-    }
-
-    //mate 공고 글 개수 -> 아직 사용 안함
-    @GetMapping("/countMate")
-    public Long countMate(Integer placeId) {
-        if (placeId == null) {
-            return mateService.countMate(0);
-        } else {
-            return mateService.countMate(placeId);
-        }
-    }
-
-    //mate 삭제
-    @PostMapping("/deleteMate")
-    public String deleteMate(Long mateId) {
+    @GetMapping("/my-create")
+    public ResponseEntity<List<MateDto>> getMateListByUsersId(HttpSession session) {
         try {
-            mateService.deleteMate(mateId);
-            return "successful";
-        }  catch(Exception e) {
+            Long usersId = getSessionUsersId(session);
+            List<MateDto> mateList = mateService.getMateListByUsersId(usersId);
+            return ResponseEntity.ok(mateList);
+        } catch (Exception e) {
             e.printStackTrace();
-            return "failed";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    //해당 mate 삭제 -> frontend에서 사용안함
+    @DeleteMapping("/{mateId}")
+    public ResponseEntity<Void> deleteMate(@PathVariable Long mateId) {
+        try {
+            if (mateId == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+
+            mateService.deleteMate(mateId);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }

@@ -35,13 +35,13 @@ public class Mate {
     @JoinColumn(name = "usersId")
     private Users users;
 
-    private String title;
-    private LocalDate eatDate;
-    private String eatTime;
-    private String gender;
-    private int count;
-    private String comments;
-    private int display;
+    private String title;       //글 제목
+    private LocalDate eatDate;  //날짜
+    private String eatTime;     //시간
+    private int count;          //모집할 인원수
+    private String gender;      //선호하는 성별
+    private String comments;    //추가로 올리고 싶은 comments
+    private int display;        //공고 글의 활성화 여부(1: 활성화, 0: 비활성화) -> default값: 1
 
     //Mate:Place = 1:1 단방향 연관관계
     @OneToOne
@@ -71,6 +71,7 @@ public class Mate {
                 .build();
     }
 
+    //dto -> entity
     public static Mate changeToEntity(MateDto dto, Users users) {
         return Mate.builder()
                 .mateId(dto.getMateId())

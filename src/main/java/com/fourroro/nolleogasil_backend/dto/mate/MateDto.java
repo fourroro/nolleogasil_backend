@@ -19,12 +19,13 @@ public class MateDto {
     private String title;       //글 제목
     private LocalDate eatDate;  //날짜
     private String eatTime;     //시간
-    private int count;          //모집할 사람의 수
+    private int count;          //모집할 인원수
     private String gender;      //선호하는 성별
     private String comments;    //추가로 올리고 싶은 comments
-    private int display;        //활성화여부(1=활성화, 0=비활성화) -> default값=1
+    private int display;        //공고 글의 활성화 여부(1: 활성화, 0: 비활성화) -> default값: 1
     private PlaceDto place;     //해당 장소
 
+    //entity -> dto
     public static MateDto changeToDto(Mate entity) {
         return MateDto.builder()
                 .mateId(entity.getMateId())
@@ -39,4 +40,5 @@ public class MateDto {
                 .place(PlaceDto.changeToDto(entity.getPlace()))
                 .build();
     }
+
 }
