@@ -22,6 +22,5 @@ public interface ChatRoomService {
     public Long getChatRoomIdByMateId(Long mateId);
     //메이트 신청할 때 메이트 멤버가 꽉 차 있으면 거절
 
-    public boolean checkMateMemberNum(Long mateId);
 
 }

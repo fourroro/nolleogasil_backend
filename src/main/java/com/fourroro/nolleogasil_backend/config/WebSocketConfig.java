@@ -32,9 +32,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
             // 파라미터로 지정한 prefix가 붙은 메시지를 발행할 경우, 메시지 브로커가 이를 처리하게 된다.
             // 메시지를 구독하는 요청 url => 즉 메시지 받을 때
             //config.enableSimpleBroker("/chat"); -- STOMP (인메모리 브로커사용시) //해당 주소를 구독하고 있는 클라이언트들에게 메세지 전달
-            config.enableStompBrokerRelay( "/exchange")
+            config.enableStompBrokerRelay( "/exchange","/topic")
                     .setRelayHost(rabbitHost) //rabbitmq 설정
                     .setRelayPort(rabbitPort)
+                    .setVirtualHost("/")
                     .setClientLogin(rabbitUser)
                     .setClientPasscode(rabbitPw);
             config.setPathMatcher(new AntPathMatcher("."));

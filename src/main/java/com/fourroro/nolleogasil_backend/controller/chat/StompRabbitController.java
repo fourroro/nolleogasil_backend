@@ -24,7 +24,6 @@ public class StompRabbitController {
 
     private final RabbitTemplate rabbitTemplate;
     private static final String CHAT_EXCHANGE_NAME = "chat.exchange";
-
     @MessageMapping("chat.enter")
     public void enterTest(@Payload Map<String, Object> message,
                           SimpMessageHeaderAccessor headerAccessor) {
@@ -52,7 +51,13 @@ public class StompRabbitController {
         System.out.println(chatroomId);
         chatService.sendMessage(chatroomId,usersId,sendMessage);
 
-        rabbitTemplate.convertAndSend(CHAT_EXCHANGE_NAME,"room." + chatroomId, message);
-    }
+        try {
+            System.out.println("sending...");
+            rabbitTemplate.convertAndSend(CHAT_EXCHANGE_NAME, "room." + chatroomId, message);
+            System.out.println("Message sent to RabbitMQ: " + message);
 
+        } catch  (Exception e) {
+            System.err.println("Failed to send message to RabbitMQ: " + e.getMessage());
+        }
+    }
 }
