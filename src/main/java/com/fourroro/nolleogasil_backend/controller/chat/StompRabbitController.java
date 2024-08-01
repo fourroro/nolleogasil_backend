@@ -46,7 +46,7 @@ public class StompRabbitController {
         System.out.println(usersSession.getUsersId());
         Long chatroomId = Long.parseLong(message.get("chatroomId").toString());
         Long usersId = usersSession.getUsersId();
-        String sendMessage = message.get("newMessage").toString();
+        String sendMessage = message.get("message").toString();
 
         System.out.println(chatroomId);
         chatService.sendMessage(chatroomId,usersId,sendMessage);
