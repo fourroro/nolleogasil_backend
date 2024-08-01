@@ -29,4 +29,5 @@ public interface ApplyService {
 
     //apply 삭제
     public void deleteApply(Long applyId);
+
 }

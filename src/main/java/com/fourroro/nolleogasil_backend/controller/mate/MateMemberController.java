@@ -33,7 +33,6 @@ public class MateMemberController {
         Long chatRoomId = Long.parseLong(chatroomId);
         Long userId = getSessionUsersId(session);
 
-
         boolean isFirst = mateMemberService.checkFirstEnterRoom(chatRoomId,userId);
 
         if(isFirst) {
@@ -167,4 +166,5 @@ public class MateMemberController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
 }
