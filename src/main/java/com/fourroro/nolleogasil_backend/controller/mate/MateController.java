@@ -43,18 +43,6 @@ public class MateController {
                                                              @RequestParam(name = "category") String category,
                                                              HttpSession session) {
 
-        System.out.println("!!!");
-        try {
-            System.out.println(category);
-            System.out.println(requestMateDto.getMateFormDto().getTitle());
-            System.out.println(requestMateDto.getMateFormDto().getEatDate());
-            System.out.println(requestMateDto.getMateFormDto().getEatTime());
-            System.out.println(requestMateDto.getPlaceDto().getPlaceName());
-            System.out.println(requestMateDto.getPlaceDto().getPlaceCat());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
         ChatRoomDto chatRoomDto = null;
         ChatRoomAndPlaceDto chatRoomAndPlaceDto = null;
         try {
@@ -62,16 +50,13 @@ public class MateController {
 
             int placeCat = requestMateDto.getPlaceDto().getPlaceCat();
             if (placeCat == 0) {
-
                 placeCat = placeService.changeToPlaceCat(category);
                 requestMateDto.getPlaceDto().setPlaceCat(placeCat);
-                System.out.println(placeCat);
 
             }
 
             // 사용자 정보 얻어오기
             Long userId = getSessionUsersId(session);
-            System.out.println(userId);
             //메이트 공고글 생성
             MateDto mateDto = mateService.insertMate(requestMateDto.getMateFormDto(),requestMateDto.getPlaceDto(),userId);
             //메이트 공고글에 해당하는 챗룸 생성
@@ -81,8 +66,7 @@ public class MateController {
             MateMemberDto mateMemberDto = mateMemberService.creatMateMemberDto(mateDto, chatRoomDto.getChatroomId(), userId);
             mateMemberService.insertMateMember(mateMemberDto);
             chatRoomAndPlaceDto = ChatRoomAndPlaceDto.createDto(chatRoomDto,requestMateDto.getPlaceDto(),mateDto);
-            System.out.println(chatRoomDto);
-            System.out.println(chatRoomDto.getChatroomId());
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);

@@ -11,6 +11,4 @@ public interface ChatService {
 
     public List<ChatDto> getChatList(Long chatRoomId);
 
-    /*public ChatDto getEnterMassage(Long chatroomId);
-*/
 }

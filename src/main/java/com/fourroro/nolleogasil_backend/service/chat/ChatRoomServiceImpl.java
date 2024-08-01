@@ -143,15 +143,6 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         return chatroomId;
     }
 
-    @Override
-    public boolean checkMateMemberNum(Long mateId) {
-
-        ChatRoom chatRoom = chatRoomRepository.findByMateMateId(mateId);
-        if(chatRoom.getMaxNum() == chatRoom.getMateMembers().size()) {
-            return false;
-        }
-        return true;
-    }
 
 
 }
