@@ -6,8 +6,7 @@ import com.fourroro.nolleogasil_backend.entity.mate.MateMember;
 import com.fourroro.nolleogasil_backend.service.mate.MateMemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +22,8 @@ public class MateMemberController {
 
     //session에 있는 usersId 가져오기
     private Long getSessionUsersId(HttpSession session) {
-        UsersDto usersDto = (UsersDto) session.getAttribute("users");
-        return usersDto.getUsersId();
+        UsersDto usersSession = (UsersDto) session.getAttribute("users");
+        return usersSession.getUsersId();
     }
 
     //첫 입장인지......
@@ -33,6 +32,7 @@ public class MateMemberController {
 
         Long chatRoomId = Long.parseLong(chatroomId);
         Long userId = getSessionUsersId(session);
+
 
         boolean isFirst = mateMemberService.checkFirstEnterRoom(chatRoomId,userId);
 
@@ -43,47 +43,100 @@ public class MateMemberController {
         }
     }
 
-    //사용자의 mate이력 조회
-    @GetMapping("/getMateHistory")
-    public List<MateMemberDto> getMateHistory(HttpSession session) {
-        Long usersId = getSessionUsersId(session);
-        return mateMemberService.getMateHistory(usersId);
-    }
-
-    //해당 mate의 mateMember 목록 조회
-    @GetMapping("/getMateMemberList")
-    public List<MateMemberDto> getMateMemberList(@RequestParam Long mateId) {
-        return mateMemberService.getMateMemberList(mateId);
-    }
-
-    //해당 mate의 mateMember 목록 조회(단, 로그인한 사용자는 제외) -> 온도 부여할 때 사용
-    @GetMapping("/getMateMemberListWithoutMe")
-    public List<MateMemberDto> getMateMemberListWithoutMe(@RequestParam Long mateId, HttpSession session) {
-        Long usersId = getSessionUsersId(session);
-        return mateMemberService.getMateMemberListWithoutMe(mateId, usersId);
-    }
-
-    //mateMember 수 조회
-    @GetMapping("/countMateMember")
-    public Long countMateMember(@RequestParam Long mateId) {
-        return mateMemberService.countMateMember(mateId);
-    }
-
-    //1명의 mateMember 정보 조회(usersId, mateId 이용) -> 해당 member의 isGiven 조회할 때 사용
-    @GetMapping("/getMateMemberByUsersIdAndMateId")
-    public MateMemberDto getMateMemberByUsersIdAndMateId(@RequestParam Long mateId, HttpSession session) {
-        Long usersId = getSessionUsersId(session);
-        MateMember mateMember = mateMemberService.getMateMemberByUsersIdAndMateId(usersId, mateId);
-        return MateMemberDto.changeToDto(mateMember);
-    }
-
-    //본인 제외, 다른 member들에게 mateTemp 부여
-    @PostMapping("/setMemberMateTemp")
-    public String setMemberMateTemp(@RequestBody Map<Long, Float> memberMateTempMap, @RequestParam Long mateId,
-                                    HttpSession session) {
+    //로그인한 사용자가 참여했던 mate 이력 조회(본인이 개설한 mate 포함)
+    @GetMapping("/history")
+    public ResponseEntity<List<MateMemberDto>> getMateHistoryList(HttpSession session) {
         try {
-            Long usersId = getSessionUsersId(session);
+            Long userId = getSessionUsersId(session);
+            List<MateMemberDto> mateHistoryList = mateMemberService.getMateHistoryList(userId);
+            return ResponseEntity.ok(mateHistoryList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
+    //해당 mate의 mateMember 조회
+    @GetMapping("/{mateId}")
+    public  ResponseEntity<List<MateMemberDto>> getMateMemberList(@PathVariable Long mateId) {
+        try {
+            if (mateId == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+
+            List<MateMemberDto> mateMemberList = mateMemberService.getMateMemberList(mateId);
+            return ResponseEntity.ok(mateMemberList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    //해당 mate의 mateMember 조회(단, 로그인한 사용자는 제외) -> 온도 부여할 때 사용
+    @GetMapping("/{mateId}/excluding-me")
+    public ResponseEntity<List<MateMemberDto>> getMateMemberListExcludingMe(@PathVariable Long mateId, HttpSession session) {
+        try {
+            if (mateId == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+
+            Long usersId = getSessionUsersId(session);
+            List<MateMemberDto> mateMemberList = mateMemberService.getMateMemberListExcludingMe(mateId, usersId);
+            return ResponseEntity.ok(mateMemberList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    //해당 mate의 mateMember 수
+    @GetMapping("/{mateId}/count")
+    public ResponseEntity<Long> countMateMember(@PathVariable Long mateId) {
+        try {
+            if (mateId == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+
+            Long count = mateMemberService.countMateMember(mateId);
+            return ResponseEntity.ok(count);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+    }
+
+    //로그인한 사용자의 mateMember 정보 조회(usersId, mateId 이용) -> isGiven(온도부여 여부) 조회할 때 사용
+    @GetMapping("/{mateId}/my-info")
+    public ResponseEntity<MateMemberDto> getMateMemberByUsersIdAndMateId(@PathVariable Long mateId, HttpSession session) {
+        try {
+            if (mateId == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+
+            Long usersId = getSessionUsersId(session);
+            MateMember mateMember = mateMemberService.getMateMemberByUsersIdAndMateId(usersId, mateId);
+
+            if (mateMember == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+            return ResponseEntity.ok(MateMemberDto.changeToDto(mateMember));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    //동일 mate의 mateMember들에게 mateTemp부여(본인 제외)
+    @PatchMapping("/{mateId}/temp")
+    public ResponseEntity<Void> setMemberMateTemp(@PathVariable Long mateId, @RequestBody Map<Long, Float> memberMateTempMap,
+                                                  HttpSession session) {
+        try {
+            if (mateId == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+
+            Long usersId = getSessionUsersId(session);
             for (Map.Entry<Long, Float> entry : memberMateTempMap.entrySet()) {
                 Long memberId = entry.getKey();
                 Float mateTemp = entry.getValue();
@@ -92,26 +145,26 @@ public class MateMemberController {
                 UsersDto member = UsersDto.changeToDto(mateMember.getUsers());
                 mateMemberService.setMemberMateTemp(member, mateTemp, usersId, mateId);
             }
-            return "successful";
+            return ResponseEntity.noContent().build();
         } catch (Exception e) {
             e.printStackTrace();
-            return "failed";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
-    //해당 memeber 삭제
-    @PostMapping("/deleteMateMember")
-    public String deleteMateMember(@RequestParam Long matememberId) {
+    //해당 mateMemeber 삭제
+    @DeleteMapping("/{matememberId}")
+    public ResponseEntity<Void> deleteMateMember(@PathVariable Long matememberId) {
         try {
             if (matememberId == null) {
-                return "failed";
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
             }
 
             mateMemberService.deleteMateMember(matememberId);
-            return "successful";
+            return ResponseEntity.noContent().build();
         } catch (Exception e) {
             e.printStackTrace();
-            return "failed";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }

@@ -5,13 +5,10 @@ import com.fourroro.nolleogasil_backend.dto.users.UsersDto;
 import com.fourroro.nolleogasil_backend.entity.users.Users;
 import com.fourroro.nolleogasil_backend.service.users.KakaoService;
 import com.fourroro.nolleogasil_backend.service.users.UsersServiceImpl;
-import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
@@ -137,11 +134,18 @@ public class UsersController {
         }
     }
 
-    //mate의 master정보 가져올 때 사용, mate의 member정보 가져올 때 사용
-    @GetMapping("/getUsersInfo")
-    public UsersDto getUsersInfo(@RequestParam Long usersId) {
-        Users users = usersService.findByUsersId(usersId);
-        return UsersDto.changeToDto(users);
+    //mate의 master정보 조회
+    //mate의 member정보 조회
+    @GetMapping("/{usersId}/info")
+    public ResponseEntity<UsersDto> getUsersInfo(@PathVariable Long usersId) {
+        try {
+            Users users = usersService.findByUsersId(usersId);
+            UsersDto usersDto = UsersDto.changeToDto(users);
+            return ResponseEntity.ok(usersDto);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     //로그아웃

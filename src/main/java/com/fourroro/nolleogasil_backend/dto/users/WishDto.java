@@ -13,8 +13,9 @@ public class WishDto {
 
     private Long wishId;        //PK
     private Long usersId;       //사용자 id
-    private PlaceDto place;    //장소 id
+    private PlaceDto place;     //장소 id
 
+    //entity -> dto
     public static WishDto changeToDto(Wish entity) {
         return WishDto.builder()
                 .wishId(entity.getWishId())

@@ -30,6 +30,7 @@ public class MateServiceImpl implements MateService {
     private final PlaceService placeService;
     private final UsersService usersService;
 
+    //insert Mate
     @Transactional
     @Override
     public MateDto insertMate(MateFormDto requestMateDto, PlaceDto placeDto, Long usersId) {
@@ -45,21 +46,29 @@ public class MateServiceImpl implements MateService {
         return mateDto;
     }
 
+    //mate 공고 글 조회(날짜순)
     @Override
     public List<MateDto> getMateList(Integer placeId, int placeCat) {
         List<Mate> mateList;
-        if (placeId == 0) {  //전체 장소에 관한 공고 조회
-            if (placeCat == 0) {  //전체 목록 조회
+        if (placeId == 0) {
+            //전체 장소에 관한 공고 조회
+            if (placeCat == 0) {
+                //전체 목록 조회
                 mateList = mateRepository.findByDisplay(1);
-            } else {  //식당(1) or 카페(2)에 관한 공고만 조회
+            } else {
+                //식당(1) or 카페(2)에 관한 공고만 조회
                 mateList = mateRepository.findByDisplayAndPlaceCat(1, placeCat);
             }
-        } else {  //해당 장소에 관한 공고만 조회
+        } else {
+            //해당 장소에 관한 공고만 조회
             mateList = mateRepository.findByDisplayAndPlaceId(1, placeId);
         }
+
+        //현재와 mate의 날짜 및 시간을 비교(날짜 및 시간이 지난 mate는 display를 0으로 변경)
         return compareDateTime(mateList);
     }
 
+    //사용자가 개설한 mate 공고 글 조회(최신작성순)
     @Override
     public List<MateDto> getMateListByUsersId(Long usersId) {
         List<Mate> mateList = mateRepository.findByUsersUsersIdOrderByMateIdDesc(usersId);
@@ -72,6 +81,7 @@ public class MateServiceImpl implements MateService {
         return mateDtoList;
     }
 
+    //mate 공고 글 조회(거리순)
     @Override
     public List<MateDto> getMateListOrderByDistance(Integer placeId, int placeCat, double currentLat, double currentLng) {
         List<MateDto> mateDtoList = getMateList(placeId, placeCat);
@@ -92,6 +102,7 @@ public class MateServiceImpl implements MateService {
         return mateDtoList;
     }
 
+    //1개의 mate 공고 글 조회
     @Override
     public Mate getMate(Long mateId) {
         return mateRepository.findById(mateId)
@@ -113,22 +124,14 @@ public class MateServiceImpl implements MateService {
         return placeDto;
     }
 
-    @Override
-    public Long countMate(Integer placeId) {
-        if (placeId == 0) {
-            return mateRepository.countByDisplay(1);
-        } else {
-            return mateRepository.countByDisplayAndPlacePlaceId(1, placeId);
-        }
-    }
-
+    //mate 삭제
     @Transactional
     @Override
     public void deleteMate(Long mateId) {
         mateRepository.deleteById(mateId);
     }
 
-    //각 mate의 eatDate, eatTime과 현재날짜와 시간을 비교해 display 변경
+    //각 mate의 eatDate, eatTime과 현재 날짜 및 시간을 비교해 display 값 변경
     public List<MateDto> compareDateTime (List<Mate> mateList) {
         LocalDateTime now = LocalDateTime.now();
         List<MateDto> mateDtoList = new ArrayList<>();
@@ -148,7 +151,7 @@ public class MateServiceImpl implements MateService {
         return mateDtoList;
     }
 
-    //display 0으로 변경
+    //해당 mate의 display 값을 0으로 변경
     public void updateDisplayStatus(Mate m) {
         MateDto mateDto = MateDto.changeToDto(m);
         mateDto.setDisplay(0);  //mate 공고 글 비활성화
@@ -157,4 +160,5 @@ public class MateServiceImpl implements MateService {
         Mate mate = Mate.changeToEntity(mateDto, users);
         mateRepository.save(mate);
     }
+
 }

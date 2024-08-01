@@ -24,34 +24,38 @@ public class ApplyServiceImpl implements ApplyService {
     private final MateService mateService;
     private final UsersService usersService;
 
+    //insert apply
     @Transactional
     @Override
     public void insertApply(ApplyDto applyDto) {
-
         Mate mate = mateService.getMate(applyDto.getMateId());
         Users applicant = usersService.findByUsersId(applyDto.getApplicantId());
         Apply apply = Apply.changeToEntity(applyDto, mate, applicant);
         applyRepository.save(apply);
     }
 
+    //해당 apply의 isApply값 변경
     @Transactional
     @Override
     public void updateIsApply(ApplyDto applyDto) {
         applyRepository.updateIsApply(applyDto.getApplyId(), applyDto.getIsApply());
     }
 
+    //보낸 신청 목록 조회
     @Override
     public List<ApplyDto> getSendApplyList(Long applicantId) {
         List<Apply> sendApplyList = applyRepository.findByApplicantId(applicantId);
         return changeToDtoList(sendApplyList);
     }
 
+    //받은 신청 목록 조회
     @Override
-    public List<ApplyDto> getReceivedApplyList(Long usersId) {
-        List<Apply> receivedApplyList = applyRepository.findByMasterId(usersId);
-        return changeToDtoList(receivedApplyList);
+    public List<ApplyDto> getReceiveApplyList(Long usersId) {
+        List<Apply> receiveApplyList = applyRepository.findByMasterId(usersId);
+        return changeToDtoList(receiveApplyList);
     }
 
+    //1개의 apply 조회(applyId 이용)
     @Override
     public ApplyDto getApply(Long applyId) {
         Apply apply = applyRepository.findById(applyId)
@@ -59,6 +63,7 @@ public class ApplyServiceImpl implements ApplyService {
         return ApplyDto.changeToDto(apply);
     }
 
+    //1개의 apply 조회(mateId, applicantId(usersId) 이용)
     @Override
     public ApplyDto getApplyByMateIdAndUsersId(Long mateId, Long usersId) {
         Apply apply = applyRepository.findByMateMateIdAndUsersUsersId(mateId, usersId)
@@ -67,11 +72,13 @@ public class ApplyServiceImpl implements ApplyService {
         return ApplyDto.changeToDto(apply);
     }
 
+    //apply 유무 확인
     @Override
     public boolean checkApplyColumn(Long mateId, Long usersId) {
         return applyRepository.existsByMateMateIdAndUsersUsersId(mateId, usersId);
     }
 
+    //apply 삭제
     @Transactional
     @Override
     public void deleteApply(Long applyId) {

@@ -18,6 +18,7 @@ public class WishServiceImpl implements WishService {
     private final WishRepository wishRepository;
     private final UsersService usersService;
 
+    //insert wish
     @Transactional
     @Override
     public void insertWish(WishDto wishDto) {
@@ -28,53 +29,63 @@ public class WishServiceImpl implements WishService {
         wishRepository.save(wish);
     }
 
+    //wish 목록 조회
     @Override
     public List<Wish> getWishList(Long usersId, int placeCat) {
         if (placeCat == 0) {
+            //전체 wish 목록 조회
             return wishRepository.findByUsersUsersId(usersId);
         } else {
+            //해당 placeCat의 wish 목록 조회(맛집(1), 카페(2), 숙소(3), 관광지(4))
             return wishRepository.findByUsersUsersIdAndPlacePlaceCat(usersId, placeCat);
         }
     }
 
+    //wish 목록 정렬 조회
     @Override
     public List<Wish> getSortedWishList(Long usersId, int placeCat, String sortBy) {
-        if (placeCat == 0) { //전체 장소 정렬
+        //전체 wish 목록 정렬
+        if (placeCat == 0) {
             if (sortBy.equals("최신순")) {
                 return wishRepository.findByUsersUsersIdOrderByWishIdDesc(usersId);
-            } else {
+            } else { //오래된 순
                 return wishRepository.findByUsersUsersIdOrderByWishIdAsc(usersId);
             }
-        } else { //장소별 정렬
+        } else {
+            //해당 placeCat의 wish 목록 정렬
             if (sortBy.equals("최신순")) {
                 return wishRepository.findByUsersUsersIdAndPlacePlaceCatOrderByWishIdDesc(usersId, placeCat);
-            } else {
+            } else { //오래된 순
                 return wishRepository.findByUsersUsersIdAndPlacePlaceCatOrderByWishIdAsc(usersId, placeCat);
             }
         }
     }
 
+    //1개의 wish 조회(wishId를 찾기 위해)
     @Override
     public Wish getWishByUsersIdAndPlaceId(Long usersId, Integer placeId) {
         return wishRepository.findByUsersUsersIdAndPlacePlaceId(usersId, placeId);
     }
 
+    //wish 유무 확인
     @Override
     public Boolean checkWishColumn(Long usersId, Integer placeId) {
         return wishRepository.existsByUsersUsersIdAndPlacePlaceId(usersId, placeId);
     }
 
+    //저장된 총 wish 개수 조회
     @Override
     public Long countWish(Long usersId) {
         return wishRepository.countByUsersUsersId(usersId);
     }
 
+    //저장된 해당 placeCate의 wish 개수 조회
     @Override
     public Long countWishByPlaceCat(Long usersId, int placeCat) {
-//        return wishRepository.countByUsersIdAndPlaceCat(usersId, placeCat);
         return wishRepository.countByUsersUsersIdAndPlacePlaceCat(usersId, placeCat);
     }
 
+    //wish 삭제
     @Transactional
     @Override
     public void deleteWish(Long wishId) {
