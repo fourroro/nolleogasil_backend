@@ -34,33 +34,15 @@ public class TravelPathController {
         return usersDto.getUsersId();
     }
 
-    //Form에서 받은 user가 선택한 데이터를 dto형태로 session에 저장
+    //Form에서 받은 데이터를 ConditionDto객체로 받아 응답
     @PostMapping("/form")
-    public ResponseEntity<String> dataFromForm(@RequestBody ConditionDto conditionDto, HttpSession session) {
-
-//        operations.set("conditionDto", conditionDto);
-        session.setAttribute("conditionDto", conditionDto);
-        return ResponseEntity.ok("/travelPath/result"); // 리다이렉션 대신 응답 데이터에 리다이렉션할 주소를 담아서 전달
-    }
-
-
-    //Result.js로 데이터 전송
-    @GetMapping("/toResult")
-    public ResponseEntity<ConditionDto> dataToResult(HttpSession session) {
-
-//        ConditionDto conditionDto = (ConditionDto) operations.get("conditionDto");
-        ConditionDto conditionDto = (ConditionDto) session.getAttribute("conditionDto");
-
-        if (conditionDto != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(conditionDto);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+    public ResponseEntity<ConditionDto> dataFromForm(@RequestBody ConditionDto conditionDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(conditionDto);
     }
 
 
     //user가 여행경로 정보 저장 시 Travelpath, Keyword, Recommendation 등 연관 관계 형성한 table에 insert
-    @PostMapping("/insert")
+    @PostMapping("/create")
     public ResponseEntity insertTravelPathData(@RequestBody TravelDetailDto travelDetailDto, HttpSession session){
 
         if(travelDetailDto.checkNullField()) {
@@ -115,7 +97,7 @@ public class TravelPathController {
 
 
     //최신순으로 여행경로 정보 조회
-    @GetMapping("/getTravelPathList")
+    @GetMapping("/travelpathList")
     public ResponseEntity<List<Map<String, Object>>> getTravelPathList(@RequestParam(name="sortBy") String sortBy, HttpSession session) {
 
         Long usersId = getSessionUsersId(session);
@@ -130,7 +112,7 @@ public class TravelPathController {
         else {
             travelPathList = travelPathService.getTravelPathListByArrival(usersId);
         }
-        //List<TravelPath> travelPathList = travelPathService.getTravelPathList(usersId);
+
         List<Map<String, Object>> resultList = new ArrayList<>();
 
         for(TravelPath travelPath : travelPathList) {
@@ -149,7 +131,7 @@ public class TravelPathController {
 
 
     //travelpathId에 해당하는 TravelPath 정보를 session에 저장
-    @PostMapping("/showDetail")
+    @PostMapping("/travelDataDetail")
     public ResponseEntity showDetailByTravelPathId(@RequestBody Long  travelpathId, HttpSession session) {
 
         TravelPath travelPath = travelPathService.getTravelPathById(travelpathId);
@@ -170,34 +152,17 @@ public class TravelPathController {
                 resultDto
         );
 
-        session.setAttribute("travelDetailDto", travelDetailDto);
-        session.setAttribute("recommendationId", recommendationId);
-//        operations.set("travelDetailDto", travelDetailDto);
-//        longOperations.set("recommendationId", recommendationId);
+        Map<String, Object> detailResponse = new HashMap<>();
+        detailResponse.put("travelDetailDto", travelDetailDto);
+        detailResponse.put("recommendationId", recommendationId);
 
-        return ResponseEntity.ok("/TravelDetail");
+        return ResponseEntity.ok(detailResponse);
     }
-
-
-    //session에 저장된 TravelPath 정보 전달
-    @GetMapping("/getDetail")
-    public ResponseEntity<TravelDetailDto> getTravelDetail(HttpSession session){
-//        TravelDetailDto travelDetailDto  = (TravelDetailDto) operations.get("travelDetailDto");
-        TravelDetailDto travelDetailDto  = (TravelDetailDto) session.getAttribute("travelDetailDto");
-        if( travelDetailDto != null){
-            return ResponseEntity.status(HttpStatus.OK).body(travelDetailDto);
-        }else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }
-
 
     //user가 정보 수정 시 새로운 내용 저장
-    @PostMapping("/update")
-    public ResponseEntity<String> updateTravelPathData(@RequestBody ResultDto resultDto, HttpSession session){
+    @PutMapping("/{recommendationId}")
+    public ResponseEntity<String> updateTravelPathData(@PathVariable Long recommendationId, @RequestBody ResultDto resultDto){
 
-        Long recommendationId  = (Long) session.getAttribute("recommendationId");
-//        Long recommendationId  = longOperations.get("recommendationId");
         Optional<Recommendation> recommendation = recommendationService.getRecommendation(recommendationId);
 
         //조회 후 변경
@@ -216,18 +181,13 @@ public class TravelPathController {
         }
 
         travelInfoService.updateTravelInfo(newTravelInfoDtos, recommendation.get());
-//        TravelDetailDto travelDetailDto = (TravelDetailDto) operations.get("travelDetailDto");
-        TravelDetailDto travelDetailDto = (TravelDetailDto) session.getAttribute("travelDetailDto");
-        travelDetailDto.getResultDto().setInfos(newInfos);
-//        operations.set("travelDetailDto", travelDetailDto);
-        session.setAttribute("travelDetailDto", travelDetailDto);
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 
     //user가 저장한 여행경로 정보 개수 조회
-    @GetMapping("/getCount")
+    @GetMapping("/count")
     public ResponseEntity<Long> countTravelPath (HttpSession session){
         Long usersId = getSessionUsersId(session);
         Long count = travelPathService.countTravelPath(usersId);
@@ -237,7 +197,7 @@ public class TravelPathController {
 
 
     //여행경로 정보 삭제
-    @DeleteMapping("/delete/{travelpathId}")
+    @DeleteMapping("/{travelpathId}")
     public ResponseEntity deleteTravelPath(@PathVariable Long travelpathId){
         travelPathService.deleteTravelPathById(travelpathId);
         return ResponseEntity.status(HttpStatus.OK).build();
