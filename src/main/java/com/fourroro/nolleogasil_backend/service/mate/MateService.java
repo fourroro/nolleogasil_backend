@@ -15,7 +15,7 @@ public interface MateService {
     //mate 공고 글 조회(날짜순)
     public List<MateDto> getMateList(Integer placeId, int placeCat);
 
-    //사용자가 게시한 mate 공고 글 조회(최신작성순)
+    //사용자가 개설한 mate 공고 글 조회(최신작성순)
     public List<MateDto> getMateListByUsersId(Long usersId);
 
     //mate 공고 글 조회(거리순)

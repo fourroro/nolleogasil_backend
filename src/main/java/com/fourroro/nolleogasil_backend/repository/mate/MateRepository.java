@@ -27,7 +27,7 @@ public interface MateRepository extends JpaRepository<Mate, Long> {
             "where m.display = :display AND p.placeId = :placeId order by m.eatDate ASC, m.eatTime ASC")
     public List<Mate> findByDisplayAndPlaceId(@Param("display")int display, @Param("placeId")Integer placeId);
 
-    //사용자가 게시한 Mate 공고 글 조회(최신작성순)
+    //사용자가 개설한 Mate 공고 글 조회(최신작성순)
     public List<Mate> findByUsersUsersIdOrderByMateIdDesc(Long usersId);
 
     public Mate findByChatRoomChatroomId(Long chatRoomId);

@@ -68,7 +68,7 @@ public class MateServiceImpl implements MateService {
         return compareDateTime(mateList);
     }
 
-    //사용자가 게시한 mate 공고 글 조회(최신작성순)
+    //사용자가 개설한 mate 공고 글 조회(최신작성순)
     @Override
     public List<MateDto> getMateListByUsersId(Long usersId) {
         List<Mate> mateList = mateRepository.findByUsersUsersIdOrderByMateIdDesc(usersId);
