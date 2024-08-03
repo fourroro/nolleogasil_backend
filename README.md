@@ -10,3 +10,36 @@
 ![image (7)](https://github.com/user-attachments/assets/76cbac91-1143-41ef-9f85-e67e05d71eef)
 ![image (8)](https://github.com/user-attachments/assets/a8f7c42c-44f8-4d70-af2b-9a767f1dcff3)
 ![image (9)](https://github.com/user-attachments/assets/69d4a3de-4758-4295-a7ee-8ac9677fdd87)
+
+
+
+# 프로젝트 소개
+----
+
++ 프로젝트 이름: 놀러가실?
++ 개발기간:
++ 배포 URL: 
++ 개발 배경 및 목적
++ 팀 소개:
++ 주요 기능
+
+# 개발 환경
+----
+
++ Languages:
++ Platform:
++ Tools:
++ API:
++ Library:
+
+# 서비스 메뉴얼
+----
+
+
+# 시스템 구조
+-----
++ 데이터베이스 구조
+
++ 시스템 설계도
+
++ 파일 구조
