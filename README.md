@@ -1,4 +1,9 @@
-사용자 맞춤 여행경로 추천 및 맛집메이트 매칭 서비스(backend)
+<div align="center">
+
+![nolleogasil_main](https://github.com/user-attachments/assets/df142e6c-bde0-4e3d-8f33-aad9cde9ed9d)
+
+
+사용자 맞춤 여행경로 추천 및 맛집메이트 매칭 서비스입니다.
 
 ![image](https://github.com/user-attachments/assets/252b2146-6532-4528-87a9-416733576d0d)
 ![image (1)](https://github.com/user-attachments/assets/2d7a2ac4-8142-4f00-9a04-eb7d1c97c499)
@@ -11,7 +16,7 @@
 ![image (8)](https://github.com/user-attachments/assets/a8f7c42c-44f8-4d70-af2b-9a767f1dcff3)
 ![image (9)](https://github.com/user-attachments/assets/69d4a3de-4758-4295-a7ee-8ac9677fdd87)
 
-
+</div>
 
 # 🖥 프로젝트 소개
 
