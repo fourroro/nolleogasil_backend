@@ -1,4 +1,4 @@
-<div align="center">
+<div align="center" style="width:200px; height:100px">
 
 ![nolleogasil_main](https://github.com/user-attachments/assets/df142e6c-bde0-4e3d-8f33-aad9cde9ed9d)
 
