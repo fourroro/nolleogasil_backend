@@ -1,3 +1,8 @@
+/*
+ * 위시(내 장소) Entity 객체 필드 및 연관관계를 나타내고, 관리하는 클래스입니다.
+ * @author 박초은
+ * @since 2024-01-05
+ */
 package com.fourroro.nolleogasil_backend.entity.users;
 
 import com.fourroro.nolleogasil_backend.entity.place.Place;

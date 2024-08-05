@@ -1,3 +1,8 @@
+/*
+ * 맛집메이트의 신청 관리를 위한 Service Interface입니다.
+ * @author 박초은
+ * @since 2024-01-05
+ */
 package com.fourroro.nolleogasil_backend.service.mate;
 
 import com.fourroro.nolleogasil_backend.dto.mate.ApplyDto;
