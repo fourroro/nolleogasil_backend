@@ -40,12 +40,9 @@ public class UsersController {
                 Users existingUsers = usersService.findByEmail(kakaoUsersEmail);
                 String existingPhone = existingUsers.getPhone();
 
-                //전화번호 변경되었으면
+                //전화번호가 변경되었으면
                 if(!existingPhone.equals(kakaoUsersPhone)){
-                    System.out.println("phone number changed...");
                     usersService.validateDuplicatePhoneAndUpdate(kakaoUsersEmail, kakaoUsersPhone);
-                }else{
-                    System.out.println("phone number not changed...");
                 }
 
                 UsersDto usersDto = UsersDto.changeToDto(existingUsers);
@@ -54,7 +51,7 @@ public class UsersController {
                 session.setAttribute("users", usersDto);
 
                 //프론트엔드로 기존 회원임을 전달
-                return ResponseEntity.badRequest().body(usersDto.getUsersId());
+                return ResponseEntity.ok().body(usersDto.getUsersId());
             }else { //신규 회원인 경우
                 usersService.insertUsers(kakaoRequest.toDto());
                 Users users = usersService.findByEmail(kakaoRequest.getEmail());
@@ -64,10 +61,44 @@ public class UsersController {
                 session.setAttribute("users", usersDto);
 
                 //프론트엔드로 신규 회원임을 전달
-                return ResponseEntity.ok(usersDto.getUsersId());
+                return ResponseEntity.status(HttpStatus.CREATED).body(-1L);
             }
         }catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(-1L);
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Long> commonLogin(HttpSession session, @RequestParam("email") String email){
+        try{
+            Users existingUsers = usersService.findUsersByEmail(email);
+
+            if(existingUsers != null){ //기존 회원
+                UsersDto usersDto = UsersDto.changeToDto(existingUsers);
+                session.setAttribute("users", usersDto);
+
+                return ResponseEntity.ok().body(usersDto.getUsersId());
+            }else{ //신규 회원
+                return ResponseEntity.status(HttpStatus.CREATED).body(-1L); // 201 Created로 회원가입 신호
+            }
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(-1L);
+        }
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<Long> commonRegister(HttpSession session, @RequestBody UsersDto registeredUser){
+        try{
+            usersService.insertUsers(registeredUser);
+            Users users = usersService.findUsersByEmail(registeredUser.getEmail());
+            UsersDto usersDto = UsersDto.changeToDto(users);
+            //세션에 사용자 정보 저장
+            session.setAttribute("users", usersDto);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(usersDto.getUsersId());
+        }catch(Exception e){
+            //예외 발생 시 BAD_REQUEST와 함께 -1L 반환
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(-1L);
         }
     }
 
@@ -86,7 +117,7 @@ public class UsersController {
     }
 
     //회원정보 수정
-    @GetMapping("/update/{usersId}")
+    @GetMapping("/info/{usersId}")
     public ResponseEntity<UsersDto> updateForm(HttpSession session, @PathVariable Long usersId){
 
         try {
@@ -103,7 +134,7 @@ public class UsersController {
         }
     }
 
-    @PostMapping("/update/{usersId}")
+    @PostMapping("/info/{usersId}")
     public ResponseEntity<String> updateUsers(HttpSession session, @PathVariable Long usersId, @RequestBody Map<String, String> requestBody, HttpServletRequest request){
         try{
             String nickname = requestBody.get("nickname");

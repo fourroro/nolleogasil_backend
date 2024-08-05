@@ -37,7 +37,7 @@ public class StompRabbitController {
 
         chatService.enterChatRoom(chatroomId,usersId);
 
-        rabbitTemplate.convertAndSend(CHAT_EXCHANGE_NAME,"room." + chatroomId, message);
+        rabbitTemplate.convertAndSend("amq.topic","room." + chatroomId, message);
     }
 
     @MessageMapping("chat.send")
@@ -46,14 +46,14 @@ public class StompRabbitController {
         System.out.println(usersSession.getUsersId());
         Long chatroomId = Long.parseLong(message.get("chatroomId").toString());
         Long usersId = usersSession.getUsersId();
-        String sendMessage = message.get("newMessage").toString();
+        String sendMessage = message.get("message").toString();
 
         System.out.println(chatroomId);
         chatService.sendMessage(chatroomId,usersId,sendMessage);
 
         try {
             System.out.println("sending...");
-            rabbitTemplate.convertAndSend(CHAT_EXCHANGE_NAME, "room." + chatroomId, message);
+            rabbitTemplate.convertAndSend("amq.topic","room." + chatroomId, message);
             System.out.println("Message sent to RabbitMQ: " + message);
 
         } catch  (Exception e) {
