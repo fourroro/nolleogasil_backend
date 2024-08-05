@@ -1,3 +1,9 @@
+/*
+ * 장소 Dto 객체를 구성, 관리하는 클래스입니다.
+ * 위시리스트(내 장소)에 저장되거나, 맛집메이트가 개설되는 장소를 저장하기 위한 객체입니다.
+ * @author 박초은
+ * @since 2024-01-05
+ */
 package com.fourroro.nolleogasil_backend.dto.place;
 
 import com.fourroro.nolleogasil_backend.entity.place.Place;
