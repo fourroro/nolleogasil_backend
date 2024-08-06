@@ -46,7 +46,7 @@ public class TravelPathServiceImpl implements TravelPathService {
     }
 
 
-    //TravelPath 목록 내림차순 조회 (keyword와 조인)
+    /** TravelPath 목록 내림차순 조회 (keyword와 조인) */
     @Override
     @Transactional
     public List<TravelPath> getTravelPathListDesc(Long usersId) {
