@@ -20,31 +20,37 @@
 
 
 + 프로젝트 이름: 놀러가실?
-+ 개발기간:
-+ 배포 URL: 
-+ 개발 배경 및 목적
-+ 팀 소개:
-+ 주요 기능
-+ 서비스 메뉴얼
++ 개발기간: 2024/01/05 ~ 2024/06/20
++ 배포 URL: www.nolleogasil.com
++ 개발 배경 및 목적 : 
++ 주요 기능 : 
++ 서비스 메뉴얼 : 
 
 
 # ⚙ 개발 환경
 
 
-+ Languages:
-+ Platform:
-+ Tools:
-+ API:
-+ Library:
++ Languages: JAVA, JS, HTML, CSS
++ Framework: React, Springboot, JPA
++ Library: WebSocket / STOMP / SockJS(실시간 채팅), Axios
++ API: Kakao Map API, OpenAI API, Kakao Login API
++ Server: RabbitMQ(메시지 브로커 서버), AWS(EC2, ELB, Route 53, ACM), Docker, Jenkins(배포용 서버), Nginx(웹 서버)
++ DB: OracleDB, Redis(세션 클러스터링)
++ Platform: Notion, Jira, Microsoft Teams, GitHub
++ Tools: ERMaster(Eclipse), IntelliJ, VSCode, Sql Developer
 
 
 # 🛠 시스템 구조
 
 
-
 + 데이터베이스 구조
+<div align="center">
+  <img src="https://github.com/fourroro/nolleogasil_backend/blob/chon/README_images/DB_Schema.png" alt="시스템 설계도" width="800px" />
+</div><p/>
+
 
 + 시스템 설계도
 <img src="https://github.com/fourroro/nolleogasil_backend/blob/chon/README_images/system_architecture.jpg" alt="시스템 설계도" width="1000px" />
+
 
 + 파일 구조
