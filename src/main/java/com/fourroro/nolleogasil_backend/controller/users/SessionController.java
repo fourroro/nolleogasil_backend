@@ -21,11 +21,9 @@ public class SessionController {
     public ResponseEntity<String> checkerSession(HttpServletRequest request){
         if (sessionInterceptor.isSessionExpired(request)) {
             //세션이 존재하지 않거나 만료된 경우
-            System.out.println("!!!!!Session expired");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Session expired");
         } else {
             // 세션이 유효한 경우
-            System.out.println("!!!!!Session valid");
             return ResponseEntity.ok("Session valid");
         }
     }

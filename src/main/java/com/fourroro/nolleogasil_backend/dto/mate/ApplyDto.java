@@ -1,3 +1,8 @@
+/**
+ * 맛집메이트의 신청 Dto 객체를 구성, 관리하는 클래스입니다.
+ * @author 박초은
+ * @since 2024-01-05
+ */
 package com.fourroro.nolleogasil_backend.dto.mate;
 
 import com.fourroro.nolleogasil_backend.entity.mate.Apply;

@@ -1,3 +1,9 @@
+/**
+ * 장소 Entity 객체 필드 및 연관관계를 나타내고, 관리하는 클래스입니다.
+ * 위시리스트(내 장소)에 저장되거나, 맛집메이트가 개설되는 장소를 저장하기 위해 존재합니다.
+ * @author 박초은
+ * @since 2024-01-05
+ */
 package com.fourroro.nolleogasil_backend.entity.place;
 
 import com.fourroro.nolleogasil_backend.dto.place.PlaceDto;

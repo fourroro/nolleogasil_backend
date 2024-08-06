@@ -1,3 +1,8 @@
+/**
+ * 이 클래스는 위시(내 장소) 관리를 위한 Controller입니다.
+ * @author 박초은
+ * @since 2024-01-05
+ */
 package com.fourroro.nolleogasil_backend.controller.users;
 
 import com.fourroro.nolleogasil_backend.dto.place.PlaceDto;

@@ -1,3 +1,8 @@
+/**
+ * 이 클래스는 맛집메이트를 DB에 저장 및 DB에서 조회, 삭제하기 위한 Repository입니다.
+ * @author 박초은
+ * @since 2024-01-05
+ */
 package com.fourroro.nolleogasil_backend.repository.mate;
 
 import com.fourroro.nolleogasil_backend.entity.mate.Mate;
