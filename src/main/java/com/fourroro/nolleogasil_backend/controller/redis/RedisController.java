@@ -1,8 +1,3 @@
-/*
- * 이 클래스는 redis test를 위한 Controller입니다.
- * @author 박초은
- * @since 2024-01-05
- */
 package com.fourroro.nolleogasil_backend.controller.redis;
 
 import com.fourroro.nolleogasil_backend.service.redis.RedisService;

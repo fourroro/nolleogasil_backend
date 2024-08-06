@@ -1,4 +1,4 @@
-/*
+/**
  * 맛집메이트 관리를 위한 Service Interface입니다.
  * @author 박초은
  * @since 2024-01-05
