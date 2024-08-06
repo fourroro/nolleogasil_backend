@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://github.com/fourroro/nolleogasil_backend/blob/chon/README_images/banner.jpg" alt="놀러가실?" width="200px" height="100px" />
+<img src="https://github.com/fourroro/nolleogasil_backend/blob/chon/README_images/banner.jpg" alt="놀러가실?" width="600px" />
 
 
 사용자의 취향에 따라 여행경로를 추천해주고, 맛집에 동반할 메이트를 매칭해주는 웹 서비스입니다.
@@ -43,8 +43,10 @@
 # 🛠 시스템 구조
 
 
+
 + 데이터베이스 구조
 
 + 시스템 설계도
+<img src="https://github.com/fourroro/nolleogasil_backend/blob/chon/README_images/system_architecture.jpg" alt="시스템 설계도" width="900px" />
 
 + 파일 구조
