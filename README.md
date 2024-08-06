@@ -1,6 +1,6 @@
-<div align="center" style="width:200px; height:100px">
+<div align="center">
 
-![nolleogasil_main](https://github.com/fourroro/nolleogasil_backend/blob/chon/README_images/banner.jpg)
+<img src="https://github.com/fourroro/nolleogasil_backend/blob/chon/README_images/banner.jpg" alt="놀러가실?" width="200px" height="100px" />
 
 
 사용자의 취향에 따라 여행경로를 추천해주고, 맛집에 동반할 메이트를 매칭해주는 웹 서비스입니다.
