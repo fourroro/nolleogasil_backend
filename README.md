@@ -47,6 +47,6 @@
 + 데이터베이스 구조
 
 + 시스템 설계도
-<img src="https://github.com/fourroro/nolleogasil_backend/blob/chon/README_images/system_architecture.jpg" alt="시스템 설계도" width="900px" />
+<img src="https://github.com/fourroro/nolleogasil_backend/blob/chon/README_images/system_architecture.jpg" alt="시스템 설계도" width="1000px" />
 
 + 파일 구조
