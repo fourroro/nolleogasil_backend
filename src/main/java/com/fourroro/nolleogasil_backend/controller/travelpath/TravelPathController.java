@@ -17,6 +17,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+
+/**
+* 이 클래스는 여행일정 관리를 위한 컨트롤러입니다.
+* @author 전선민
+* @since 2024-01-05
+*/
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/travelpath")
@@ -28,20 +34,37 @@ public class TravelPathController {
     private final TravelDateService travelDateService;
     private final TravelInfoService travelInfoService;
 
-    //session에 있는 usersId 가져오기
+
+    /**
+     * session에 저장된 usersDto의 사용자 ID를 가져오는 함수
+     *
+     * @param session 현재 사용자의 세션 객체
+     * @return 조회된 사용자 id
+     */
     private Long getSessionUsersId(HttpSession session) {
         UsersDto usersDto = (UsersDto) session.getAttribute("users");
         return usersDto.getUsersId();
     }
 
-    //Form에서 받은 데이터를 ConditionDto객체로 받아 응답
+    /**
+     * Form에서 받은 데이터를 ConditionDto로 받아 객체화하여 반환하는 함수
+     *
+     * @param conditionDto 폼 데이터 정보를 포함하는 DTO 객체
+     * @return ConditionDto 객체를 포함한 ResponseEntity 객체
+     */
     @PostMapping("/form")
     public ResponseEntity<ConditionDto> dataFromForm(@RequestBody ConditionDto conditionDto) {
         return ResponseEntity.status(HttpStatus.OK).body(conditionDto);
     }
 
 
-    //user가 여행경로 정보 저장 시 Travelpath, Keyword, Recommendation 등 연관 관계 형성한 table에 insert
+    /**
+     * 새로운 여행일정 데이터를 저장하는 함수
+     *
+     * @param travelDetailDto 여행 세부 정보를 포함하는 DTO 객체
+     * @param session 현재 사용자의 세션 객체
+     * @return 여행일정 목록 페이지의 경로를 포함한 ResponseEntity 객체
+     */
     @PostMapping("/create")
     public ResponseEntity insertTravelPathData(@RequestBody TravelDetailDto travelDetailDto, HttpSession session){
 
@@ -96,7 +119,13 @@ public class TravelPathController {
     }
 
 
-    //최신순으로 여행경로 정보 조회
+    /**
+     * 저장한 여행일정 정보들을 조회하는 함수 (기본: 최신순)
+     *
+     * @param sortBy 정렬 기준을 나타내는 문자열 (예: "최신순", "오래된순")
+     * @param session 현재 사용자의 세션 객체
+     * @return 여행일정 정보를 포함한 ResponseEntity 객체
+     */
     @GetMapping("/travelpathList")
     public ResponseEntity<List<Map<String, Object>>> getTravelPathList(@RequestParam(name="sortBy") String sortBy, HttpSession session) {
 
@@ -130,7 +159,13 @@ public class TravelPathController {
     }
 
 
-    //travelpathId에 해당하는 TravelPath 정보를 session에 저장
+    /**
+     * 여행일정 ID로 상세정보를 조회하는 함수
+     *
+     * @param travelpathId 여행일정 ID를 나타내는 Long 객체
+     * @param session 현재 사용자의 세션 객체
+     * @return 여행 상세 정보를 포함한 ResponseEntity 객체
+     */
     @PostMapping("/travelDataDetail")
     public ResponseEntity showDetailByTravelPathId(@RequestBody Long  travelpathId, HttpSession session) {
 
@@ -159,7 +194,14 @@ public class TravelPathController {
         return ResponseEntity.ok(detailResponse);
     }
 
-    //user가 정보 수정 시 새로운 내용 저장
+
+    /**
+     * 사용자가 정보 수정 시 새로운 내용을 저장하는 함수
+     *
+     * @param recommendationId 추천일정 ID를 나타내는 Long 객체
+     * @param resultDto 기존 여행 정보(일자, 추천내용)를 포함하는 ResultDto 객체
+     * @return 상태 코드 200과 함께 빈 ResponseEntity 객체
+     */
     @PutMapping("/{recommendationId}")
     public ResponseEntity<String> updateTravelPathData(@PathVariable Long recommendationId, @RequestBody ResultDto resultDto){
 
@@ -186,7 +228,12 @@ public class TravelPathController {
     }
 
 
-    //user가 저장한 여행경로 정보 개수 조회
+    /**
+     * 사용자가 저장한 여행경로 정보 개수를 조회하는 함수
+     *
+     * @param session 현재 사용자의 세션 객체
+     * @return 여행경로 정보 개수를 포함한 ResponseEntity 객체
+     */
     @GetMapping("/count")
     public ResponseEntity<Long> countTravelPath (HttpSession session){
         Long usersId = getSessionUsersId(session);
@@ -196,7 +243,12 @@ public class TravelPathController {
     }
 
 
-    //여행경로 정보 삭제
+    /**
+     * 주어진 여행일정 ID로 여행경로 정보를 삭제하는 함수
+     *
+     * @param travelpathId 여행일정 ID를 나타내는 Long 객체
+     * @return 상태 코드 200과 함께 빈 ResponseEntity 객체
+     */
     @DeleteMapping("/{travelpathId}")
     public ResponseEntity deleteTravelPath(@PathVariable Long travelpathId){
         travelPathService.deleteTravelPathById(travelpathId);

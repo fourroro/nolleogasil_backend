@@ -5,6 +5,11 @@ import lombok.*;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * ChatGpt API에 요청을 보낼 떄의 메세지 형태를 나타내는 클래스입니다.
+ * @author 전선민
+ * @since 2024-01-10
+ */
 
 @Getter
 @Builder
@@ -13,7 +18,6 @@ import java.util.List;
 @AllArgsConstructor
 public class ConditionDto implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     private String destination;         //목적지
     private String startDate;           //출발 날짜
     private String endDate;             //오는 날짜
