@@ -1,3 +1,8 @@
+/**
+ * 맛집메이트의 채팅방과 장소를 위한 Dto 객체를 구성, 관리하는 클래스입니다.
+ * @author 홍유리
+ * @since 2024-01-05
+ */
 package com.fourroro.nolleogasil_backend.dto.chat;
 
 import com.fourroro.nolleogasil_backend.dto.mate.MateDto;

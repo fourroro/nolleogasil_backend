@@ -8,6 +8,11 @@ import org.springframework.stereotype.Service;
 
 import java.net.URI;
 
+/**
+ * 이 클래스는 카카오 로그인을 위한 Service class입니다.
+ * @author 장민정
+ * @since 2024-01-05
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor

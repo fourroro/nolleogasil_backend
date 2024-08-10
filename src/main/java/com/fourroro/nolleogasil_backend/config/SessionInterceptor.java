@@ -7,6 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+/**
+ * 이 클래스는 세션 관리를 위한 인터셉터입니다.
+ * 세션의 존재 여부를 확인하고 응답을 보내기 위해 존재합니다.
+ * @author 장민정
+ * @since 2024-01-05
+ */
 @Component
 public class SessionInterceptor implements HandlerInterceptor {
 
