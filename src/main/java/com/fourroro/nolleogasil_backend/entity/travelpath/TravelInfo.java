@@ -4,7 +4,11 @@ package com.fourroro.nolleogasil_backend.entity.travelpath;
 import com.fourroro.nolleogasil_backend.dto.travelpath.TravelInfoDto;
 import jakarta.persistence.*;
 import lombok.*;
-
+/**
+ * TravelInfo Table에 매칭되는 Entity입니다.
+ * @author 전선민
+ * @since 2024-01-10
+ */
 @Entity
 @Table(name="Travelinfo")
 @Builder

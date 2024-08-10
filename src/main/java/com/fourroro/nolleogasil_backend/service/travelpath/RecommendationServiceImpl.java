@@ -20,6 +20,7 @@ public class RecommendationServiceImpl implements RecommendationService{
     private final RecommendationRepository recommendationRepository;
     private final UsersRepository usersRepository;
 
+    /** Recommendation 추가 */
     @Override
     @Transactional
     public Recommendation insertRecommendation (TravelPath travelPath, RecommendationDto recommendationDto){
@@ -39,6 +40,7 @@ public class RecommendationServiceImpl implements RecommendationService{
 
     }
 
+    /** Recommendation 조회 */
     @Override
     @Transactional
     public Optional<Recommendation> getRecommendation (Long recommendationId) {
@@ -53,7 +55,7 @@ public class RecommendationServiceImpl implements RecommendationService{
         return recommendation;
     }
 
-
+    /** Recommendation ID를 이용해 TravelDate 목록 조회 */
     @Override
     @Transactional
     public List<String> getTravelDateList (Long recommendationId){
@@ -69,6 +71,7 @@ public class RecommendationServiceImpl implements RecommendationService{
         return travelDateList;
     }
 
+    /** Recommendation ID를 이용해 TravelInfo 목록 조회 */
     @Override
     @Transactional
     public List<String> getTravelInfoList (Long recommendationId){
