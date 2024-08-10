@@ -33,7 +33,7 @@
 + Languages: JAVA, JS, HTML, CSS
 + Framework: React, Springboot, JPA
 + Library: <img src="https://img.shields.io/badge/WebSocket-2072EF?style=flat&logoColor=white">, 
-           <img src="https://img.shields.io/badge/STOMP-010101?style=flat&logoColor=white">, 
+           <img src="https://img.shields.io/badge/STOMP-41454A?style=flat&logoColor=white">, 
            <img src="https://img.shields.io/badge/SockJS(실시간채팅)-F56640?style=flat&logoColor=white">, 
            <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat&logo=Axios&logoColor=white">
 + API: <img src="https://img.shields.io/badge/Kakao Login API-FFCD00?style=flat&logo=Kakao&logoColor=white">, 
