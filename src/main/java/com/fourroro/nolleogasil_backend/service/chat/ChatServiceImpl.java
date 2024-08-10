@@ -1,3 +1,8 @@
+/**
+ * 맛집메이트의 채팅방 관리를 위한 Service 입니다.
+ * @author 홍유리
+ * @since 2024-01-05
+ */
 package com.fourroro.nolleogasil_backend.service.chat;
 
 import com.fourroro.nolleogasil_backend.dto.chat.ChatDto;
