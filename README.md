@@ -30,12 +30,17 @@
 # ⚙ 개발 환경
 
 
-+ Languages: ![image (1)](https://img.shields.io/badge/JAVA-E34F26?style=flat&logo=java&logoColor=white), ![image (5)](https://img.shields.io/badge/JS-F7DF1E?style=flat&logo=JavaScript&logoColor=white), ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=flat&logo=html5&logoColor=white)
++ Languages: ![image (1)](https://img.shields.io/badge/JAVA-E34F26?style=flat&logo=java&logoColor=white), ![image(5)](https://img.shields.io/badge/JS-F7DF1E?style=flat&logo=JavaScript&logoColor=white), ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=flat&logo=html5&logoColor=white)
   , ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=flate&logo=css3&logoColor=white)
 
 + Framework: ![image (4)](https://img.shields.io/badge/React-61DAFB?style=flate&logo=React&logoColor=white), ![image (2)](https://img.shields.io/badge/springBoot-6DB33F?style=flate&logo=SpringBoot&logoColor=white), ![JPA](https://img.shields.io/badge/JPA-6DB33F?style=flat&logo=&logoColor=white)
-+ Library: WebSocket / STOMP / SockJS(실시간 채팅), Axios
-+ API: Kakao Map API, OpenAI API, Kakao Login API
++ Library: <img src="https://img.shields.io/badge/WebSocket-2072EF?style=flat&logoColor=white">, 
+           <img src="https://img.shields.io/badge/STOMP-41454A?style=flat&logoColor=white">, 
+           <img src="https://img.shields.io/badge/SockJS(실시간채팅)-F56640?style=flat&logoColor=white">, 
+           <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat&logo=Axios&logoColor=white">
++ API: <img src="https://img.shields.io/badge/Kakao Login API-FFCD00?style=flat&logo=Kakao&logoColor=white">, 
+       <img src="https://img.shields.io/badge/Kakao Map API-FFCD00?style=flat&logo=Kakao&logoColor=white">, 
+       <img src="https://img.shields.io/badge/OpenAI API-412991?style=flat&logo=OpenAI&logoColor=white">
 + Server: RabbitMQ(메시지 브로커 서버), AWS(EC2, ELB, Route 53, ACM), Docker, Jenkins(배포용 서버), Nginx(웹 서버)
 + 
 + DB: OracleDB, Redis(세션 클러스터링)
