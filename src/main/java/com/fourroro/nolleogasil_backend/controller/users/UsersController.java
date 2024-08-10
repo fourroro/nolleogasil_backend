@@ -16,6 +16,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+/**
+ * 이 클래스는 회원 정보 관리를 위한 컨트롤러입니다.
+ * @author 장민정
+ * @since 2024-01-05
+ */
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -26,7 +31,6 @@ public class UsersController {
     private final KakaoService kakaoService;
 
     //회원가입 및 로그인
-    //세션 확인하기
     @PostMapping("/profile")
     public ResponseEntity<Long> setUserProfile(HttpSession session, @RequestBody KakaoDto kakaoRequest){
         try{

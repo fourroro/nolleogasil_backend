@@ -6,5 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface TravelDateService {
+
+    /** travelDate 추가 */
     public void insertTravelDate (Recommendation recommendation, TravelDateDto travelDateDto);
 }

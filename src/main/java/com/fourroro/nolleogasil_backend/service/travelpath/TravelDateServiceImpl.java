@@ -14,6 +14,7 @@ public class TravelDateServiceImpl implements TravelDateService{
 
     private final TravelDateRepository travelDateRepository;
 
+    /** travelDate 추가 */
     @Override
     @Transactional
     public void insertTravelDate (Recommendation recommendation, TravelDateDto travelDateDto){

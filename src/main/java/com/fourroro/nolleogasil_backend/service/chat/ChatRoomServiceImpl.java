@@ -1,3 +1,8 @@
+/**
+ * 맛집메이트의 채팅방 관리를 위한 Service 입니다.
+ * @author 홍유리
+ * @since 2024-01-05
+ */
 package com.fourroro.nolleogasil_backend.service.chat;
 
 
@@ -94,7 +99,6 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
             chatRooms = chatRoomRepository.findAllByUsersUsersIdOrderByMateEatDateDesc(usersId);
             for(ChatRoom chatRoom: chatRooms) {
-                System.out.println(chatRoom);
                 ChatRoomAndPlaceDto chatRoomAndPlaceDto = this.getChatRoomAndPlaceDto(chatRoom);
                 chatRoomAndPlaceDtos.add(chatRoomAndPlaceDto);
             }
@@ -121,14 +125,6 @@ public class ChatRoomServiceImpl implements ChatRoomService{
         ChatRoom chatRoom = ChatRoom.creatChatroom(savedMate,users);
         ChatRoom savedChatRoom = chatRoomRepository.save(chatRoom);
 
-        //ChatRoom savedChatRoom = chatRoomRepository.findByMateMateId(savedMate.getMateId());
-        try {
-            System.out.println(savedChatRoom);
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-
-        }
         int memberCnt = savedChatRoom.getMateMembers().size();
         ChatRoomDto chatRoomDto = ChatRoomDto.ChangeToDto(savedChatRoom,memberCnt);
 
@@ -137,9 +133,10 @@ public class ChatRoomServiceImpl implements ChatRoomService{
 
     @Override
     public Long getChatRoomIdByMateId(Long mateId) {
-        ChatRoom chatRoom = chatRoomRepository.findByMateMateId(mateId);
 
+        ChatRoom chatRoom = chatRoomRepository.findByMateMateId(mateId);
         Long chatroomId = chatRoom.getChatroomId();
+
         return chatroomId;
     }
 

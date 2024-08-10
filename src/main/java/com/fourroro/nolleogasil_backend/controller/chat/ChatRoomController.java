@@ -1,3 +1,8 @@
+/**
+ * 이 클래스는 맛집메이트 채팅방관리를 위한 Controller입니다.
+ * @author 홍유리
+ * @since 2024-01-05
+ */
 package com.fourroro.nolleogasil_backend.controller.chat;
 
 

@@ -1,3 +1,8 @@
+/**
+ * 맛집메이트의 채팅방 Entity 객체 필드 및 연관관계를 나타내고, 관리하는 클래스입니다.
+ * @author 홍유리
+ * @since 2024-01-05
+ */
 package com.fourroro.nolleogasil_backend.entity.chat;
 
 import com.fourroro.nolleogasil_backend.dto.chat.ChatRoomDto;
@@ -41,23 +46,9 @@ public class ChatRoom {
     @JoinColumn(name = "mateId", nullable = false, unique = true)
     private Mate mate;
 
-/*
-    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL,  orphanRemoval = true) // 챗방 -- 챗 (일대다관계)
-    private List<Chat> chats = new ArrayList<>();
-*/
     @OneToMany(mappedBy = "chatRoom" ,cascade = CascadeType.ALL, orphanRemoval = true) // 챗방 -- 메이트멤버 (일대다관계)
     private List<MateMember> mateMembers;
 
-    public static ChatRoom toEntity(ChatRoomDto chatRoomDto,Users users,Mate mate) {
-        return ChatRoom.builder()
-                .chatroomId(chatRoomDto.getChatroomId())
-                .roomName(chatRoomDto.getRoomName())
-                .maxNum(chatRoomDto.getMaxNum())
-                .mate(mate)
-                .users(users)
-                .mateMembers(new ArrayList<>())
-                .build();
-    }
 
     public static ChatRoom creatChatroom(Mate savedMate,Users users) {
         return ChatRoom.builder()
@@ -68,9 +59,6 @@ public class ChatRoom {
                 .mateMembers(new ArrayList<>())
                 .build();
     }
-
-
-
 
 
 }
