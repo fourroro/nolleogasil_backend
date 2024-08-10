@@ -13,6 +13,7 @@ import java.util.UUID;
 
 /**
  * 이 클래스는 세션 관리를 위한 Session class입니다.
+ * 세션을 생성하거나 가져오기 위해 존재합니다.
  * @author 장민정
  * @since 2024-01-05
  */
