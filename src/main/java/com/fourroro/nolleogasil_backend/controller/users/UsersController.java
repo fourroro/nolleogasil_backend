@@ -169,8 +169,13 @@ public class UsersController {
         }
     }
 
-    //mate의 master정보 조회
-    //mate의 member정보 조회
+    /**
+     * 맛집메이트의 게시자의 사용자 정보 조회 or 멤버의 사용자 정보 조회
+     *
+     * @param usersId 조회할 사용자 ID
+     * @return 조회된 사용자 정보를 포함한 HTTP 상태 코드가 200인 ResponseEntity 객체,
+     *         서버 오류 발생 시 HTTP 상태 코드가 500인 ResponseEntity 객체
+     */
     @GetMapping("/{usersId}/info")
     public ResponseEntity<UsersDto> getUsersInfo(@PathVariable Long usersId) {
         try {
