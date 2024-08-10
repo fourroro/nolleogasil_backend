@@ -5,7 +5,11 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
-
+/**
+ * Keyword Table에 매칭되는 Entity입니다.
+ * @author 전선민
+ * @since 2024-01-10
+ */
 @Entity
 @Table(name="Keyword")
 @Builder
