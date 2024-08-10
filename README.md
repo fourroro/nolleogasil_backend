@@ -36,8 +36,8 @@
 + API: Kakao Map API, OpenAI API, Kakao Login API
 + Server: RabbitMQ(메시지 브로커 서버), AWS(EC2, ELB, Route 53, ACM), Docker, Jenkins(배포용 서버), Nginx(웹 서버)
 + DB: OracleDB, Redis(세션 클러스터링)
-+ Platform: Notion, Jira, Microsoft Teams, GitHub
-+ Tools: ERMaster(Eclipse), IntelliJ, VSCode, Sql Developer
++ Platform: <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Notion&logoColor=white">, <img src="https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=Jira&logoColor=white">, <img src="https://img.shields.io/badge/Microsoft Teams-000000?style=for-the-badge&logo=Microsoft Teams&logoColor=white">, <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white">
++ Tools: <img src="https://img.shields.io/badge/ERMaster(Eclipse)-2C2255?style=for-the-badge&logo=Eclipse IDE&logoColor=white">, <img src="https://img.shields.io/badge/IntelliJ IDEA-000000?style=for-the-badge&logo=IntelliJ IDEA&logoColor=white">, <img src="https://img.shields.io/badge/VSCode-007ACC?style=flat-square&logo=Visual Studio Code&logoColor=white"/>, <img src="https://img.shields.io/badge/SQL Developer-000000?style=for-the-badge&logo=SQL Developer&logoColor=white">
 
 
 # 🛠 시스템 구조
