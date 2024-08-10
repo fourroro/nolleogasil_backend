@@ -39,7 +39,6 @@ public class Mate {
     @ManyToOne
     @JoinColumn(name = "usersId")
     private Users users;
-
     private String title;       //글 제목
     private LocalDate eatDate;  //날짜
     private String eatTime;     //시간

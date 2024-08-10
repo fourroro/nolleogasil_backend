@@ -1,6 +1,7 @@
 /**
  * 맛집메이트 관리를 위한 Service Interface입니다.
  * @author 박초은
+ * @author 홍유리
  * @since 2024-01-05
  */
 package com.fourroro.nolleogasil_backend.service.mate;
