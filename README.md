@@ -30,11 +30,14 @@
 # ⚙ 개발 환경
 
 
-+ Languages: JAVA, JS, HTML, CSS
-+ Framework: React, Springboot, JPA
++ Languages: ![image (1)](https://img.shields.io/badge/JAVA-E34F26?style=flat&logo=java&logoColor=white), ![image (5)](https://img.shields.io/badge/JS-F7DF1E?style=flat&logo=JavaScript&logoColor=white), ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=flat&logo=html5&logoColor=white)
+  , ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=flate&logo=css3&logoColor=white)
+
++ Framework: ![image (4)](https://img.shields.io/badge/React-61DAFB?style=flate&logo=React&logoColor=white), ![image (2)](https://img.shields.io/badge/springBoot-6DB33F?style=flate&logo=SpringBoot&logoColor=white), ![JPA](https://img.shields.io/badge/JPA-6DB33F?style=flat&logo=&logoColor=white)
 + Library: WebSocket / STOMP / SockJS(실시간 채팅), Axios
 + API: Kakao Map API, OpenAI API, Kakao Login API
 + Server: RabbitMQ(메시지 브로커 서버), AWS(EC2, ELB, Route 53, ACM), Docker, Jenkins(배포용 서버), Nginx(웹 서버)
++ 
 + DB: OracleDB, Redis(세션 클러스터링)
 + Platform: Notion, Jira, Microsoft Teams, GitHub
 + Tools: ERMaster(Eclipse), IntelliJ, VSCode, Sql Developer
