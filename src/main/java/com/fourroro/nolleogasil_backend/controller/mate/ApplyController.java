@@ -32,13 +32,25 @@ public class ApplyController {
     private final MateMemberService mateMemberService;
     private final ChatRoomService chatRoomService;
 
+    /**
+     * session에 저장된 UsersDto의 사용자 ID를 가져오는 함수
+     *
+     * @param session //현재 사용자의 세션 객체
+     * @return 현재 세션에 저장된 사용자 ID
+     */
     //session에 있는 usersId 가져오기
     private Long getSessionUsersId(HttpSession session) {
         UsersDto usersSession = (UsersDto) session.getAttribute("users");
         return usersSession.getUsersId();
     }
 
-    //사용자가 신청버튼 클릭 시, insert apply
+    /**
+     * 맛집메이트의 신청 버튼 클릭 시, 로그인한 사용자의 신청 정보 저장
+     *
+     * @param mateId //해당 맛집메이트 ID
+     * @param session //현재 사용자의 세션 객체
+     * @return HTTP 상태 코드가 201(신청 저장 성공 시), 400(잘못된 요청 시), 500(서버 오류 발생 시)인 ResponseEntity 객체
+     */
     @PostMapping("/{mateId}")
     public ResponseEntity<Void> createApply(@PathVariable Long mateId, HttpSession session) {
         try {
@@ -61,7 +73,13 @@ public class ApplyController {
         }
     }
 
-    //사용자가 수락 or 거절 버튼 클릭 시, isApply 값 변경
+    /**
+     * 받은 신청 목록에서 수락이나 거절 클릭 시, 해당 신청의 신청 상태(isApply 값) 변경
+     *
+     * @param applyId //해당 신청 ID
+     * @param isApply //클릭한 신청 상태(수락 or 거절)
+     * @return HTTP 상태 코드가 200(성공 시), 204(해당 신청을 찾지 못할 시), 500(서버 오류 발생 시)인 ResponseEntity 객체
+     */
     @PatchMapping("/{applyId}")
     public ResponseEntity<Void> updateIsApply(@PathVariable Long applyId, @RequestBody ApplyStatus isApply) {
         try {
@@ -93,7 +111,16 @@ public class ApplyController {
         }
     }
 
-    //로그인한 사용자의 해당 mate의 isApply 조회 -> Mate.js의 신청 버튼 상태에 사용됨
+    /**
+     * 로그인한 사용자의 신청 상태 조회
+     * Mate.js에서 사용 -> 신청 상태에 따라 신청 버튼 내 text 다르게 출력
+     *
+     * @param mateId 신청 상태를 조회할 맛집메이트 ID
+     * @param session 현재 사용자의 세션 객체
+     * @return 조회된 신청 상태를 포함한 HTTP 상태 코드가 200인 ResponseEntity 객체,
+     *         조회된 신청 상태가 없을 시 HTTP 상태 코드가 204인 ResponseEntity 객체,
+     *         서버 오류 발생 시 HTTP 상태 코드가 500인 ResponseEntity 객체
+     */
     @GetMapping("/{mateId}/status")
     public ResponseEntity<ApplyStatus> checkApplyStatus(@PathVariable Long mateId, HttpSession session) {
         try {
@@ -106,7 +133,7 @@ public class ApplyController {
                 ApplyDto applyDto = applyService.getApplyByMateIdAndUsersId(mateId, usersId);
                 return ResponseEntity.ok(applyDto.getIsApply());
             } else {
-                //사용자가 해당 mate에 신청한 적이 없음
+                //사용자가 해당 mate에 신청한 적이 없다면
                 return ResponseEntity.noContent().build();
             }
         } catch(Exception e) {
@@ -115,7 +142,13 @@ public class ApplyController {
         }
     }
 
-    //로그인한 사용자가 보낸 신청 목록 조회
+    /**
+     * 로그인한 사용자의 보낸 신청 목록 조회
+     *
+     * @param session 현재 사용자의 세션 객체
+     * @return 조회된 보낸 신청 목록을 포함한 HTTP 상태 코드가 200인 ResponseEntity 객체,
+     *         서버 오류 발생 시 HTTP 상태 코드가 500인 ResponseEntity 객체
+     */
     @GetMapping("/send")
     public ResponseEntity<List<ApplyDto>> getSendApplyList(HttpSession session) {
         try {
@@ -128,7 +161,13 @@ public class ApplyController {
         }
     }
 
-    //로그인한 사용자가 받은 신청 목록 조회
+    /**
+     * 로그인한 사용자의 받은 신청 목록 조회
+     *
+     * @param session 현재 사용자의 세션 객체
+     * @return 조회된 받은 신청 목록을 포함한 HTTP 상태 코드가 200인 ResponseEntity 객체,
+     *         서버 오류 발생 시 HTTP 상태 코드가 500인 ResponseEntity 객체
+     */
     @GetMapping("/receive")
     public ResponseEntity<List<ApplyDto>> getReceiveApplyList(HttpSession session) {
         try {
@@ -141,6 +180,12 @@ public class ApplyController {
         }
     }
 
+    /**
+     * 신청 취소나 삭제 버튼 클릭 시, 신청 정보 삭제
+     *
+     * @param applyId 삭제할 신청 ID
+     * @return HTTP 상태 코드가 204(삭제 성공 시), 400(잘못된 요청 시), 500(서버 오류 발생 시)인 ResponseEntity 객체
+     */
     //해당 신청 삭제(및 취소)
     @DeleteMapping("/{applyId}")
     public ResponseEntity<Void> deleteApply(@PathVariable Long applyId) {

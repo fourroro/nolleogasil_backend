@@ -28,13 +28,25 @@ public class WishController {
     private final WishService wishService;
     private final PlaceService placeService;
 
-    //session에 있는 usersId 가져오기
+    /**
+     * session에 저장된 UsersDto의 사용자 ID를 가져오는 함수
+     *
+     * @param session //현재 사용자의 세션 객체
+     * @return 현재 세션에 저장된 사용자 ID
+     */
     private Long getSessionUsersId(HttpSession session) {
         UsersDto usersSession = (UsersDto) session.getAttribute("users");
         return usersSession.getUsersId();
     }
 
-    //위시에 추가 버튼(빈 하트) 클릭시, insert wish
+    /**
+     * 위시에 추가 버튼(빈 하트) 클릭 시, 위시 정보 저장
+     *
+     * @param placeDto 저장할 장소 객체
+     * @param category 저장할 장소의 카테고리 코드 (kakao에서 제공되는 장소 코드)
+     * @param session 현재 사용자의 세션 객체
+     * @return HTTP 상태 코드가 201(신청 저장 성공 시), 400(잘못된 요청 시), 500(서버 오류 발생 시)인 ResponseEntity 객체
+     */
     @PostMapping
     public ResponseEntity<Void> createWish(@RequestBody PlaceDto placeDto, @RequestParam String category, HttpSession session) {
         try {
@@ -65,7 +77,15 @@ public class WishController {
         }
     }
 
-    //로그인한 사용자의 '내 장소'(wishList)에서 해당 장소가 있는지 확인 -> wish에 있으면 true, 없으면 false반환
+    /**
+     * 로그인한 사용자의 위시리스트(내 장소)에 해당 장소가 있는지 조회
+     * 해당 장소가 있다면 지도에서 버튼이 채워진 하트(위시에서 제거), 없다면 빈 하트(위시에 추가)로 출력
+     *
+     * @param placeId 해당 장소 ID
+     * @param session 현재 사용자의 세션 객체
+     * @return 위시리스트에 있으면 true, 없으면 false값을 포함한 HTTP 상태 코드가 200인 ResponseEntity 객체,
+     *         서버 오류 발생 시 HTTP 상태 코드가 500인 ResponseEntity 객체
+     */
     @GetMapping("/{placeId}/status")
     public ResponseEntity<Boolean> checkingWishStatus(@PathVariable Integer placeId, HttpSession session) {
         try {
@@ -79,7 +99,16 @@ public class WishController {
         }
     }
 
-    //로그인한 사용자의 '내 장소'(wishList) 조회
+    /**
+     * 로그인한 사용자의 위시리스트(내 장소) 조회
+     * 장소 카테고리 선택 시, 해당하는 장소만 조회
+     *
+     * @param placeCat 선택한 장소 카테고리 (전체(0), 맛집(1), 카페(2), 숙소(3), 관광지(4))
+     * @param sortBy 선택한 정렬 기준 (기본순, 최신순, 오래된 순)
+     * @param session 현재 사용자의 세션 객체
+     * @return 필터링과 정렬이 완료된 위시리스트를 포함한 HTTP 상태 코드가 200인 ResponseEntity 객체,
+     *         서버 오류 발생 시 HTTP 상태 코드가 500인 ResponseEntity 객체
+     */
     @GetMapping("/{placeCat}")
     public ResponseEntity<List<WishDto>> getWishList(@PathVariable int placeCat, @RequestParam String sortBy,
                                                      HttpSession session) {
@@ -106,7 +135,15 @@ public class WishController {
         }
     }
 
-    //로그인한 사용자의 '내 장소'(wishList)에서 해당 카테고리의 장소 개수 조회
+    /**
+     * 로그인한 사용자의 위시리스트(내 장소)에 저장된 카테고리 별 장소 개수 조회
+     * 장소 카테고리 선택 시, 해당하는 장소의 개수만 조회
+     *
+     * @param placeCat 선택한 장소 카테고리 (전체(0), 맛집(1), 카페(2), 숙소(3), 관광지(4))
+     * @param session 현재 사용자의 세션 객체
+     * @return 조회된 장소 개수를 포함한 HTTP 상태 코드가 200인 ResponseEntity 객체,
+     *         서버 오류 발생 시 HTTP 상태 코드가 500인 ResponseEntity 객체
+     */
     @GetMapping("/{placeCat}/count")
     public ResponseEntity<Long> countWish(@PathVariable int placeCat, HttpSession session) {
         try {
@@ -124,7 +161,16 @@ public class WishController {
         }
     }
 
-    //로그인한 사용자의 '내 장소'(wishList)에서 해당 장소 삭제
+    /**
+     * 위시에서 제거 버튼(채워진 하트) 클릭 시, 위시리스트(내 장소)에서 위시 정보 삭제
+     * 1. wishId가 0이라면, 지도에서 넘어온 요청 -> placeId와 usersId로 삭제하고자 하는 wishId 조회 후 삭제
+     * 2. wishId가 0이 아니라면, 위시리스트(내 장소)에서 넘어온 요청 -> wishId로 삭제
+     *
+     * @param wishId 삭제할 위시 ID
+     * @param placeId 삭제할 장소 ID
+     * @param session 현재 사용자의 세션 객체
+     * @return HTTP 상태 코드가 204(삭제 성공 시), 400(잘못된 요청 시), 500(서버 오류 발생 시)인 ResponseEntity 객체
+     */
     @DeleteMapping("/{wishId}")
     public ResponseEntity<Void> deleteWish(@PathVariable Long wishId, @RequestParam(required = false) Integer placeId,
                                            HttpSession session) {

@@ -34,7 +34,12 @@ public class MateController {
     private final MateMemberService mateMemberService;
     private final ChatRoomService chatRoomService;
 
-    //session에 있는 usersId 가져오기
+    /**
+     * session에 저장된 UsersDto의 사용자 ID를 가져오는 함수
+     *
+     * @param session //현재 사용자의 세션 객체
+     * @return 현재 세션에 저장된 사용자 ID
+     */
     private Long getSessionUsersId(HttpSession session) {
         UsersDto usersSession = (UsersDto) session.getAttribute("users");
         return usersSession.getUsersId();
@@ -74,7 +79,20 @@ public class MateController {
         return new ResponseEntity<>(chatRoomAndPlaceDto, HttpStatus.OK);
     }
 
-    //전체 mate 공고 글 조회
+    /**
+     * 맛집메이트 공고 글 조회
+     * 1. 지도에서 장소 이름 클릭 시, 해당 장소에 개설된 맛집메이트 공고 글만 조회
+     * 2. 메인화면에서 맛집메이트 클릭 시, 개설된 모든 맛집메이트 공고 글 조회
+     *      -> 장소 카테고리 클릭 시, 해당하는 카테고리의 맛집메이트 공고 글만 조회
+     *
+     * @param placeId 해당 장소 ID
+     * @param placeCat 선택한 장소 카테고리 (전체(0), 맛집(1), 카페(2), 숙소(3), 관광지(4))
+     * @param currentLat 사용자 현재 위치의 위도
+     * @param currentLng 사용자 현재 위치의 경도
+     * @param sorted 선택한 정렬 기준(날짜순 - 현재 날짜 및 시간과 가까운 순, 가까운 순 - 사용자의 현재 위치에서 가까운 순)
+     * @return 조회된 맛집메이트 공고 글 목록을 포함한 HTTP 상태 코드가 200인 ResponseEntity 객체,
+     *         서버 오류 발생 시, HTTP 상태 코드가 500인 ResponseEntity 객체
+     */
     @GetMapping
     public ResponseEntity<List<MateDto>> getMateList(@RequestParam Integer placeId,
                                                      @RequestParam Integer placeCat,
