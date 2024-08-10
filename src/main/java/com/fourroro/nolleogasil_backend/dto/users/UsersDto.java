@@ -9,6 +9,11 @@ import org.antlr.v4.runtime.misc.NotNull;
 
 import java.io.Serializable;
 
+/**
+ * 이 클래스는 회원 정보 관리를 위한 DTO입니다.
+ * @author 장민정
+ * @since 2024-01-05
+ */
 @Getter
 @Setter
 @NoArgsConstructor

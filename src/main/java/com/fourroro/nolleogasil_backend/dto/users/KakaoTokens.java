@@ -6,6 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/**
+ * 이 클래스는 카카오 로그인을 위한 Kakao Token DTO입니다.
+ * @author 장민정
+ * @since 2024-01-05
+ */
 /*Access Token을 받아오기 위한 Response Model*/
 @ToString
 @Getter
