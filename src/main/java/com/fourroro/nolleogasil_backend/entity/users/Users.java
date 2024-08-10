@@ -14,6 +14,11 @@ import lombok.*;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * 이 클래스는 회원 정보 관리를 위한 Entity입니다.
+ * @author 장민정
+ * @since 2024-01-05
+ */
 @Getter
 @Entity
 @Table(name = "Users")

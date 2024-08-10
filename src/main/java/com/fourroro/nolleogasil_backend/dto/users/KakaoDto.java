@@ -2,6 +2,11 @@ package com.fourroro.nolleogasil_backend.dto.users;
 
 import lombok.*;
 
+/**
+ * 이 클래스는 카카오 로그인을 위한 DTO입니다.
+ * @author 장민정
+ * @since 2024-01-05
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

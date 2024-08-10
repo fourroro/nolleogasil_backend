@@ -11,6 +11,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * 이 클래스는 세션 관리를 위한 Session class입니다.
+ * @author 장민정
+ * @since 2024-01-05
+ */
 @Component
 public class UserSessionManager {
     private Map<String, UserSession> userSessions;
@@ -32,10 +37,6 @@ public class UserSessionManager {
 
     }
 
-  /*  public void addUserSession(Long sessionId, UserSession userSession){
-        userSessions.put(sessionId, userSession);
-    }
-*/
     public UserSession getUserSession(HttpServletRequest request) {
         Cookie sessionCookie = findCookie(request, SESSION_COOKIE_NAME);
 

@@ -5,6 +5,11 @@ import com.fourroro.nolleogasil_backend.entity.users.Users;
 
 import java.util.List;
 
+/**
+ * 이 인터페이스는 회원 정보 관리를 위한 Service Interface입니다.
+ * @author 장민정
+ * @since 2024-01-05
+ */
 public interface UsersService {
 
     public void insertUsers(UsersDto users);

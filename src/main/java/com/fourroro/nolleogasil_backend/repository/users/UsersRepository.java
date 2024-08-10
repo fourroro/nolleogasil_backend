@@ -8,6 +8,11 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
+/**
+ * 이 인터페이스는 회원 정보 관리를 위한 Repository입니다.
+ * @author 장민정
+ * @since 2024-01-05
+ */
 public interface UsersRepository extends JpaRepository<Users, Long> {
     @Modifying
     @Query(value = "update Users u " +

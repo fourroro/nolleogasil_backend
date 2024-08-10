@@ -14,6 +14,11 @@ import java.util.Optional;
 
 import static com.fourroro.nolleogasil_backend.dto.users.UsersDto.changeToDto;
 
+/**
+ * 이 클래스는 회원 정보 관리를 위한 Service class입니다.
+ * @author 장민정
+ * @since 2024-01-05
+ */
 @Service
 @Transactional
 @RequiredArgsConstructor
