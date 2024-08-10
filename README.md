@@ -32,11 +32,13 @@
 
 + Languages: JAVA, JS, HTML, CSS
 + Framework: React, Springboot, JPA
-+ Library: WebSocket / STOMP / SockJS(실시간 채팅), Axios
-+ Library: <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat&logo=Axios&logoColor=white">
-+ API: <img src="https://img.shields.io/badge/Kakao Login API-FFCD00?style=flat&logo=Kakao&logoColor=white">,
-       <img src="https://img.shields.io/badge/Kakao Map API-FFCD00?style=flat&logo=Kakao&logoColor=white">,
-       <img src="https://img.shields.io/badge/OpenAI-412991?style=flat&logo=OpenAI&logoColor=white">
++ Library: <img src="https://img.shields.io/badge/WebSocket-2072EF?style=flat&logoColor=white">, 
+           <img src="https://img.shields.io/badge/STOMP-010101?style=flat&logoColor=white">, 
+           <img src="https://img.shields.io/badge/SockJS(실시간채팅)-F56640?style=flat&logoColor=white">, 
+           <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat&logo=Axios&logoColor=white">
++ API: <img src="https://img.shields.io/badge/Kakao Login API-FFCD00?style=flat&logo=Kakao&logoColor=white">, 
+       <img src="https://img.shields.io/badge/Kakao Map API-FFCD00?style=flat&logo=Kakao&logoColor=white">, 
+       <img src="https://img.shields.io/badge/OpenAI API-412991?style=flat&logo=OpenAI&logoColor=white">
 + Server: RabbitMQ(메시지 브로커 서버), AWS(EC2, ELB, Route 53, ACM), Docker, Jenkins(배포용 서버), Nginx(웹 서버)
 + DB: OracleDB, Redis(세션 클러스터링)
 + Platform: Notion, Jira, Microsoft Teams, GitHub
