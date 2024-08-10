@@ -33,8 +33,7 @@
 + Languages: JAVA, JS, HTML, CSS
 + Framework: React, Springboot, JPA
 + Library: WebSocket / STOMP / SockJS(실시간 채팅), Axios
-+ Library: <img src="https://img.shields.io/badge/Socket.io-010101?style=flat&logo=Socket.io&logoColor=white">,
-           <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat&logo=Axios&logoColor=white">
++ Library: <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat&logo=Axios&logoColor=white">
 + API: <img src="https://img.shields.io/badge/Kakao Login API-FFCD00?style=flat&logo=Kakao&logoColor=white">,
        <img src="https://img.shields.io/badge/Kakao Map API-FFCD00?style=flat&logo=Kakao&logoColor=white">,
        <img src="https://img.shields.io/badge/OpenAI-412991?style=flat&logo=OpenAI&logoColor=white">
