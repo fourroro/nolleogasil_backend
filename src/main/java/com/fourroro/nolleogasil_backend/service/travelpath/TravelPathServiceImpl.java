@@ -25,7 +25,7 @@ public class TravelPathServiceImpl implements TravelPathService {
 
     private final UsersRepository usersRepository;
 
-    // travelPath 추가
+    /** travelPath 추가 */
     @Override
     @Transactional
     public TravelPath insertTravelPath (TravelPathDto travelPathDto){
@@ -64,7 +64,9 @@ public class TravelPathServiceImpl implements TravelPathService {
     }
 
 
-    //TravelPath 목록 오름차순 조회 (keyword와 조인)
+    /** TravelPath 목록 오름차순 조회 (keyword와 조인) */
+    @Override
+    @Transactional
     public List<TravelPath> getTravelPathListAsc(Long usersId) {
 
         Users users = usersRepository.findById(usersId)
@@ -80,7 +82,9 @@ public class TravelPathServiceImpl implements TravelPathService {
     }
 
 
-    //TravelPath 목록 지역순 조회 (keyword와 조인)
+    /** TravelPath 목록 지역순 조회 (keyword와 조인) */
+    @Override
+    @Transactional
     public List<TravelPath> getTravelPathListByArrival(Long usersId) {
 
         Users users = usersRepository.findById(usersId)
@@ -96,7 +100,7 @@ public class TravelPathServiceImpl implements TravelPathService {
     }
 
 
-    // travelpathId로 TravelPath, Keyword, Recommendation 조회
+    /** travelpathId로 TravelPath, Keyword, Recommendation 조회 */
     @Override
     @Transactional
     public TravelPath getTravelPathById(Long travelPathId){
@@ -111,14 +115,15 @@ public class TravelPathServiceImpl implements TravelPathService {
     }
 
 
-    //user가 저장한 TravelPath의 총 개수
+    /** user가 저장한 TravelPath의 총 개수 계산 */
     @Override
     @Transactional
     public Long countTravelPath(Long usersId){
         return travelPathRepository.countByUsersUsersId(usersId);
     }
 
-    //TravelpathId와 관련된 정보 delete
+
+    /** TravelpathId와 관련된 정보 delete */
     @Override
     @Transactional
     public void deleteTravelPathById(Long travelPathId){

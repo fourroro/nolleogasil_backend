@@ -38,12 +38,25 @@
            <img src="https://img.shields.io/badge/STOMP-41454A?style=flat&logoColor=white">, 
            <img src="https://img.shields.io/badge/SockJS(실시간채팅)-F56640?style=flat&logoColor=white">, 
            <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat&logo=Axios&logoColor=white">
+           
 + API: <img src="https://img.shields.io/badge/Kakao Login API-FFCD00?style=flat&logo=Kakao&logoColor=white">, 
        <img src="https://img.shields.io/badge/Kakao Map API-FFCD00?style=flat&logo=Kakao&logoColor=white">, 
        <img src="https://img.shields.io/badge/OpenAI API-412991?style=flat&logo=OpenAI&logoColor=white">
-+ Server: RabbitMQ(메시지 브로커 서버), AWS(EC2, ELB, Route 53, ACM), Docker, Jenkins(배포용 서버), Nginx(웹 서버)
-+ 
-+ DB: OracleDB, Redis(세션 클러스터링)
+       
++ Server:
+  <img src="https://img.shields.io/badge/Rabbitmq(메세지 브로커 서버)-FF6600?style=flat&logo=rabbitmq&logoColor=white"/>,
+  <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=flat&logo=amazonec2&logoColor=white"/>,
+  <img src="https://img.shields.io/badge/AWS ELB-8C4FFF?style=flat&logo=awselasticloadbalancing&logoColor=white"/>,
+  <img src="https://img.shields.io/badge/Amazon Route53-8C4FFF?style=flat&logo=amazonroute53&logoColor=white"/>,
+  <img src="https://img.shields.io/badge/AWS Certificate Manager-C925D1?style=flat&logoColor=white"/>,
+  <img src="https://img.shields.io/badge/Amazon ElastiCache-C925D1?style=flat&logo=amazonelasticache&logoColor=white"/>,
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=flat&logo=Docker&logoColor=white"/>,
+  <img src="https://img.shields.io/badge/jenkins(배포용 서버)-E06666?style=flat&logo=jenkins&logoColor=white"/>,
+  <img src="https://img.shields.io/badge/nginx(웹 서버)-67c83b?style=flat&logo=nginx&logoColor=white"/>
+  
++ DB:
+  <img src="https://img.shields.io/badge/ORACLE-F80000?style=flat&logo=oracle&logoColor=white"/>,
+  <img src="https://img.shields.io/badge/redis(세션 클러스터링)-cc0000?style=flat&logo=redis&logoColor=white"/>
 + Platform: Notion, Jira, Microsoft Teams, GitHub
 + Tools: ERMaster(Eclipse), IntelliJ, VSCode, Sql Developer
 

@@ -3,7 +3,11 @@ import com.fourroro.nolleogasil_backend.dto.travelpath.TravelPathDto;
 import com.fourroro.nolleogasil_backend.entity.users.Users;
 import jakarta.persistence.*;
 import lombok.*;
-
+/**
+ * Travelpath Table에 매칭되는 Entity입니다.
+ * @author 전선민
+ * @since 2024-01-10
+ */
 
 @Entity
 @Table(name="Travelpath")

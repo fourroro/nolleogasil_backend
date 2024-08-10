@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * ChatGpt API에 요청을 보낼 떄의 메세지 형태를 나타내는 클래스입니다.
+ * 여행 일정 폼 내의 질문항목 정보들을 담을 수 있는 DTO클래스입니다.
  * @author 전선민
  * @since 2024-01-10
  */

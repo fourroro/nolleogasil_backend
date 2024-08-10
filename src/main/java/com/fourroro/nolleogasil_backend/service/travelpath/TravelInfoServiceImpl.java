@@ -17,6 +17,7 @@ public class TravelInfoServiceImpl implements TravelInfoService{
 
     private final TravelInfoRepository travelInfoRepository;
 
+    /** travelInfo 추가 */
     @Override
     @Transactional
     public void insertTravelInfo (Recommendation recommendation, TravelInfoDto travelInfoDto) {
@@ -31,7 +32,7 @@ public class TravelInfoServiceImpl implements TravelInfoService{
 
     }
 
-
+    /** travelInfo 조회 */
     @Override
     @Transactional
     public List<TravelInfo> getTravelInfoById(Long recommendationId) {
@@ -45,6 +46,7 @@ public class TravelInfoServiceImpl implements TravelInfoService{
         return travelInfos;
     }
 
+    /** travelInfo 갱신 */
     @Override
     @Transactional
     public void updateTravelInfo(List<TravelInfoDto> travelInfoDtos,  Recommendation recommendation){
