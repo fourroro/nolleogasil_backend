@@ -57,8 +57,8 @@
 + DB:
   <img src="https://img.shields.io/badge/ORACLE-F80000?style=flat&logo=oracle&logoColor=white"/>,
   <img src="https://img.shields.io/badge/redis(세션 클러스터링)-cc0000?style=flat&logo=redis&logoColor=white"/>
-+ Platform: Notion, Jira, Microsoft Teams, GitHub
-+ Tools: ERMaster(Eclipse), IntelliJ, VSCode, Sql Developer
++ Platform: <img src="https://img.shields.io/badge/Notion-000000?style=flat&logo=Notion&logoColor=white">, <img src="https://img.shields.io/badge/Jira-0052CC?style=flat&logo=Jira&logoColor=white">, <img src="https://img.shields.io/badge/Microsoft Teams-8F9ADC?style=flat&logo=Microsoft Teams&logoColor=white">, <img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white">
++ Tools: <img src="https://img.shields.io/badge/ERMaster(Eclipse)-2C2255?style=flat&logo=Eclipse IDE&logoColor=white">, <img src="https://img.shields.io/badge/IntelliJ IDEA-000000?style=flat&logo=IntelliJ IDEA&logoColor=white">, <img src="https://img.shields.io/badge/VSCode-007ACC?style=flat&logo=Visual Studio Code&logoColor=white"/>, <img src="https://img.shields.io/badge/SQL Developer-CEF279?style=flat&logo=SQL Developer&logoColor=white">
 
 
 # 🛠 시스템 구조
