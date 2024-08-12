@@ -1,5 +1,5 @@
 /**
- * 이 클래스는 맛집메이트의 멤버 관리를 위한 Service입니다.
+ * 맛집메이트의 멤버 관리를 위한 Service클래스입니다.
  * @author 박초은
  * @since 2024-01-05
  */
@@ -58,7 +58,7 @@ public class MateMemberServiceImpl implements MateMemberService {
         return mateMembers;
     }
 
-    //MateMemberDto 객체 생성
+    /** MateMemberDto 객체 생성 */
     @Override
     public MateMemberDto creatMateMemberDto(MateDto mateDto, Long chatroomId, Long usersId) {
         return MateMemberDto.builder()
@@ -69,7 +69,7 @@ public class MateMemberServiceImpl implements MateMemberService {
                 .build();
     }
 
-    //insert mateMember
+    /** insert mateMember */
     @Transactional
     @Override
     public void insertMateMember(MateMemberDto mateMemberDto) {
@@ -124,48 +124,48 @@ public class MateMemberServiceImpl implements MateMemberService {
         return chatRoomAndPlaceDtos;
     }
 
-    //해당 mate의 mateMember 수
+    /** 해당 mate의 mateMember 수 */
     @Override
     public Long countMateMember(Long mateId) {
         return mateMemberRepository.countByMateMateId(mateId);
     }
 
-    //해당 mate의 mateMember 목록 조회
+    /** 해당 mate의 mateMember 목록 조회 */
     @Override
     public List<MateMemberDto> getMateMemberList(Long mateId) {
         List<MateMember> mateMemberList = mateMemberRepository.findByMateMateIdOrderByMatememberId(mateId);
         return changeToDtoList(mateMemberList);
     }
 
-    //해당 mate의 mateMember 목록 조회(단, 로그인 한 사용자는 제외)
+    /** 해당 mate의 mateMember 목록 조회(단, 로그인 한 사용자는 제외) */
     @Override
     public List<MateMemberDto> getMateMemberListExcludingMe(Long mateId, Long usersId) {
         List<MateMember> mateMemberList = mateMemberRepository.findByMateMemberExcludingMe(mateId, usersId);
         return changeToDtoList(mateMemberList);
     }
 
-    //1명의 mateMember 조회
+    /** 1명의 mateMember 조회 */
     @Override
     public MateMember getMateMember(Long matememberId) {
         return mateMemberRepository.findById(matememberId)
                 .orElseThrow(() -> new GlobalException(ResultCode.NOT_FOUND_MATEMEMBER));
     }
 
-    //사용자의 mateMember 정보 조회(mateId, usersId 이용) -> isGiven(온도부여 여부) 조회할 때 사용
+    /** 사용자의 mateMember 정보 조회(mateId, usersId 이용) -> isGiven(온도부여 여부) 조회할 때 사용 */
     @Override
     public MateMember getMateMemberByUsersIdAndMateId(Long usersId, Long mateId) {
         return mateMemberRepository.findByUsersUsersIdAndMateMateId(usersId, mateId)
                 .orElseThrow(() -> new GlobalException(ResultCode.NOT_FOUND_MATEMEMBER));
     }
 
-    //사용자가 참여했던 mate 이력 조회(본인이 개설한 mate 포함)
+    /** 사용자가 참여했던 mate 이력 조회(본인이 개설한 mate 포함) */
     @Override
     public List<MateMemberDto> getMateHistoryList(Long usersId) {
         List<MateMember> mateHistory = mateMemberRepository.findMateHistoryByUsersId(usersId);
         return changeToDtoList(mateHistory);
     }
 
-    //동일 mate의 member들에게 mateTemp부여(본인 제외)
+    /** 동일 mate의 member들에게 mateTemp부여(본인 제외) */
     @Transactional
     @Override
     public void setMemberMateTemp(UsersDto member, float mateTemp, Long usersId, Long mateId) {
@@ -185,14 +185,14 @@ public class MateMemberServiceImpl implements MateMemberService {
         mateMemberRepository.save(users);
     }
 
-    //mateMember 삭제
+    /** mateMember 삭제 */
     @Transactional
     @Override
     public void deleteMateMember(Long matememberId) {
         mateMemberRepository.deleteById(matememberId);
     }
 
-    //entityList -> dtoList
+    /** entityList -> dtoList */
     public List<MateMemberDto> changeToDtoList(List<MateMember> mateMemberList) {
         List<MateMemberDto> mateMemberDtoList = new ArrayList<>();
 

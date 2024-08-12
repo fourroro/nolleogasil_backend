@@ -1,7 +1,7 @@
 /**
- * 이 클래스는 맛집메이트 관리를 위한 Service입니다.
+ * 맛집메이트 관리를 위한 Service클래스입니다.
  * @author 박초은
- * @author 홍유리
+ * @author 홍유리(chat 관련)
  * @since 2024-01-05
  */
 package com.fourroro.nolleogasil_backend.service.mate;
@@ -36,7 +36,7 @@ public class MateServiceImpl implements MateService {
     private final PlaceService placeService;
     private final UsersService usersService;
 
-    //insert Mate
+    /** insert Mate */
     @Transactional
     @Override
     public MateDto insertMate(MateFormDto requestMateDto, PlaceDto placeDto, Long usersId) {
@@ -52,7 +52,7 @@ public class MateServiceImpl implements MateService {
         return mateDto;
     }
 
-    //mate 공고 글 조회(날짜순)
+    /** mate 공고 글 조회(날짜순) */
     @Override
     public List<MateDto> getMateList(Integer placeId, int placeCat) {
         List<Mate> mateList;
@@ -74,7 +74,7 @@ public class MateServiceImpl implements MateService {
         return compareDateTime(mateList);
     }
 
-    //사용자가 개설한 mate 공고 글 조회(최신작성순)
+    /** 사용자가 개설한 mate 공고 글 조회(최신작성순) */
     @Override
     public List<MateDto> getMateListByUsersId(Long usersId) {
         List<Mate> mateList = mateRepository.findByUsersUsersIdOrderByMateIdDesc(usersId);
@@ -87,7 +87,7 @@ public class MateServiceImpl implements MateService {
         return mateDtoList;
     }
 
-    //mate 공고 글 조회(거리순)
+    /** mate 공고 글 조회(거리순) */
     @Override
     public List<MateDto> getMateListOrderByDistance(Integer placeId, int placeCat, double currentLat, double currentLng) {
         List<MateDto> mateDtoList = getMateList(placeId, placeCat);
@@ -108,7 +108,7 @@ public class MateServiceImpl implements MateService {
         return mateDtoList;
     }
 
-    //1개의 mate 공고 글 조회
+    /** 1개의 mate 공고 글 조회 */
     @Override
     public Mate getMate(Long mateId) {
         return mateRepository.findById(mateId)
@@ -130,14 +130,14 @@ public class MateServiceImpl implements MateService {
         return placeDto;
     }
 
-    //mate 삭제
+    /** mate 삭제 */
     @Transactional
     @Override
     public void deleteMate(Long mateId) {
         mateRepository.deleteById(mateId);
     }
 
-    //각 mate의 eatDate, eatTime과 현재 날짜 및 시간을 비교해 display 값 변경
+    /** 각 mate의 eatDate, eatTime과 현재 날짜 및 시간을 비교해 display 값 변경 */
     public List<MateDto> compareDateTime (List<Mate> mateList) {
         LocalDateTime now = LocalDateTime.now();
         List<MateDto> mateDtoList = new ArrayList<>();
@@ -157,7 +157,7 @@ public class MateServiceImpl implements MateService {
         return mateDtoList;
     }
 
-    //해당 mate의 display 값을 0으로 변경
+    /** 해당 mate의 display 값을 0으로 변경 */
     public void updateDisplayStatus(Mate m) {
         MateDto mateDto = MateDto.changeToDto(m);
         mateDto.setDisplay(0);  //mate 공고 글 비활성화

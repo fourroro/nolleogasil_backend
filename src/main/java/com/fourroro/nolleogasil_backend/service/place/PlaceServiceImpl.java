@@ -1,5 +1,5 @@
 /**
- * 이 클래스는 장소 관리를 위한 Service입니다.
+ * 장소 관리를 위한 Service클래스입니다.
  * @author 박초은
  * @since 2024-01-05
  */
@@ -17,7 +17,7 @@ public class PlaceServiceImpl implements PlaceService {
 
     private final PlaceRepository placeRepository;
 
-    //insert place
+    /** insert place */
     @Override
     public Place insertPlace(PlaceDto placeDto) {
         Place place = Place.changeToEntity(placeDto);
@@ -26,13 +26,13 @@ public class PlaceServiceImpl implements PlaceService {
         return savedPlace;
     }
 
-    //place 유무 확인
+    /** place 유무 확인 */
     @Override
     public boolean checkPlaceColumn(Integer placeId) {
         return placeRepository.existsById(placeId);
     }
 
-    //place category 변경(string -> int)
+    /** place category 변경(string -> int) */
     @Override
     public int changeToPlaceCat(String category) {
         int placeCat;
@@ -65,10 +65,10 @@ public class PlaceServiceImpl implements PlaceService {
     4. 변수 c 계산(중심각, 두 지점 간의 대원거리를 계산하는 데 사용)
     5. 구의 반지름(EARTH_RADIUS)와 중심각(c)를 곱해 최종적으로 대원거리 계산 */
 
-    //지구의 반지름(km)
+    // 지구의 반지름(km)
     private static final double EARTH_RADIUS_KM = 6371.0;
 
-    //두 지점 간 거리 계산(km) -> Haversine 공식 사용
+    /** 두 지점 간 거리 계산(km) -> Haversine 공식 사용 */
     @Override
     public double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         //위도, 경도를 라디안으로 변환

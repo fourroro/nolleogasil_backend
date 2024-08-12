@@ -1,5 +1,5 @@
 /**
- * 이 클래스는 맛집메이트의 신청 관리를 위한 Controller입니다.
+ * 맛집메이트의 신청 관리를 위한 Controller입니다.
  * @author 박초은
  * @since 2024-01-05
  */
@@ -78,7 +78,7 @@ public class ApplyController {
      *
      * @param applyId //해당 신청 ID
      * @param isApply //클릭한 신청 상태(수락 or 거절)
-     * @return HTTP 상태 코드가 200(성공 시), 204(해당 신청을 찾지 못할 시), 500(서버 오류 발생 시)인 ResponseEntity 객체
+     * @return HTTP 상태 코드가 200(성공 시), 404(해당 신청을 찾지 못할 시), 500(서버 오류 발생 시)인 ResponseEntity 객체
      */
     @PatchMapping("/{applyId}")
     public ResponseEntity<Void> updateIsApply(@PathVariable Long applyId, @RequestBody ApplyStatus isApply) {

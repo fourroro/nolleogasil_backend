@@ -1,5 +1,5 @@
 /**
- * 장소 관리를 위한 Service Interface입니다.
+ * 장소 관리를 위한 Service interface입니다.
  * @author 박초은
  * @since 2024-01-05
  */
@@ -10,16 +10,16 @@ import com.fourroro.nolleogasil_backend.entity.place.Place;
 
 public interface PlaceService {
 
-    //insert place
+    /** insert place */
     public Place insertPlace(PlaceDto placeDto);
 
-    //place 유무 확인
+    /** place 유무 확인 */
     public boolean checkPlaceColumn(Integer placeId);
 
-    //place category 변경
+    /** place category 변경(string -> int) */
     public int changeToPlaceCat(String category);
 
-    //두 지점 간 거리 계산(km)
+    /** 두 지점 간 거리 계산(km) */
     public double calculateDistance(double lat1, double lon1, double lat2, double lon2);
 
 }

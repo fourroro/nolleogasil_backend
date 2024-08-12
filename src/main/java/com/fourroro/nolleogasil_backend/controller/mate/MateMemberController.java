@@ -1,5 +1,5 @@
 /**
- * 이 클래스는 맛집메이트의 멤버 관리를 위한 Controller입니다.
+ * 맛집메이트의 멤버 관리를 위한 Controller입니다.
  * @author 박초은
  * @since 2024-01-05
  */
@@ -25,7 +25,12 @@ public class MateMemberController {
 
     private final MateMemberService mateMemberService;
 
-    //session에 있는 usersId 가져오기
+    /**
+     * session에 저장된 UsersDto의 사용자 ID를 가져오는 함수
+     *
+     * @param session //현재 사용자의 세션 객체
+     * @return 현재 세션에 저장된 사용자 ID
+     */
     private Long getSessionUsersId(HttpSession session) {
         UsersDto usersSession = (UsersDto) session.getAttribute("users");
         return usersSession.getUsersId();
@@ -47,7 +52,14 @@ public class MateMemberController {
         }
     }
 
-    //로그인한 사용자가 참여했던 mate 이력 조회(본인이 개설한 mate 포함)
+    /**
+     * 로그인한 사용자가 참여했던 맛집메이트 목록 조회
+     * (본인이 개설한 맛집메이트도 포함)
+     *
+     * @param session 현재 사용자의 세션 객체
+     * @return 조회된 맛집메이트 목록을 포함한 HTTP 상태 코드가 200인 ResponseEntity 객체,
+     *         서버 오류 발생 시 HTTP 상태 코드가 500인 ResponseEntity 객체
+     */
     @GetMapping("/history")
     public ResponseEntity<List<MateMemberDto>> getMateHistoryList(HttpSession session) {
         try {
@@ -60,7 +72,13 @@ public class MateMemberController {
         }
     }
 
-    //해당 mate의 mateMember 조회
+    /**
+     * 맛집메이트의 멤버 목록 조회
+     *
+     * @param mateId 멤버 목록을 조회할 맛집메이트 ID
+     * @return 조회된 멤버 목록을 포함한 HTTP 상태 코드가 200인 ResponseEntity 객체,
+     *         HTTP 상태 코드가 400(잘못된 요청 시), 500(서버 오류 발생 시)인 ResponseEntity 객체
+     */
     @GetMapping("/{mateId}")
     public  ResponseEntity<List<MateMemberDto>> getMateMemberList(@PathVariable Long mateId) {
         try {
@@ -76,7 +94,15 @@ public class MateMemberController {
         }
     }
 
-    //해당 mate의 mateMember 조회(단, 로그인한 사용자는 제외) -> 온도 부여할 때 사용
+    /**
+     * 맛집메이트의 멤버 목록 조회 (단, 로그인한 사용자는 제외)
+     *      -> 본인을 제외한 다른 멤버들에게 온도를 부여할 때 사용
+     *
+     * @param mateId 멤버 목록을 조회할 맛집메이트 ID
+     * @param session 현재 사용자의 세션 객체
+     * @return 조회된 멤버 목록을 포함한 HTTP 상태 코드가 200인 ResponseEntity 객체,
+     *         HTTP 상태 코드가 400(잘못된 요청 시), 500(서버 오류 발생 시)인 ResponseEntity 객체
+     */
     @GetMapping("/{mateId}/excluding-me")
     public ResponseEntity<List<MateMemberDto>> getMateMemberListExcludingMe(@PathVariable Long mateId, HttpSession session) {
         try {
@@ -93,7 +119,13 @@ public class MateMemberController {
         }
     }
 
-    //해당 mate의 mateMember 수
+    /**
+     * 맛집메이트에 참여한 인원 수 조회
+     *
+     * @param mateId 조회할 맛집메이트 ID
+     * @return 조회된 인원수를 포함한 HTTP 상태 코드가 200인 ResponseEntity 객체,
+     *         HTTP 상태 코드가 400(잘못된 요청 시), 500(서버 오류 발생 시)인 ResponseEntity 객체
+     */
     @GetMapping("/{mateId}/count")
     public ResponseEntity<Long> countMateMember(@PathVariable Long mateId) {
         try {
@@ -110,7 +142,16 @@ public class MateMemberController {
 
     }
 
-    //로그인한 사용자의 mateMember 정보 조회(usersId, mateId 이용) -> isGiven(온도부여 여부) 조회할 때 사용
+    /**
+     * 로그인한 사용자의 멤버 정보 조회
+     * 로그인한 사용자가 참여한 맛집메이트의 다른 멤버에게 온도를 부여했는지 여부를 저장하는 isGiven값을 조회하기 위해 사용
+     *
+     * @param mateId 조회할 맛집메이트 ID
+     * @param session 현재 사용자의 세션 객체
+     * @return 조회된 멤버 정보를 포함한 HTTP 상태 코드가 200인 ResponseEntity 객체,
+     *         조회된 멤버 정보가 없다면 HTTP 상태 코드가 404인 ResponseEntity 객체,
+     *         HTTP 상태 코드가 400(잘못된 요청 시), 500(서버 오류 발생 시)인 ResponseEntity 객체
+     */
     @GetMapping("/{mateId}/my-info")
     public ResponseEntity<MateMemberDto> getMateMemberByUsersIdAndMateId(@PathVariable Long mateId, HttpSession session) {
         try {
@@ -131,7 +172,14 @@ public class MateMemberController {
         }
     }
 
-    //동일 mate의 mateMember들에게 mateTemp부여(본인 제외)
+    /**
+     * 로그인한 사용자 본인을 제외한 맛집메이트 멤버들에게 메이트 온도(mateTemp) 부여
+     *
+     * @param mateId 해당 맛집메이트 ID
+     * @param memberMateTempMap 멤버별 부여할 온도값이 저장된 Map객체 (key: 멤버 ID, value: 부여할 온도 값)
+     * @param session 현재 사용자의 세션 객체
+     * @return HTTP 상태 코드가 204(부여 성공 시), 400(잘못된 요청 시), 500(서버 오류 발생 시)인 ResponseEntity 객체
+     */
     @PatchMapping("/{mateId}/temp")
     public ResponseEntity<Void> setMemberMateTemp(@PathVariable Long mateId, @RequestBody Map<Long, Float> memberMateTempMap,
                                                   HttpSession session) {
@@ -156,7 +204,13 @@ public class MateMemberController {
         }
     }
 
-    //해당 mateMemeber 삭제
+    /**
+     * 맛집메이트 멤버 삭제
+     * 해당 맛집메이트 게시자만 가능
+     *
+     * @param matememberId 삭제할 멤버 ID
+     * @return HTTP 상태 코드가 204(삭제 성공 시), 400(잘못된 요청 시), 500(서버 오류 발생 시)인 ResponseEntity 객체
+     */
     @DeleteMapping("/{matememberId}")
     public ResponseEntity<Void> deleteMateMember(@PathVariable Long matememberId) {
         try {

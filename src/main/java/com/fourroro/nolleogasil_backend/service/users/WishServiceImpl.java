@@ -1,5 +1,5 @@
 /**
- * 이 클래스는 위시(내 장소) 관리를 위한 Service입니다.
+ * 위시(내 장소) 관리를 위한 Service클래스입니다.
  * @author 박초은
  * @since 2024-01-05
  */
@@ -23,7 +23,7 @@ public class WishServiceImpl implements WishService {
     private final WishRepository wishRepository;
     private final UsersService usersService;
 
-    //insert wish
+    /** insert wish */
     @Transactional
     @Override
     public void insertWish(WishDto wishDto) {
@@ -34,7 +34,7 @@ public class WishServiceImpl implements WishService {
         wishRepository.save(wish);
     }
 
-    //wish 목록 조회
+    /** wish 목록 조회 */
     @Override
     public List<Wish> getWishList(Long usersId, int placeCat) {
         if (placeCat == 0) {
@@ -46,7 +46,7 @@ public class WishServiceImpl implements WishService {
         }
     }
 
-    //wish 목록 정렬 조회
+    /** wish 목록 정렬 조회 */
     @Override
     public List<Wish> getSortedWishList(Long usersId, int placeCat, String sortBy) {
         //전체 wish 목록 정렬
@@ -66,31 +66,31 @@ public class WishServiceImpl implements WishService {
         }
     }
 
-    //1개의 wish 조회(wishId를 찾기 위해)
+    /** 1개의 wish 조회(wishId를 찾기 위해) */
     @Override
     public Wish getWishByUsersIdAndPlaceId(Long usersId, Integer placeId) {
         return wishRepository.findByUsersUsersIdAndPlacePlaceId(usersId, placeId);
     }
 
-    //wish 유무 확인
+    /** wish 유무 확인 */
     @Override
     public Boolean checkWishColumn(Long usersId, Integer placeId) {
         return wishRepository.existsByUsersUsersIdAndPlacePlaceId(usersId, placeId);
     }
 
-    //저장된 총 wish 개수 조회
+    /** 저장된 총 wish 개수 조회 */
     @Override
     public Long countWish(Long usersId) {
         return wishRepository.countByUsersUsersId(usersId);
     }
 
-    //저장된 해당 placeCate의 wish 개수 조회
+    /** 저장된 해당 placeCate의 wish 개수 조회 */
     @Override
     public Long countWishByPlaceCat(Long usersId, int placeCat) {
         return wishRepository.countByUsersUsersIdAndPlacePlaceCat(usersId, placeCat);
     }
 
-    //wish 삭제
+    /** wish 삭제 */
     @Transactional
     @Override
     public void deleteWish(Long wishId) {

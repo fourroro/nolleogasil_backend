@@ -1,12 +1,12 @@
-/**
- * 이 클래스는 장소를 DB에 저장 및 DB에서 조회하기 위한 Repository입니다.
- * @author 박초은
- * @since 2024-01-05
- */
 package com.fourroro.nolleogasil_backend.repository.place;
 
 import com.fourroro.nolleogasil_backend.entity.place.Place;
 import org.springframework.data.jpa.repository.JpaRepository;
+/**
+ * {@link Place}엔티티와 관련된 데이터 작업을 처리하는 Repository interface입니다.
+ * @author 박초은
+ * @since 2024-01-05
+ */
 
 public interface PlaceRepository extends JpaRepository<Place, Integer> {
     //save()(=persist())

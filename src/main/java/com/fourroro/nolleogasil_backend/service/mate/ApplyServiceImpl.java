@@ -1,5 +1,5 @@
 /**
- * 이 클래스는 맛집메이트의 신청 관리를 위한 Service입니다.
+ * 맛집메이트의 신청 관리를 위한 Service클래스입니다.
  * @author 박초은
  * @since 2024-01-05
  */
@@ -29,7 +29,7 @@ public class ApplyServiceImpl implements ApplyService {
     private final MateService mateService;
     private final UsersService usersService;
 
-    //insert apply
+    /** insert apply */
     @Transactional
     @Override
     public void insertApply(ApplyDto applyDto) {
@@ -39,28 +39,28 @@ public class ApplyServiceImpl implements ApplyService {
         applyRepository.save(apply);
     }
 
-    //해당 apply의 isApply값 변경
+    /** 해당 apply의 isApply값 변경 */
     @Transactional
     @Override
     public void updateIsApply(ApplyDto applyDto) {
         applyRepository.updateIsApply(applyDto.getApplyId(), applyDto.getIsApply());
     }
 
-    //보낸 신청 목록 조회
+    /** 보낸 신청 목록 조회 */
     @Override
     public List<ApplyDto> getSendApplyList(Long applicantId) {
         List<Apply> sendApplyList = applyRepository.findByApplicantId(applicantId);
         return changeToDtoList(sendApplyList);
     }
 
-    //받은 신청 목록 조회
+    /** 받은 신청 목록 조회 */
     @Override
     public List<ApplyDto> getReceiveApplyList(Long usersId) {
         List<Apply> receiveApplyList = applyRepository.findByMasterId(usersId);
         return changeToDtoList(receiveApplyList);
     }
 
-    //1개의 apply 조회(applyId 이용)
+    /** 1개의 apply 조회(applyId 이용) */
     @Override
     public ApplyDto getApply(Long applyId) {
         Apply apply = applyRepository.findById(applyId)
@@ -68,7 +68,7 @@ public class ApplyServiceImpl implements ApplyService {
         return ApplyDto.changeToDto(apply);
     }
 
-    //1개의 apply 조회(mateId, applicantId(usersId) 이용)
+    /** 1개의 apply 조회(mateId, applicantId(usersId) 이용) */
     @Override
     public ApplyDto getApplyByMateIdAndUsersId(Long mateId, Long usersId) {
         Apply apply = applyRepository.findByMateMateIdAndUsersUsersId(mateId, usersId)
@@ -77,20 +77,20 @@ public class ApplyServiceImpl implements ApplyService {
         return ApplyDto.changeToDto(apply);
     }
 
-    //apply 유무 확인
+    /** apply 유무 확인 */
     @Override
     public boolean checkApplyColumn(Long mateId, Long usersId) {
         return applyRepository.existsByMateMateIdAndUsersUsersId(mateId, usersId);
     }
 
-    //apply 삭제
+    /** apply 삭제 */
     @Transactional
     @Override
     public void deleteApply(Long applyId) {
         applyRepository.deleteById(applyId);
     }
 
-    //entityList -> dtoList
+    /** entityList -> dtoList */
     public List<ApplyDto> changeToDtoList(List<Apply> applyList) {
         if (applyList.isEmpty()) {
             return Collections.emptyList();

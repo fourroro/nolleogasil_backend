@@ -19,6 +19,7 @@ import java.util.Map;
 /**
  * 이 클래스는 회원 정보 관리를 위한 컨트롤러입니다.
  * @author 장민정
+ * @author 박초은(getUsersInfo method)
  * @since 2024-01-05
  */
 @Slf4j
@@ -170,6 +171,7 @@ public class UsersController {
     }
 
     /**
+     * @author 박초은
      * 맛집메이트의 게시자의 사용자 정보 조회 or 멤버의 사용자 정보 조회
      *
      * @param usersId 조회할 사용자 ID
