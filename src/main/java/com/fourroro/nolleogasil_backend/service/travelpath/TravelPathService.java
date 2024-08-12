@@ -6,7 +6,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+/**
+ * {@link TravelPath} 엔티티를 관리하기 위한 서비스 인터페이스입니다.
+ * @author 전선민
+ * @since 2024-01-10
+ */
 @Service
 public interface TravelPathService {
 

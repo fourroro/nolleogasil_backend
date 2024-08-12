@@ -10,7 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * {@link TravelInfoService} 인터페이스를 구현한 클래스입니다.
+ * @author 전선민
+ * @since 2024-01-10
+ */
 @Service
 @RequiredArgsConstructor
 public class TravelInfoServiceImpl implements TravelInfoService{

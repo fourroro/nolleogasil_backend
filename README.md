@@ -113,11 +113,12 @@
 + 기능
 
 
-민정
+### 🥑장민정
 + UI
-  * 페이지
-  * 공통 컴포넌트
+  * 페이지 : 회원가입, Kakao/Email 로그인, 마이페이지, 회원 정보 수정
+  * 공통 컴포넌트 : 세션 유효성 검증
 + 기능
+  * 회원 가입 유효성 및 중복 검사, 로그인 유효성 및 중복 검사, 회원 정보 설정 및 수정 기능, 세션 유효성 검증, 회원 탈퇴 기능
 
 
 # 🖼 이미지 출처
@@ -126,4 +127,3 @@
  <a href="https://www.flaticon.com/free-icons/restaurant" title="restaurant icons">Restaurant icons created by Eucalyp - Flaticon</a>
  
 </details>
-
