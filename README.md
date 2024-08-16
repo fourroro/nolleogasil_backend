@@ -79,7 +79,7 @@
 <table>
   <tbody>
     <tr>
-      <td align="center"><a href=""><img src="" width="200px;" alt="chon"/><br /><sub><b>팀장 : 박초은</b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="https://github.com/fourroro/nolleogasil_backend/blob/chon/README_images/chon.jpg" width="200px;" alt="chon"/><br /><sub><b>팀장 : 박초은</b></sub></a><br /></td>
       <td align="center"><a href=""><img src="" width="200px;" alt="sunmin"/><br /><sub><b>팀원 : 전선민</b></sub></a><br /></td>
       <td align="center"><a href=""><img src="" width="200px;" alt="hyouzl"/><br /><sub><b>팀원 : 홍유리</b></sub></a><br /></td>
       <td align="center"><a href=""><img src="" width="200px;" alt="minj"/><br /><sub><b>팀원 : 장민정</b></sub></a><br /></td>
@@ -89,14 +89,19 @@
 
 
 # 📌 역할 분담
-👩‍💻공동작업: 기획, DB스키마 설계, 세션 클러스터링, 접근제한 설정, 서비스 배포의 모든 과정
+### 👩‍💻공동작업
++ 기획, DB스키마 설계, 세션 클러스터링, 접근제한 설정, 서비스 배포의 모든 과정
 
 
-초은
+### 🐸박초은
 + UI
-  * 페이지
-  * 공통 컴포넌트
+  * 페이지: 메인화면, 카테고리별 지도(맛집, 카페, 숙소, 관광지), 위시리스트(내 장소), 맛집메이트 모집, 맛집메이트 상세정보, 보낸 신청 목록, 받은 신청 목록, 맛집메이트 이력
+  * 공통 컴포넌트: top, footer(underBar), image 버튼
 + 기능
+  * 현재 위치나 원하는 위치 주변의 카테고리별 장소 검색
+  * 위시리스트에 추가&삭제, 위시리스트 조회, 위시리스트 카테고리별 필터링&정렬(기본순, 최신순, 오래된순)
+  * 맛집메이트 공고 조회&정렬(날짜순, 거리순), 맛집메이트 신청&신청 취소 | 신청 수락&거절 | 신청이력 삭제, 맛집메이트 이력 조회
+  * 맛집메이트 멤버 삭제(게시자만), 맛집메이트 멤버들에게 온도 부여
 
 
 선민

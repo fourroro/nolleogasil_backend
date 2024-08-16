@@ -41,6 +41,8 @@ public class ApplyController {
     //session에 있는 usersId 가져오기
     private Long getSessionUsersId(HttpSession session) {
         UsersDto usersSession = (UsersDto) session.getAttribute("users");
+        System.out.println("!!!!!!!");
+        System.out.println(usersSession.getName());
         return usersSession.getUsersId();
     }
 
