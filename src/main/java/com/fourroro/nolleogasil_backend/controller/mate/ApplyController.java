@@ -83,17 +83,19 @@ public class ApplyController {
      * @return HTTP 상태 코드가 200(성공 시), 404(해당 신청을 찾지 못할 시), 500(서버 오류 발생 시)인 ResponseEntity 객체
      */
     @PatchMapping("/{applyId}")
-    public ResponseEntity<Void> updateIsApply(@PathVariable Long applyId, @RequestBody ApplyStatus isApply) {
+    public ResponseEntity<Void> updateIsApply(@PathVariable Long applyId, @RequestParam String status) {
         try {
             ApplyDto applyDto = applyService.getApply(applyId);
             if (applyDto == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
 
+            //String타입의 status값을 ApplyStatus타입으로 변경
+            ApplyStatus isApply = ApplyStatus.valueOf(status);
             applyDto.setIsApply(isApply);
             MateDto mateDto = MateDto.changeToDto(mateService.getMate(applyDto.getMateId()));
 
-            if (isApply == ApplyStatus.수락) {
+            if (status.equals("수락")) {
                 //isApply 변경
                 applyService.updateIsApply(applyDto);
 
