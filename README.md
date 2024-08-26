@@ -135,13 +135,13 @@
 <details>
  <summary>프로젝트 내 사용</summary>
  <a href="https://www.flaticon.com/free-icons/restaurant" title="restaurant icons">Restaurant icons created by Eucalyp - Flaticon</a><br/>
- <a href="https://www.flaticon.com/free-icons/cafe" title="cafe icons">Cafe icons created by Freepik - Flaticon</a>
- <a href="https://www.flaticon.com/free-icons/villa" title="villa icons">Villa icons created by Freepik - Flaticon</a>
- <a href="https://www.flaticon.com/free-icons/signs" title="signs icons">Signs icons created by Freepik - Flaticon</a>
- <a href="https://www.flaticon.com/free-icons/eat" title="eat icons">Eat icons created by Freepik - Flaticon</a>
- <a href="https://www.flaticon.com/free-icons/taxi" title="taxi icons">Taxi icons created by surang - Flaticon</a>
- https://dribbble.com/shots/5386830-?utm_source=pinterest&utm_campaign=pinterest_shot&utm_content=%E2%97%8F%E2%97%8F%E2%97%8F%E2%97%8F&utm_medium=Social_Share
- <a href="https://www.flaticon.com/free-icons/map" title="map icons">Map icons created by Freepik - Flaticon</a>
+ <a href="https://www.flaticon.com/free-icons/cafe" title="cafe icons">Cafe icons created by Freepik - Flaticon</a><br/>
+ <a href="https://www.flaticon.com/free-icons/villa" title="villa icons">Villa icons created by Freepik - Flaticon</a><br/>
+ <a href="https://www.flaticon.com/free-icons/signs" title="signs icons">Signs icons created by Freepik - Flaticon</a><br/>
+ <a href="https://www.flaticon.com/free-icons/eat" title="eat icons">Eat icons created by Freepik - Flaticon</a><br/>
+ <a href="https://www.flaticon.com/free-icons/taxi" title="taxi icons">Taxi icons created by surang - Flaticon</a><br/>
+ https://dribbble.com/shots/5386830-?utm_source=pinterest&utm_campaign=pinterest_shot&utm_content=%E2%97%8F%E2%97%8F%E2%97%8F%E2%97%8F&utm_medium=Social_Share<br/>
+ <a href="https://www.flaticon.com/free-icons/map" title="map icons">Map icons created by Freepik - Flaticon</a><br/>
  <a target="_blank" href="https://icons8.com/icon/3907/temperature">Temperature</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
 
 
