@@ -44,7 +44,7 @@
   * 맛집메이트 매칭
   * 실시간 채팅
   * ChatGPT를 이용한 여행일정 추천
-+ 서비스 메뉴얼 : https://drive.google.com/file/d/1-3ShUHmZJbbPBkp4rYk9YvKfrRaObiHK/view?usp=sharing
++ 서비스 메뉴얼 : https://drive.google.com/file/d/1TmDazD4RB8IArrc7TBu1N4qli6z2ioRQ/view?usp=sharing
 
 
 # ⚙ 개발 환경
