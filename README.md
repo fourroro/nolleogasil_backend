@@ -44,7 +44,7 @@
   * 맛집메이트 매칭
   * 실시간 채팅
   * ChatGPT를 이용한 여행일정 추천
-+ 서비스 메뉴얼 : https://drive.google.com/file/d/1-3ShUHmZJbbPBkp4rYk9YvKfrRaObiHK/view?usp=sharing
++ 서비스 메뉴얼 : https://drive.google.com/file/d/1TmDazD4RB8IArrc7TBu1N4qli6z2ioRQ/view?usp=sharing
 
 
 # ⚙ 개발 환경
@@ -133,12 +133,17 @@
 
 # 🖼 이미지 출처
 <details>
-
- 
  <summary>프로젝트 내 사용</summary>
+ <a href="https://www.flaticon.com/free-icons/restaurant" title="restaurant icons">Restaurant icons created by Eucalyp - Flaticon</a><br/>
+ <a href="https://www.flaticon.com/free-icons/cafe" title="cafe icons">Cafe icons created by Freepik - Flaticon</a>
+ <a href="https://www.flaticon.com/free-icons/villa" title="villa icons">Villa icons created by Freepik - Flaticon</a>
+ <a href="https://www.flaticon.com/free-icons/signs" title="signs icons">Signs icons created by Freepik - Flaticon</a>
+ <a href="https://www.flaticon.com/free-icons/eat" title="eat icons">Eat icons created by Freepik - Flaticon</a>
+ <a href="https://www.flaticon.com/free-icons/taxi" title="taxi icons">Taxi icons created by surang - Flaticon</a>
+ https://dribbble.com/shots/5386830-?utm_source=pinterest&utm_campaign=pinterest_shot&utm_content=%E2%97%8F%E2%97%8F%E2%97%8F%E2%97%8F&utm_medium=Social_Share
+ <a href="https://www.flaticon.com/free-icons/map" title="map icons">Map icons created by Freepik - Flaticon</a>
+ <a target="_blank" href="https://icons8.com/icon/3907/temperature">Temperature</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
 
- 
- <a href="https://www.flaticon.com/free-icons/restaurant" title="restaurant icons">Restaurant icons created by Eucalyp - Flaticon</a>
 
  [여행일정]
 
@@ -240,6 +245,5 @@
  
  
  https://www.freepik.com/free-vector/hand-drawn-colorful-travel-background_16137796.htm 
-
 
 </details>
