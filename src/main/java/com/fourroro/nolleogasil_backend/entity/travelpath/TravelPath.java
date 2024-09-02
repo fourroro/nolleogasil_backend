@@ -16,16 +16,10 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PUBLIC) //기본 생성자
 @AllArgsConstructor //전체 변수 생성하는 생성자
-@SequenceGenerator(
-        name = "SEQ_TRAVELPATH_TRAVELPATH_ID",  //시퀀스 제너레이터 이름
-        sequenceName = "SEQ_TRAVELPATH_TRAVELPATH_ID",  //시퀀스 이름
-        initialValue = 1,  //시작값
-        allocationSize = 1  //증가값
-)
 public class TravelPath {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_TRAVELPATH_TRAVELPATH_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long travelpathId;            //PK
     private String arrival;               //도착지
     private String startDate;             //출발 날짜
@@ -35,10 +29,14 @@ public class TravelPath {
     @JoinColumn(name = "usersId")
     private Users users;    		      //사용자 entity
 
-    @OneToOne(mappedBy = "travelPath", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "travelPath",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
     private Keyword keyword;              // TravelPath와의 OneToOne 관계
 
-    @OneToOne(mappedBy = "travelPath", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "travelPath",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
     private Recommendation recommendation; // TravelPath와의 OneToOne 관계
 
     public static TravelPath changeToEntity(TravelPathDto dto, Users users) {

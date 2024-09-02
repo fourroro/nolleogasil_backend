@@ -13,6 +13,6 @@ import java.util.List;
 
 public interface ChatRepository extends JpaRepository<Chat, Long> {
 
-    public List<Chat> findChatsByChatRoomChatroomId(Long chatroomId);
+    List<Chat> findChatsByChatRoomChatroomId(Long chatroomId);
 
 }

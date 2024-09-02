@@ -1,3 +1,4 @@
+/*
 package com.fourroro.nolleogasil_backend.controller.chatgpt;
 
 
@@ -17,11 +18,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 이 클래스는 ChatGpt API로 보내는 요청과 결과로 받은 응답을 관리하는 컨트롤러입니다.
- * @author 전선민
- * @since 2024-01-10
- */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/bot")
@@ -33,11 +29,7 @@ public class ChatGptController {
 
     private final RestTemplate template;
 
-    /** chatGPT에게 prompt(질문)에 대한 응답을 요청하고 응답 내용을 클라이언트에게 전달
-     *
-     * @param prompt 질문 내용을 포함하는 String 객체
-     * @return resultDto객체를 포함한 ResponseEntity 객체
-     */
+
     @PostMapping("/chat")
     public ResponseEntity<ResultDto> chat(@RequestParam(name = "prompt")String prompt){
         ChatGptRequestDto requestDto = new ChatGptRequestDto(model, prompt);
@@ -69,3 +61,4 @@ public class ChatGptController {
         return ResponseEntity.status(HttpStatus.OK).body(resultDto);
     }
 }
+*/

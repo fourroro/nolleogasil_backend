@@ -7,9 +7,7 @@
 package com.fourroro.nolleogasil_backend.entity.place;
 
 import com.fourroro.nolleogasil_backend.dto.place.PlaceDto;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -22,7 +20,9 @@ import lombok.*;
 public class Place {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer placeId;            //장소 id
+
     private String placeName;           //장소 이름
     private String placeAddress;        //주소
     private String placeRoadAddress;    //도로명 주소

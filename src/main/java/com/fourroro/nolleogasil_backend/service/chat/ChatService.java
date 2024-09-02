@@ -11,9 +11,8 @@ import java.util.List;
 
 public interface ChatService {
 
-    public void enterChatRoom(Long chatroomId, Long usersId);
+    void enterChatRoom(Long chatroomId, Long usersId);
     void sendMessage(Long chatroomId, Long usersId, String sendMessage);
-
-    public List<ChatDto> getChatList(Long chatRoomId);
+    List<ChatDto> getChatList(Long chatRoomId);
 
 }

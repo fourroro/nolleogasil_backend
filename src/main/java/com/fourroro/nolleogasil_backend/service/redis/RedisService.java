@@ -1,3 +1,4 @@
+/*
 package com.fourroro.nolleogasil_backend.service.redis;
 
 import lombok.RequiredArgsConstructor;
@@ -19,3 +20,4 @@ public class RedisService {
         log.info(redis);
     }
 }
+*/

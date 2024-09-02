@@ -24,16 +24,10 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SequenceGenerator(
-        name = "SEQ_MATE_MATE_ID",  //시퀀스 제너레이터 이름
-        sequenceName = "SEQ_MATE_MATE_ID",  //시퀀스 이름
-        initialValue = 1,  //시작값
-        allocationSize = 1  //증가값
-)
 public class Mate {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MATE_MATE_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mateId;
 
     @ManyToOne

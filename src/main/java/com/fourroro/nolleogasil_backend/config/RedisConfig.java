@@ -1,3 +1,4 @@
+/*
 package com.fourroro.nolleogasil_backend.config;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -68,4 +69,4 @@ public class RedisConfig {
         return serializer;
     }
 
-}
+}*/

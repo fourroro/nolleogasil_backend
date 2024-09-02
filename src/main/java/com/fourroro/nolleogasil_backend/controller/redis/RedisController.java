@@ -1,3 +1,4 @@
+/*
 package com.fourroro.nolleogasil_backend.controller.redis;
 
 import com.fourroro.nolleogasil_backend.service.redis.RedisService;
@@ -17,3 +18,4 @@ public class RedisController {
         return "redisHello";
     }
 }
+*/

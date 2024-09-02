@@ -25,21 +25,18 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SequenceGenerator(
-        name = "SEQ_USERS_USERS_ID",  //시퀀스 제너레이터 이름
-        sequenceName = "SEQ_USERS_USERS_ID",  //시퀀스 이름
-        initialValue = 1,  //시작값
-        allocationSize = 1  //증가값
-)
 public class Users implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_USERS_USERS_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long usersId;
 
     private String name;
 
+    @JoinColumn(name = "email", unique=true)
     private String email;
+
+    private String password;
 
     @JoinColumn(name = "nickname", unique=true)
     private String nickname;
@@ -49,6 +46,9 @@ public class Users implements Serializable {
     private String gender;
 
     private float matetemp;
+
+    private String provider;
+    private Role role;
 
     //회원가입시 matetemp값을 지정해주지 않아 0으로 data 삽입
     //0이라면 defult값인 36.5로 설정하여 해당 문제 방지
@@ -94,6 +94,10 @@ public class Users implements Serializable {
         this.email = email;
 
         return this;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public static Users changeToEntity(UsersDto dto) {

@@ -16,16 +16,10 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //기본 생성자
 @AllArgsConstructor //전체 변수 생성하는 생성자
-@SequenceGenerator(
-        name = "SEQ_TRAVELINFO_TRAVELINFO_ID",  //시퀀스 제너레이터 이름
-        sequenceName = "SEQ_TRAVELINFO_TRAVELINFO_ID",  //시퀀스 이름
-        initialValue = 1,  //시작값
-        allocationSize = 1  //증가값
-)
 public class TravelInfo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_TRAVELINFO_TRAVELINFO_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long travelinfoId;              //PK
 
     private String infos;                   //여행 정보

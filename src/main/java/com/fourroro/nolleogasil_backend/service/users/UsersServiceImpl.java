@@ -76,23 +76,25 @@ public class UsersServiceImpl implements UsersService {
 
 
     public Users findByEmail(String email){
-        return usersRepository.findByEmail(email);
+        return usersRepository.findByEmail(email).orElseThrow(()->new GlobalException(ResultCode.NOT_FOUND_USER));
     }
 
     @Override
     public Users findByPhone(String phone) {
-        return usersRepository.findByPhone(phone);
+        return usersRepository.findByPhone(phone).orElseThrow(()->new GlobalException(ResultCode.NOT_FOUND_USER));
     }
 
     public boolean validateDuplicateUsers(UsersDto usersDto) throws IllegalAccessException {
         Users users = Users.changeToEntity(usersDto);
-        Users isExistUser = usersRepository.findByEmail(users.getEmail());
+        Users isExistUser = usersRepository.findByEmail(users.getEmail())
+                .orElseThrow(()->new GlobalException(ResultCode.NOT_FOUND_USER));
         return isExistUser!=null;
     }
 
     public boolean validateDuplicatePhoneAndUpdate(String email, String phone) {
         // 이메일로 기존 사용자 조회
-        Users existingUser = usersRepository.findByEmail(email);
+        Users existingUser = usersRepository.findByEmail(email)
+                .orElseThrow(()->new GlobalException(ResultCode.NOT_FOUND_USER));
         UsersDto usersDto = changeToDto(existingUser);
         if (usersDto != null) {
             // 기존 사용자가 존재하면 폰 넘버 비교 및 업데이트

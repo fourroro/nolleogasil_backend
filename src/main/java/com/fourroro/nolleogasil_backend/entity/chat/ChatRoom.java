@@ -21,17 +21,11 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SequenceGenerator(
-        name = "SEQ_CHATROOM_CHATROOM_ID",  //시퀀스 제너레이터 이름
-        sequenceName = "SEQ_CHATROOM_CHATROOM_ID",  //시퀀스 이름
-        initialValue = 1,  //시작값
-        allocationSize = 1  //증가값
-)
 public class ChatRoom {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_CHATROOM_CHATROOM_ID")
     @Column(name = "chatroomId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long chatroomId;
     private String roomName; //채팅방 이름
 

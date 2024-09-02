@@ -1,3 +1,4 @@
+/*
 package com.fourroro.nolleogasil_backend.service.users;
 import com.fourroro.nolleogasil_backend.dto.users.KakaoInfo;
 import com.fourroro.nolleogasil_backend.dto.users.KakaoTokens;
@@ -8,11 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.net.URI;
 
-/**
- * 이 클래스는 카카오 로그인을 위한 Service class입니다.
- * @author 장민정
- * @since 2024-01-05
- */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -54,3 +50,4 @@ public class KakaoService{
         }
     }
 }
+*/

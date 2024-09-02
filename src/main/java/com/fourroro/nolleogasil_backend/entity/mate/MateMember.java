@@ -18,16 +18,10 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SequenceGenerator(
-        name = "SEQ_MATEMEMBER_MATEMEMBER_ID",  //시퀀스 제너레이터 이름
-        sequenceName = "SEQ_MATEMEMBER_MATEMEMBER_ID",  //시퀀스 이름
-        initialValue = 1,  //시작값
-        allocationSize = 1  //증가값
-)
 public class MateMember {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MATEMEMBER_MATEMEMBER_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long matememberId;
 
     //member의 usersId

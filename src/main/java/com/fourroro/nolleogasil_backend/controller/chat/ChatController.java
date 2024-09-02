@@ -17,6 +17,7 @@ import java.util.List;
 
 
 @RestController
+// Lombok 과 의존성 주입 (DI) 를 활용한 생성자 주입 -> 테스트를 용이하기 함
 @RequiredArgsConstructor
 @RequestMapping("/api/chat")
 public class ChatController {
@@ -27,6 +28,7 @@ public class ChatController {
     public List<ChatDto> getChatList(@PathVariable Long chatroomId) {
 
         List<ChatDto> chatList = chatService.getChatList(chatroomId);
+
         return chatList;
     }
 

@@ -1,20 +1,24 @@
-package com.fourroro.nolleogasil_backend.service.Oauth2;/*
 package com.fourroro.nolleogasil_backend.service.Oauth2;
 
 
 import com.fourroro.nolleogasil_backend.entity.users.Users;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Builder
 @Getter
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class OAuth2Attribute {
 
     private Map<String, Object> attributes; // 사용자 속성 정보를 담는 Map
-    private String attributeKey; // 사용자 속성의 키 값
+    private String attributeKey; // 사용자 속성의 키
     private String name;
     private String email;
     private String nickname;
@@ -27,12 +31,11 @@ public class OAuth2Attribute {
                               Map<String, Object> attributes) {
         switch (provider) {
             case "google":
-                return ofGoogle(provider,attributeKey, attributes);
+                return ofGoogle(provider, attributeKey, attributes);
             case "kakao":
-                return ofKakao(provider,attributeKey, attributes);
-
+                return ofKakao(provider, attributeKey, attributes);
              case "naver":
-                return ofNaver("id", attributes);
+                return ofNaver(provider, attributeKey, attributes);
 
             default:
                 throw new RuntimeException();
@@ -47,6 +50,7 @@ public class OAuth2Attribute {
                 .email((String) attributes.get("email"))
                 .attributes(attributes)
                 .attributeKey(attributeKey)
+                .provider(provider)
                 .build();
     }
 
@@ -68,22 +72,24 @@ public class OAuth2Attribute {
     }
 
 
-    private static OAuth2Attribute ofNaver(String attributeKey,
+    private static OAuth2Attribute ofNaver(String provider, String attributeKey,
                                            Map<String, Object> attributes) {
         Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 
         return OAuth2Attribute.builder()
                 .name((String) response.get("name"))
+                .nickname((String) response.get("nickname"))
                 .email((String) response.get("email"))
                 .phone((String) response.get("profile_image"))
                 .attributes(response)
                 .attributeKey(attributeKey)
+                .provider(provider)
                 .build();
     }
 
 
     // OAuth2User 객체에 넣어주기 위해서 Map으로 값들을 반환해준다.
-    Map<String, Object> convertToMap() {
+     Map<String, Object> convertToMap() {
         Map<String, Object> map = new HashMap<>();
         map.put("id", attributeKey);
         map.put("email", email);
@@ -91,6 +97,7 @@ public class OAuth2Attribute {
         map.put("gender", gender);
         map.put("phone", phone);
         map.put("provider", provider);
+        map.put("name", name);
 
         return map;
     }
@@ -108,5 +115,3 @@ public class OAuth2Attribute {
 
 
 }
-
-*/

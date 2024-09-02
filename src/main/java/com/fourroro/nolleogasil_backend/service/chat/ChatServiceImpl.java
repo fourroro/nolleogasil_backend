@@ -31,12 +31,10 @@ public class ChatServiceImpl implements ChatService {
     private final UsersService usersService;
 
 
-    //메이트 신청 후 수락한 뒤
-    //첫 채팅방 구독 시
+    // 메이트 신청 후 수락한 뒤
+    // 첫 채팅방 구독 시
     @Override
-    public void enterChatRoom(Long chatroomId,Long usersId) {
-
-        System.out.println(chatroomId);
+    public void enterChatRoom(Long chatroomId, Long usersId) {
 
         Users users = usersService.findByUsersId(usersId);
         ChatRoom chatRoom = chatRoomService.getChatRoom(chatroomId);
@@ -44,8 +42,6 @@ public class ChatServiceImpl implements ChatService {
         String enterMessage = users.getNickname() + "님이 입장하셨습니다.";
         Chat chat = Chat.createChat(chatRoom,users,enterMessage,LocalDateTime.now(),"enter");
         chatRepository.save(chat);
-
-
 
     }
 
@@ -64,9 +60,11 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public List<ChatDto> getChatList(Long chatroomId) {
+
         List<Chat> chatList = new ArrayList<>();
 
         try {
+
             chatList = chatRepository.findChatsByChatRoomChatroomId(chatroomId);
 
         } catch (Exception e) {

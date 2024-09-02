@@ -27,6 +27,7 @@ public class StompRabbitController {
     @MessageMapping("chat.enter")
     public void enterTest(@Payload Map<String, Object> message,
                           SimpMessageHeaderAccessor headerAccessor) {
+
         UsersDto usersSession = (UsersDto) headerAccessor.getSessionAttributes().get("users");
         Long usersId = usersSession.getUsersId();
         Long chatroomId = Long.parseLong(message.get("chatroomId").toString());

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ import java.util.Optional;
  * @author 박초은(setMateTemp method)
  * @since 2024-01-05
  */
+@Repository
 public interface UsersRepository extends JpaRepository<Users, Long> {
     @Modifying
     @Query(value = "update Users u " +
@@ -34,7 +36,7 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
     public Optional<Users> findByUsersId(@Param("usersId") Long usersId);
 
 
-    public Users findByEmail(String email);
+    public Optional<Users> findByEmail(String email);
 
     @Query(value = "SELECT u.nickname FROM Users u WHERE u.email = :email")
     public String findNickname(@Param("email")String email);
@@ -45,10 +47,12 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 
     public Users findUsersByEmail(String email);
 
-    public Users findByPhone(String phone);
+    public Optional<Users> findByPhone(String phone);
 
     /** 사용자의 mateTemp 값 변경 */
     @Modifying
     @Query("update Users u set u.matetemp = :mateTemp where u.usersId = :usersId")
     public void setMateTemp(@Param("usersId")Long usersId, @Param("mateTemp")float mateTemp);
+
+    Optional<Users> findByEmailAndProvider(String email, String provider);
 }

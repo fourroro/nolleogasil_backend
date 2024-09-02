@@ -3,7 +3,6 @@ package com.fourroro.nolleogasil_backend.controller.users;
 import com.fourroro.nolleogasil_backend.dto.users.KakaoDto;
 import com.fourroro.nolleogasil_backend.dto.users.UsersDto;
 import com.fourroro.nolleogasil_backend.entity.users.Users;
-import com.fourroro.nolleogasil_backend.service.users.KakaoService;
 import com.fourroro.nolleogasil_backend.service.users.UsersServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -11,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -25,11 +23,9 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@EnableRedisHttpSession
 @RequestMapping("/api/user")
 public class UsersController {
     private final UsersServiceImpl usersService;
-    private final KakaoService kakaoService;
 
     //회원가입 및 로그인
     @PostMapping("/profile")
@@ -107,11 +103,13 @@ public class UsersController {
         }
     }
 
+/*
     @GetMapping("/callback")
     public KakaoDto getKakaoAccount(@RequestParam("code") String code){
         log.debug("code = {}", code);
         return kakaoService.getInfo(code).getKakaoDto();
     }
+*/
 
     @GetMapping("/info")
     public ResponseEntity<UsersDto> getUserInfo(@RequestParam String email){

@@ -17,16 +17,11 @@ import java.io.Serializable;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //기본 생성자
 @AllArgsConstructor //전체 변수 생성하는 생성자
-@SequenceGenerator(
-        name = "SEQ_KEYWORD_KEYWORD_ID",  //시퀀스 제너레이터 이름
-        sequenceName = "SEQ_KEYWORD_KEYWORD_ID",  //시퀀스 이름
-        initialValue = 1,  //시작값
-        allocationSize = 1  //증가값
-)
 public class Keyword implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_KEYWORD_KEYWORD_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long keywordId;            //PK
+
     private String party;              //일행
     private String place;              //장소
     private String concept;            //컨셉

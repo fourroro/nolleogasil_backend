@@ -18,16 +18,10 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SequenceGenerator(
-        name = "SEQ_Apply_Apply_ID",  //시퀀스 제너레이터 이름
-        sequenceName = "SEQ_Apply_Apply_ID",  //시퀀스 이름
-        initialValue = 1,  //시작값
-        allocationSize = 1  //증가값
-)
 public class Apply {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_Apply_Apply_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long applyId;
 
     //Mate:Apply = 1:N 단방향 연관관계
