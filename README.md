@@ -81,7 +81,7 @@
     <tr>
       <td align="center"><a href=""><img src="https://github.com/fourroro/nolleogasil_backend/blob/chon/README_images/chon.jpg" width="200px;" alt="chon"/><br /><sub><b>팀장 : 박초은</b></sub></a><br /></td>
       <td align="center"><a href=""><img src="https://github.com/fourroro/nolleogasil_backend/blob/sunmin/README_images/sunmin.jpg" width="200px;" alt="sunmin"/><br /><sub><b>팀원 : 전선민</b></sub></a><br /></td>
-      <td align="center"><a href=""><img src="" width="200px;" alt="hyouzl"/><br /><sub><b>팀원 : 홍유리</b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="![KakaoTalk_Photo_2024-09-02-19-22-06 001](https://github.com/user-attachments/assets/aa9dff04-0a9d-42d6-b5de-5b02f2ea07ba)" width="200px;" alt="hyouzl"/><br /><sub><b>팀원 : 홍유리</b></sub></a><br /></td>
       <td align="center"><a href=""><img src="README_images/minj.jpeg" width="200px;" alt="minj"/><br /><sub><b>팀원 : 장민정</b></sub></a><br /></td>
     </tr>
   </tbody>
