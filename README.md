@@ -117,7 +117,7 @@
 ### 🍅 유리
 + UI
   * 페이지 : 채팅방 목록, 채팅방, 맛집메이트 공고글 작성 페이지
-  * 공통 컴포넌트 : ### [채팅 서버](https://equable-azimuth-758.notion.site/Nolleogasil-445ac85d4d234436b0cea90b25c864eb?pvs=4)
+  * 공통 컴포넌트 : [채팅 서버](https://equable-azimuth-758.notion.site/Nolleogasil-445ac85d4d234436b0cea90b25c864eb?pvs=4)
 + 기능
   * 맛집 메이트 공고글 작성
   * 채팅방 목록 조회(기본순, 최신순, 오래된순)
