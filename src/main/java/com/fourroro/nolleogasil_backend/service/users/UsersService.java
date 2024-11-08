@@ -8,6 +8,7 @@ import java.util.List;
 /**
  * 이 인터페이스는 회원 정보 관리를 위한 Service Interface입니다.
  * @author 장민정
+ * @author 박초은 - setMateTemp()
  * @since 2024-01-05
  */
 public interface UsersService {
@@ -37,5 +38,6 @@ public interface UsersService {
 
     Users findUsersByEmail(String email);
 
+    /** 사용자의 mateTemp 값 변경 */
     public void setMateTemp(Long usersId, Float mateTemp);
 }

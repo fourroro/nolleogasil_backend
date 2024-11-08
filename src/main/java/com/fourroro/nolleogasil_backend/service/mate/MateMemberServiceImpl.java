@@ -1,7 +1,7 @@
 /**
  * 맛집메이트의 멤버 관리를 위한 Service클래스입니다.
- * @author 박초은
- * @since 2024-01-05
+ * @author 박초은, 홍유리
+ * @since 2024-01-10
  */
 package com.fourroro.nolleogasil_backend.service.mate;
 
