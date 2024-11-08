@@ -12,7 +12,7 @@ import java.util.Optional;
 /**
  * {@link Apply}엔티티와 관련된 데이터 작업을 처리하는 Repository interface입니다.
  * @author 박초은
- * @since 2024-01-05
+ * @since 2024-01-10
  */
 
 public interface ApplyRepository extends JpaRepository<Apply, Long> {

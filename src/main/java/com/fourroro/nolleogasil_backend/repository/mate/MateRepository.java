@@ -8,8 +8,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 /**
  * {@link Mate}엔티티와 관련된 데이터 작업을 처리하는 Repository interface입니다.
- * @author 박초은
- * @since 2024-01-05
+ * @author 박초은, 홍유리
+ * @since 2024-01-10
  */
 
 public interface MateRepository extends JpaRepository<Mate, Long> {
