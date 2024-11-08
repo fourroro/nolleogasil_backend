@@ -13,6 +13,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -66,6 +67,7 @@ public class TravelPathController {
      * @return 여행일정 목록 페이지의 경로를 포함한 ResponseEntity 객체
      */
     @PostMapping("/create")
+    @Transactional
     public ResponseEntity insertTravelPathData(@RequestBody TravelDetailDto travelDetailDto, HttpSession session){
 
         if(travelDetailDto.checkNullField()) {

@@ -33,7 +33,6 @@
 
 + 프로젝트 이름: 놀러가실?
 + 개발기간: 2024/01/05 ~ 2024/06/20
-+ 배포 URL: www.nolleogasil.com
 + 개발 배경 및 목적
   * 여행을 가려면 인터넷을 일일이 검색하면서 일정을 계획해야 한다. 그러다보면 짧게는 하루, 길게는 며칠의 시간을 소비하게 된다. 여행 준비 과정에서의 번거로움을 줄이고 시간을 절약하고자 ChatGPT를 이용한 사용자 맞춤 여행 일정 제공 서비스를 고안했다.
   * COVID-19 이후, 혼자 식사를 하는 일이 많아지면서 일명 ‘혼밥’을 하는 사람들이 증가했다. 그러나 아직 혼밥을 어려워하는 사람들은 이와 같은 상황이 생기면, 굶거나 커피로 끼니를 때우곤 한다. 이러한 사람들을 위해 함께 식사할 수 있는 맛집메이트 매칭 서비스를 고안했다.
@@ -44,6 +43,7 @@
   * 맛집메이트 매칭
   * 실시간 채팅
   * ChatGPT를 이용한 여행일정 추천
++ 배포 후 시연 영상 : https://drive.google.com/file/d/1irbAiOe6oQmNDK0ax_sR8xburC2s6LaT/view?usp=sharing
 + 서비스 메뉴얼 : https://drive.google.com/file/d/1TmDazD4RB8IArrc7TBu1N4qli6z2ioRQ/view?usp=sharing
 
 
@@ -81,8 +81,8 @@
     <tr>
       <td align="center"><a href=""><img src="https://github.com/fourroro/nolleogasil_backend/blob/chon/README_images/chon.jpg" width="200px;" alt="chon"/><br /><sub><b>팀장 : 박초은</b></sub></a><br /></td>
       <td align="center"><a href=""><img src="https://github.com/fourroro/nolleogasil_backend/blob/sunmin/README_images/sunmin.jpg" width="200px;" alt="sunmin"/><br /><sub><b>팀원 : 전선민</b></sub></a><br /></td>
-      <td align="center"><a href=""><img src="" width="200px;" alt="hyouzl"/><br /><sub><b>팀원 : 홍유리</b></sub></a><br /></td>
-      <td align="center"><a href=""><img src="" width="200px;" alt="minj"/><br /><sub><b>팀원 : 장민정</b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="https://github.com/user-attachments/assets/aa9dff04-0a9d-42d6-b5de-5b02f2ea07ba" width="200px;" alt="hyouzl"/><br /><sub><b>팀원 : 홍유리</b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="README_images/minj.jpeg" width="200px;" alt="minj"/><br /><sub><b>팀원 : 장민정</b></sub></a><br /></td>
     </tr>
   </tbody>
 </table>
@@ -114,11 +114,14 @@
    * 여행일정 목록 조회&정렬(최신순, 오래된순, 이름순), 여행일정 내용 수정 및 삭제
 
 
-유리
+### 🍅 유리
 + UI
-  * 페이지
-  * 공통 컴포넌트
+  * 페이지 : 채팅방 목록, 채팅방, 맛집메이트 공고글 작성 페이지
+  * 공통 컴포넌트 : [채팅 서버](https://equable-azimuth-758.notion.site/Nolleogasil-445ac85d4d234436b0cea90b25c864eb?pvs=4)
 + 기능
+  * 맛집 메이트 공고글 작성
+  * 채팅방 목록 조회(기본순, 최신순, 오래된순)
+  * 실시간 채팅 기능
 
 
 ### 🥑장민정
