@@ -103,6 +103,27 @@ public class TokenProvider {
     // JWT토큰을 복호화하여 토큰에 들어있는 정보를 꺼냅니다.
     public Authentication getAuthentication(String token) {
 
+
+        // 서명 검증 : JWT 토큰이 유효한지와 변조되지 않았는지 확인
+        // 무결성과 발신자의 신뢰성을 보장
+        //  Jwts.parserBuilder():
+        //      JJWT 라이브러리의 Jwts 클래스는 JWT 토큰을 생성하거나 검증하기 위한 도구.
+        //      parserBuilder()를 사용해 JWT 파서를 생성하기 위한 빌더를 시작한다.
+        //  setSigningKey(key):
+        //      JWT의 서명을 검증하기 위해 서명에 사용된 비밀키 또는 공개키를 설정.
+        //      이 **키(key)**는 JWT 토큰을 생성할 때 사용된 것과 동일한 키여야 한다.
+        //      이 키를 통해 JWT가 서명된 방식과 일치하는지, 즉 토큰이 발급된 이후 변조되지 않았는지를 확인.
+        //  build():
+        //      빌더 패턴을 통해 JWT 파서를 생성합니다. 이제 이 파서를 사용하여 JWT의 서명 검증을 수행할 수 있게 됨.
+        //  parseClaimsJws(token):
+        //      전달받은 JWT 토큰(token)을 파싱하여 서명 검증을 수행한다.
+        //      이 과정에서 토큰의 Header, Payload, Signature를 분리하고, 서명을 검증하여 유효성을 확인한다.
+        //      서명이 올바르지 않거나, 서명에 사용된 키가 잘못되었거나, 토큰이 변조되었다면 예외가 발생한다 (SignatureException, ExpiredJwtException 등).
+        //  .getBody():
+        //      서명 검증이 성공한 경우, **토큰의 페이로드(Payload)**에서 클레임(Claims) 정보를 추출한다.
+        //      Claims는 JWT의 페이로드에 있는 정보를 담고 있으며, 사용자 ID, 권한, 만료 시간 등과 같은 정보를 포함할 수 있다.
+        //  서명 검증이 성공한 이후, 토큰의 클레임에서 **권한 정보(AUTHORITIES_KEY)**를 확인합니다.
+        //  만약 권한 정보가 없으면, 예외를 발생시켜 해당 JWT가 유효하지 않음을 나타냅니다.
         Claims claims = Jwts
                 .parserBuilder()
                 .setSigningKey(key)

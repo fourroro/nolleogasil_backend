@@ -34,9 +34,12 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
         // OAuth2인증된 사용자의 정보를 담고 있는 OAuth2User 객체를 가져온다.
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
+        // Access Token을 가져옵니다.
+        String accessToken = userRequest.getAccessToken().getTokenValue();
+
         // 클라이언트 등록 ID(google, naver, kakao)와 사용자 이름 속성을 가져온다.
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
-        // 사용자의 고유 식별자를 나타내는 속성
+        // OAuth2제공자가 사용자 정보를 제공할 때 사용하는 사용자 이름 속성을 가져온다. ex) 구글(sub)
         String userNameAttributeName = userRequest.getClientRegistration()
                 .getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 
