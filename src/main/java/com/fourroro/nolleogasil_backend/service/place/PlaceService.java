@@ -1,7 +1,7 @@
 /**
  * 장소 관리를 위한 Service interface입니다.
  * @author 박초은
- * @since 2024-01-05
+ * @since 2024-01-10
  */
 package com.fourroro.nolleogasil_backend.service.place;
 

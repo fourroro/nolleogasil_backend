@@ -13,7 +13,7 @@ import java.util.Optional;
  * 이 인터페이스는 회원 정보 관리를 위한 Repository입니다.
  * 회원 정보를 DB에 저장, 수정, 삭제, 조회하기 위해 존재합니다.
  * @author 장민정
- * @author 박초은(setMateTemp method)
+ * @author 박초은 - setMateTemp()
  * @since 2024-01-05
  */
 @Repository

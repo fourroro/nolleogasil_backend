@@ -1,8 +1,8 @@
 /**
  * 맛집메이트 관리를 위한 Controller입니다.
  * @author 박초은
- * @author 홍유리
- * @since 2024-01-05
+ * @author 홍유리 - createMateForm()
+ * @since 2024-01-10
  */
 package com.fourroro.nolleogasil_backend.controller.mate;
 

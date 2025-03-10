@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * 이 클래스는 회원 정보 관리를 위한 컨트롤러입니다.
  * @author 장민정
- * @author 박초은(getUsersInfo method)
+ * @author 박초은 - getUsersInfo()
  * @since 2024-01-05
  */
 @Slf4j

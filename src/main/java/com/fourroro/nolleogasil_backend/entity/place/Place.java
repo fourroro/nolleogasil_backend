@@ -1,6 +1,5 @@
 /**
  * Place Table에 매칭되는 Entity입니다.
- *
  * @author 박초은
  * @since 2024-01-05
  */

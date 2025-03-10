@@ -17,6 +17,7 @@ import static com.fourroro.nolleogasil_backend.dto.users.UsersDto.changeToDto;
 /**
  * 이 클래스는 회원 정보 관리를 위한 Service class입니다.
  * @author 장민정
+ * @author 박초은 - setMateTemp()
  * @since 2024-01-05
  */
 @Service
@@ -129,6 +130,7 @@ public class UsersServiceImpl implements UsersService {
         return usersRepository.findUsersByEmail(email);
     }
 
+    /** 사용자의 mateTemp 값 변경 */
     @Transactional
     @Override
     public void setMateTemp(Long usersId, Float mateTemp) {

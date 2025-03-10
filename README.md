@@ -114,11 +114,14 @@
    * 여행일정 목록 조회&정렬(최신순, 오래된순, 이름순), 여행일정 내용 수정 및 삭제
 
 
-유리
+### 🍅 유리
 + UI
-  * 페이지
-  * 공통 컴포넌트
+  * 페이지 : 채팅방 목록, 채팅방, 맛집메이트 공고글 작성 페이지
+  * 공통 컴포넌트 : 채팅 서버
 + 기능
+  * 맛집 메이트 공고글 작성
+  * 채팅방 목록 조회(기본순, 최신순, 오래된순)
+  * 실시간 채팅 기능
 
 
 ### 🥑장민정
@@ -134,13 +137,113 @@
 # 🖼 이미지 출처
 <details>
  <summary>프로젝트 내 사용</summary>
- <a href="https://www.flaticon.com/free-icons/restaurant" title="restaurant icons">Restaurant icons created by Eucalyp - Flaticon</a>
- <a href="https://www.flaticon.com/free-icons/cafe" title="cafe icons">Cafe icons created by Freepik - Flaticon</a>
- <a href="https://www.flaticon.com/free-icons/villa" title="villa icons">Villa icons created by Freepik - Flaticon</a>
- <a href="https://www.flaticon.com/free-icons/signs" title="signs icons">Signs icons created by Freepik - Flaticon</a>
- <a href="https://www.flaticon.com/free-icons/eat" title="eat icons">Eat icons created by Freepik - Flaticon</a>
- <a href="https://www.flaticon.com/free-icons/taxi" title="taxi icons">Taxi icons created by surang - Flaticon</a>
- https://dribbble.com/shots/5386830-?utm_source=pinterest&utm_campaign=pinterest_shot&utm_content=%E2%97%8F%E2%97%8F%E2%97%8F%E2%97%8F&utm_medium=Social_Share
- <a href="https://www.flaticon.com/free-icons/map" title="map icons">Map icons created by Freepik - Flaticon</a>
+ <a href="https://www.flaticon.com/free-icons/restaurant" title="restaurant icons">Restaurant icons created by Eucalyp - Flaticon</a><br/>
+ <a href="https://www.flaticon.com/free-icons/cafe" title="cafe icons">Cafe icons created by Freepik - Flaticon</a><br/>
+ <a href="https://www.flaticon.com/free-icons/villa" title="villa icons">Villa icons created by Freepik - Flaticon</a><br/>
+ <a href="https://www.flaticon.com/free-icons/signs" title="signs icons">Signs icons created by Freepik - Flaticon</a><br/>
+ <a href="https://www.flaticon.com/free-icons/eat" title="eat icons">Eat icons created by Freepik - Flaticon</a><br/>
+ <a href="https://www.flaticon.com/free-icons/taxi" title="taxi icons">Taxi icons created by surang - Flaticon</a><br/>
+ https://dribbble.com/shots/5386830-?utm_source=pinterest&utm_campaign=pinterest_shot&utm_content=%E2%97%8F%E2%97%8F%E2%97%8F%E2%97%8F&utm_medium=Social_Share<br/>
+ <a href="https://www.flaticon.com/free-icons/map" title="map icons">Map icons created by Freepik - Flaticon</a><br/>
  <a target="_blank" href="https://icons8.com/icon/3907/temperature">Temperature</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+
+
+ [여행일정]
+
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="관광객 아이콘">관광객 아이콘  제작자: Freepik - Flaticon</a>	
+
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="여행 아이콘">여행 아이콘 제작자: wanicon - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="가족 아이콘">가족 아이콘 제작자: wanicon - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="여행 아이콘">여행 아이콘 제작자: surang - Flaticon</a> 
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="바다 아이콘">바다 아이콘  제작자: Freepik - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="산 아이콘">산 아이콘  제작자: Freepik - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="부동산 아이콘">부동산 아이콘 제작자: Eucalyp - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/-" title="갑판 의자 아이콘">갑판 의자 아이콘  제작자: Smashicons - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="여행 아이콘">여행 아이콘 제작자: Freepik - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="래프팅 아이콘">래프팅 아이콘  제작자: Viktor Turchyn - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="여행 아이콘">여행 아이콘  제작자: SatawatDesign - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="식사 아이콘">식사 아이콘  제작자: Freepik - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="트레킹 아이콘">트레킹 아이콘 제작자: Freepik - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="쌀 아이콘">쌀 아이콘  제작자: xnimrodx - Flaticon</a> 
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="떡 아이콘">떡 아이콘  제작자: Paul Kovaloff - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="라면 아이콘">라면 아이콘  제작자: Vichanon Chaimsuk - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="떡갈비 아이콘">떡갈비 아이콘  제작자: Freepik - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="일본 아이콘">일본 아이콘 제작자: tulpahn - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/-" title="샤오 롱 바오 아이콘">샤오 롱 바오 아이콘 제작자: Freepik - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="피자 아이콘">피자 아이콘  제작자: Freepik - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="버거 아이콘">버거 아이콘  제작자: Smashicons - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title=" 아이콘"> 아이콘 제작자: surang - Flaticon</a>  
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title=" 아이콘"> 아이콘  제작자: Freepik - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="게 아이콘">게 아이콘 제작자: surang - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="회 아이콘">회 아이콘 제작자: Linector - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="곱창 아이콘">곱창 아이콘  제작자: Freepik - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/-" title="음식과 식당 아이콘">음식과 식당 아이콘  제작자: murmur - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="소고기 아이콘">소고기 아이콘 제작자: Freepik - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="치킨 아이콘">치킨 아이콘  제작자: Freepik - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/ui" title="ui 아이콘">Ui 아이콘 제작자: bsd - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/-" title="지도 및 위치 아이콘">지도 및 위치 아이콘 제작자: Taimoor D - Flaticon</a>
+ 
+ 
+ <a href="https://www.flaticon.com/kr/free-icons/" title="휴지통 아이콘">휴지통 아이콘 제작자: iconading - Flaticon</a>
+ 
 </details>

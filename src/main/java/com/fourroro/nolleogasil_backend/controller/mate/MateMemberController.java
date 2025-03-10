@@ -1,7 +1,7 @@
 /**
  * 맛집메이트의 멤버 관리를 위한 Controller입니다.
  * @author 박초은
- * @since 2024-01-05
+ * @since 2024-01-10
  */
 package com.fourroro.nolleogasil_backend.controller.mate;
 
