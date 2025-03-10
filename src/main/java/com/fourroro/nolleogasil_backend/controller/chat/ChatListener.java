@@ -7,6 +7,7 @@ package com.fourroro.nolleogasil_backend.controller.chat;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fourroro.nolleogasil_backend.dto.chat.ChatDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -22,9 +23,9 @@ public class ChatListener {
     private final ObjectMapper objectMapper;
 
     @RabbitListener(queues = "chat.queue")
-    public void receiveMessage(Map<String, Object> message) {
+    public void receiveMessage(ChatDto.ResponseChatDTO message) {
         try {
-            Long chatroomId = Long.parseLong(message.get("chatroomId").toString());
+            Long chatroomId = message.getChatroomId();
             // WebSocket을 통 클라이언트로 브로드캐스트
             messagingTemplate.convertAndSend("/chat.exchange/room." + chatroomId, message);
         } catch (Exception e) {

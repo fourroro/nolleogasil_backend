@@ -6,15 +6,16 @@
 package com.fourroro.nolleogasil_backend.controller.chat;
 
 
-import com.fourroro.nolleogasil_backend.dto.users.UsersDto;
+import com.fourroro.nolleogasil_backend.auth.jwt.util.TokenProvider;
+import com.fourroro.nolleogasil_backend.dto.chat.ChatDto;
 import com.fourroro.nolleogasil_backend.service.chat.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.Map;
 
 @RestController
@@ -24,30 +25,31 @@ public class StompRabbitController {
 
     private final ChatService chatService;
     private final RabbitTemplate rabbitTemplate;
-    @MessageMapping("chat.enter")
-    public void enterTest(@Payload Map<String, Object> message,
-                          SimpMessageHeaderAccessor headerAccessor) {
+    private final TokenProvider tokenProvider;
 
-        UsersDto usersSession = (UsersDto) headerAccessor.getSessionAttributes().get("users");
-        Long usersId = usersSession.getUsersId();
+    @MessageMapping("chat.enter")
+    public void enterTest(@Payload Map<String, Object> message) {
+        Long userId = Long.valueOf(message.get("userId").toString());
+
         Long chatroomId = Long.parseLong(message.get("chatroomId").toString());
 
-        chatService.enterChatRoom(chatroomId,usersId);
+        chatService.enterChatRoom(chatroomId,userId);
 
         rabbitTemplate.convertAndSend("amq.topic","room." + chatroomId, message);
     }
 
     @MessageMapping("chat.send")
-    public void sendMessage(@Payload Map<String, Object> message, SimpMessageHeaderAccessor headerAccessor) {
-        UsersDto usersSession = (UsersDto) headerAccessor.getSessionAttributes().get("users");
-        Long chatroomId = Long.parseLong(message.get("chatroomId").toString());
-        Long usersId = usersSession.getUsersId();
-        String sendMessage = message.get("message").toString();
+    public void sendMessage(@Payload ChatDto.RequestChatDTO message) {
 
-        chatService.sendMessage(chatroomId,usersId,sendMessage);
+        if (message.getChatroomId() == null || message.getUserId() == null) {
+            System.err.println("chatroomId 또는 userId가 없습니다!");
+            return;
+        }
+
+        chatService.sendMessage(message.getChatroomId(), message.getUserId(), message.getMessage());
 
         try {
-            rabbitTemplate.convertAndSend("amq.topic","room." + chatroomId, message);
+            rabbitTemplate.convertAndSend("amq.topic","room." + message.getChatroomId(), message);
         } catch  (Exception e) {
             System.err.println("Failed to send message to RabbitMQ: " + e.getMessage());
         }

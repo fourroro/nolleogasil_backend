@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @since 2024-01-05
  */
 
-public interface PlaceRepository extends JpaRepository<Place, Integer> {
+public interface PlaceRepository extends JpaRepository<Place, Long> {
     //save()(=persist())
     //existsById()
 }

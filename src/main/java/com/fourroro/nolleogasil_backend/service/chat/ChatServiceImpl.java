@@ -59,7 +59,7 @@ public class ChatServiceImpl implements ChatService {
 
 
     @Override
-    public List<ChatDto> getChatList(Long chatroomId) {
+    public List<ChatDto.ResponseChatDTO> getChatList(Long chatroomId) {
 
         List<Chat> chatList = new ArrayList<>();
 
@@ -71,8 +71,8 @@ public class ChatServiceImpl implements ChatService {
             System.out.println(e.getMessage());
         }
 
-        List<ChatDto> chatDtos = chatList.stream()
-                                .map(ChatDto::toChatDto)
+        List<ChatDto.ResponseChatDTO> chatDtos = chatList.stream()
+                                .map(ChatDto.ResponseChatDTO::toChatDto)
                                 .collect(Collectors.toList());
 
         return chatDtos;

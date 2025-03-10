@@ -9,6 +9,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 public class NolleogasilBackendApplication {
 
     public static void main(String[] args) {
+
+
         SpringApplication.run(NolleogasilBackendApplication.class, args);
     }
 }

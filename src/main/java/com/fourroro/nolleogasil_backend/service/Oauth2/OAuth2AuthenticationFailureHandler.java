@@ -1,40 +1,35 @@
-package com.fourroro.nolleogasil_backend.service.Oauth2;/*
 package com.fourroro.nolleogasil_backend.service.Oauth2;
 
-
-import com.fourroro.nolleogasil_backend.repository.users.CookieAuthorizationRequestRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
-
-import static com.fourroro.nolleogasil_backend.repository.users.CookieAuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
+import java.util.Arrays;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
-    private final CookieAuthorizationRequestRepository cookieAuthorizationRequestRepository;
-
+    private final HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException authenticationException) throws ServletException, IOException {
-        String targetUrl = CookieUtils.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
-                .map(Cookie::getValue)
-                .orElse("/");
-
-        targetUrl = UriComponentsBuilder.fromUriString(targetUrl)
-                .queryParam("error", authenticationException.getLocalizedMessage())
-                .build().toUriString();
-
-        cookieAuthorizationRequestRepository.removeAuthorizationRequestCookies(request, response);
-        getRedirectStrategy().sendRedirect(request, response, targetUrl);
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
+        // ✅ 기존 세션을 유지하도록 설정
+        requestCache.saveRequest(request, response);
+        getRedirectStrategy().sendRedirect(request, response, "/login?error=true");
+        log.error("OAuth2 로그인 실패: {}", exception.getMessage());
+        log.error("요청 세션 ID: {}", request.getSession().getId());
+        log.error("쿠키 목록: {}", Arrays.toString(request.getCookies()));
+        response.sendRedirect("/login?error=true"); // 실패 시 리다이렉트
     }
 
 }
-*/
+

@@ -13,6 +13,6 @@ public interface ChatService {
 
     void enterChatRoom(Long chatroomId, Long usersId);
     void sendMessage(Long chatroomId, Long usersId, String sendMessage);
-    List<ChatDto> getChatList(Long chatRoomId);
+    List<ChatDto.ResponseChatDTO> getChatList(Long chatRoomId);
 
 }

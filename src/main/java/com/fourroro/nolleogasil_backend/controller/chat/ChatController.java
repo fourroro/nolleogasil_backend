@@ -25,9 +25,9 @@ public class ChatController {
     private final ChatService chatService;
 
     @GetMapping("/messages/{chatroomId}")
-    public List<ChatDto> getChatList(@PathVariable Long chatroomId) {
+    public List<ChatDto.ResponseChatDTO> getChatList(@PathVariable Long chatroomId) {
 
-        List<ChatDto> chatList = chatService.getChatList(chatroomId);
+        List<ChatDto.ResponseChatDTO> chatList = chatService.getChatList(chatroomId);
 
         return chatList;
     }

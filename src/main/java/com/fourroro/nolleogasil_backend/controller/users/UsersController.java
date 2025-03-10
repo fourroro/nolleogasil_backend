@@ -1,5 +1,6 @@
 package com.fourroro.nolleogasil_backend.controller.users;
 
+import com.fourroro.nolleogasil_backend.auth.jwt.util.TokenProvider;
 import com.fourroro.nolleogasil_backend.dto.users.KakaoDto;
 import com.fourroro.nolleogasil_backend.dto.users.UsersDto;
 import com.fourroro.nolleogasil_backend.entity.users.Users;
@@ -26,6 +27,7 @@ import java.util.Map;
 @RequestMapping("/api/user")
 public class UsersController {
     private final UsersServiceImpl usersService;
+    private final TokenProvider tokenProvider;
 
     //회원가입 및 로그인
     @PostMapping("/profile")
@@ -112,19 +114,26 @@ public class UsersController {
 */
 
     @GetMapping("/info")
-    public ResponseEntity<UsersDto> getUserInfo(@RequestParam String email){
-        Users users = usersService.findUsersByEmail(email);
-        UsersDto userInfo = UsersDto.changeToDto(users);
+    public ResponseEntity<UsersDto> getUserInfo(@RequestParam Long usersId){
+        try {
+            Users users = usersService.findByUsersId(usersId);
+            UsersDto usersDto = UsersDto.changeToDto(users);
+            return ResponseEntity.ok(usersDto);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
 
-        return ResponseEntity.ok(userInfo);
     }
 
     //회원정보 수정
-    @GetMapping("/info/{usersId}")
-    public ResponseEntity<UsersDto> updateForm(HttpSession session, @PathVariable Long usersId){
+    @PatchMapping("/info/{usersId}")
+    public ResponseEntity<UsersDto> updateForm(@PathVariable Long usersId,
+                                               @RequestParam(name = "nickname") String nickname){
 
         try {
-            Users users = usersService.findUsers(usersId);
+            usersService.updateUsers(nickname, usersId);
+            Users users = usersService.findByUsersId(usersId);
             UsersDto usersDto = UsersDto.changeToDto(users);
             if (usersDto != null) { //회원 정보 존재 시
                 return ResponseEntity.ok(usersDto);

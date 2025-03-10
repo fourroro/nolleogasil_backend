@@ -1,8 +1,6 @@
-/*
 package com.fourroro.nolleogasil_backend.config;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -10,7 +8,6 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.session.web.http.CookieSerializer;
 import org.springframework.session.web.http.DefaultCookieSerializer;
@@ -40,8 +37,8 @@ public class RedisConfig {
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
 
         // 값과 해시 값은 JSON으로 직렬화
-        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-        redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+        redisTemplate.setValueSerializer(new StringRedisSerializer());
+        redisTemplate.setHashValueSerializer(new StringRedisSerializer());
 
         redisTemplate.setEnableTransactionSupport(true);
         redisTemplate.afterPropertiesSet();
@@ -62,11 +59,11 @@ public class RedisConfig {
         DefaultCookieSerializer serializer = new DefaultCookieSerializer();
         serializer.setCookieName("JSESSIONID");
         serializer.setCookiePath("/");
-        serializer.setDomainName("nolleogasil.com");  // 도메인 설정
+        serializer.setDomainName("localhost");  // 도메인 설정
         serializer.setUseHttpOnlyCookie(true);
         serializer.setSameSite("None");
-        serializer.setUseSecureCookie(true);
+        serializer.setUseSecureCookie(false);
         return serializer;
     }
 
-}*/
+}

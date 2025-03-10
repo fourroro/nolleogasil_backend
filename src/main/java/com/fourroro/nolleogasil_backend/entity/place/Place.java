@@ -20,8 +20,7 @@ import lombok.*;
 public class Place {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer placeId;            //장소 id
+    private Long placeId;            //장소 id
 
     private String placeName;           //장소 이름
     private String placeAddress;        //주소

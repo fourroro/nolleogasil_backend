@@ -1,5 +1,6 @@
 package com.fourroro.nolleogasil_backend.controller.travelpath;
 
+import com.fourroro.nolleogasil_backend.auth.jwt.util.TokenProvider;
 import com.fourroro.nolleogasil_backend.dto.travelpath.*;
 import com.fourroro.nolleogasil_backend.dto.users.UsersDto;
 import com.fourroro.nolleogasil_backend.entity.travelpath.Recommendation;
@@ -30,6 +31,7 @@ public class TravelPathController {
     private final RecommendationService recommendationService;
     private final TravelDateService travelDateService;
     private final TravelInfoService travelInfoService;
+    private final TokenProvider tokenProvider;
 
 
     /**
@@ -37,11 +39,11 @@ public class TravelPathController {
      *
      * @param session 현재 사용자의 세션 객체
      * @return 조회된 사용자 id
-     */
+
     private Long getSessionUsersId(HttpSession session) {
         UsersDto usersDto = (UsersDto) session.getAttribute("users");
         return usersDto.getUsersId();
-    }
+    }   */
 
     /**
      * Form에서 받은 데이터를 ConditionDto로 받아 객체화하여 반환하는 함수
@@ -63,13 +65,17 @@ public class TravelPathController {
      * @return 여행일정 목록 페이지의 경로를 포함한 ResponseEntity 객체
      */
     @PostMapping("/create")
-    public ResponseEntity insertTravelPathData(@RequestBody TravelDetailDto travelDetailDto, HttpSession session){
+    public ResponseEntity insertTravelPathData(@RequestBody TravelDetailDto travelDetailDto,
+                                               @RequestHeader("Authorization") String authorizationHeader){
 
         if(travelDetailDto.checkNullField()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Some fields are null");
         }
+        // 1. JWT 토큰 추출
+        String token = authorizationHeader.replace("Bearer ", "");
 
-        Long usersId = getSessionUsersId(session);
+        // 2. 토큰에서 userId 추출
+        Long usersId = Long.valueOf(tokenProvider.getClaims(token).getSubject());
 
         TravelPathDto travelPathDto = TravelPathDto.builder()
                 .arrival(travelDetailDto.getDestination())
@@ -124,9 +130,12 @@ public class TravelPathController {
      * @return 여행일정 정보를 포함한 ResponseEntity 객체
      */
     @GetMapping("/travelpathList")
-    public ResponseEntity<List<Map<String, Object>>> getTravelPathList(@RequestParam(name="sortBy") String sortBy, HttpSession session) {
+    public ResponseEntity<List<Map<String, Object>>> getTravelPathList(@RequestParam(name="sortBy") String sortBy, @RequestHeader("Authorization") String authorizationHeader) {
+        // 1. JWT 토큰 추출
+        String token = authorizationHeader.replace("Bearer ", "");
 
-        Long usersId = getSessionUsersId(session);
+        // 2. 토큰에서 userId 추출
+        Long usersId = Long.valueOf(tokenProvider.getClaims(token).getSubject());
 
         List<TravelPath> travelPathList = new ArrayList<>();
         if(sortBy.equals("최신순")){
@@ -164,7 +173,7 @@ public class TravelPathController {
      * @return 여행 상세 정보를 포함한 ResponseEntity 객체
      */
     @PostMapping("/travelDataDetail")
-    public ResponseEntity showDetailByTravelPathId(@RequestBody Long  travelpathId, HttpSession session) {
+    public ResponseEntity showDetailByTravelPathId(@RequestBody Long  travelpathId) {
 
         TravelPath travelPath = travelPathService.getTravelPathById(travelpathId);
 
@@ -232,8 +241,13 @@ public class TravelPathController {
      * @return 여행경로 정보 개수를 포함한 ResponseEntity 객체
      */
     @GetMapping("/count")
-    public ResponseEntity<Long> countTravelPath (HttpSession session){
-        Long usersId = getSessionUsersId(session);
+    public ResponseEntity<Long> countTravelPath ( @RequestHeader("Authorization") String authorizationHeader){
+        // 1. JWT 토큰 추출
+        String token = authorizationHeader.replace("Bearer ", "");
+
+        // 2. 토큰에서 userId 추출
+        Long usersId = Long.valueOf(tokenProvider.getClaims(token).getSubject());
+
         Long count = travelPathService.countTravelPath(usersId);
 
         return ResponseEntity.status(HttpStatus.OK).body(count);

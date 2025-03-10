@@ -17,7 +17,7 @@ import lombok.*;
 @AllArgsConstructor
 public class PlaceDto {
 
-    private Integer placeId;            //PK //장소 id
+    private Long placeId;            //PK //장소 id
     private String placeName;           //장소 이름
     private String placeAddress;        //주소
     private String placeRoadAddress;    //도로명 주소

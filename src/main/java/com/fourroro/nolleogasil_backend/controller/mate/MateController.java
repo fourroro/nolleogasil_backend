@@ -6,6 +6,7 @@
  */
 package com.fourroro.nolleogasil_backend.controller.mate;
 
+import com.fourroro.nolleogasil_backend.auth.jwt.util.TokenProvider;
 import com.fourroro.nolleogasil_backend.dto.chat.ChatRoomAndPlaceDto;
 import com.fourroro.nolleogasil_backend.dto.chat.ChatRoomDto;
 import com.fourroro.nolleogasil_backend.dto.mate.MateDto;
@@ -34,21 +35,19 @@ public class MateController {
     private final PlaceService placeService;
     private final MateMemberService mateMemberService;
     private final ChatRoomService chatRoomService;
+    private final TokenProvider tokenProvider;
+
+
 
     /**
      * session에 저장된 UsersDto의 사용자 ID를 가져오는 함수
      *
-     * @param session //현재 사용자의 세션 객체
      * @return 현재 세션에 저장된 사용자 ID
      */
-    private Long getSessionUsersId(HttpSession session) {
-        UsersDto usersSession = (UsersDto) session.getAttribute("users");
-        return usersSession.getUsersId();
-    }
 
     @PostMapping("/mateForm")
     public ResponseEntity<ChatRoomAndPlaceDto> creatMateForm(@RequestBody RequestMateDto requestMateDto,
-                                                             @RequestParam(name = "category") String category, HttpSession session) {
+                                                             @RequestParam(name = "category") String category,  @RequestHeader("Authorization") String authorizationHeader) {
 
         ChatRoomDto chatRoomDto = null;
         ChatRoomAndPlaceDto chatRoomAndPlaceDto = null;
@@ -60,9 +59,12 @@ public class MateController {
                 requestMateDto.getPlaceDto().setPlaceCat(placeCat);
 
             }
+            // 1. JWT 토큰 추출
+            String token = authorizationHeader.replace("Bearer ", "");
 
-            // 사용자 정보 얻어오기
-            Long userId = getSessionUsersId(session);
+            // 2. 토큰에서 userId 추출
+            Long userId = Long.valueOf(tokenProvider.getClaims(token).getSubject());
+
             //메이트 공고글 생성
             MateDto mateDto = mateService.insertMate(requestMateDto.getMateFormDto(),requestMateDto.getPlaceDto(),userId);
             //메이트 공고글에 해당하는 챗룸 생성
@@ -144,15 +146,19 @@ public class MateController {
     /**
      * 로그인한 사용자가 개설한 맛집메이트 목록 조회
      *
-     * @param session 현재 사용자의 세션 객체
      * @return 조회된 맛집메이트 목록을 포함한 HTTP 상태 코드가 200인 ResponseEntity 객체,
      *         서버 오류 발생 시 HTTP 상태 코드가 500인 ResponseEntity 객체
      */
     @GetMapping("/my-create")
-    public ResponseEntity<List<MateDto>> getMateListByUsersId(HttpSession session) {
+    public ResponseEntity<List<MateDto>> getMateListByUsersId(@RequestHeader("Authorization") String authorizationHeader) {
         try {
-            Long usersId = getSessionUsersId(session);
-            List<MateDto> mateList = mateService.getMateListByUsersId(usersId);
+            // 1. JWT 토큰 추출
+            String token = authorizationHeader.replace("Bearer ", "");
+
+            // 2. 토큰에서 userId 추출
+            Long userId = Long.valueOf(tokenProvider.getClaims(token).getSubject());
+
+            List<MateDto> mateList = mateService.getMateListByUsersId(userId);
             return ResponseEntity.ok(mateList);
         } catch (Exception e) {
             e.printStackTrace();

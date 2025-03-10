@@ -5,6 +5,7 @@
  */
 package com.fourroro.nolleogasil_backend.controller.mate;
 
+import com.fourroro.nolleogasil_backend.auth.jwt.util.TokenProvider;
 import com.fourroro.nolleogasil_backend.dto.mate.ApplyDto;
 import com.fourroro.nolleogasil_backend.dto.mate.ApplyStatus;
 import com.fourroro.nolleogasil_backend.dto.mate.MateDto;
@@ -31,20 +32,9 @@ public class ApplyController {
     private final MateService mateService;
     private final MateMemberService mateMemberService;
     private final ChatRoomService chatRoomService;
+    private final TokenProvider tokenProvider;
 
-    /**
-     * session에 저장된 UsersDto의 사용자 ID를 가져오는 함수
-     *
-     * @param session //현재 사용자의 세션 객체
-     * @return 현재 세션에 저장된 사용자 ID
-     */
-    //session에 있는 usersId 가져오기
-    private Long getSessionUsersId(HttpSession session) {
-        UsersDto usersSession = (UsersDto) session.getAttribute("users");
-        System.out.println("!!!!!!!");
-        System.out.println(usersSession.getName());
-        return usersSession.getUsersId();
-    }
+
 
     /**
      * 맛집메이트의 신청 버튼 클릭 시, 로그인한 사용자의 신청 정보 저장
@@ -54,16 +44,20 @@ public class ApplyController {
      * @return HTTP 상태 코드가 201(신청 저장 성공 시), 400(잘못된 요청 시), 500(서버 오류 발생 시)인 ResponseEntity 객체
      */
     @PostMapping("/{mateId}")
-    public ResponseEntity<Void> createApply(@PathVariable Long mateId, HttpSession session) {
+    public ResponseEntity<Void> createApply(@PathVariable Long mateId, @RequestHeader("Authorization") String authorizationHeader) {
         try {
             if (mateId == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
             }
+            // 1. JWT 토큰 추출
+            String token = authorizationHeader.replace("Bearer ", "");
 
-            Long usersId = getSessionUsersId(session);
+            // 2. 토큰에서 userId 추출
+            Long userId = Long.valueOf(tokenProvider.getClaims(token).getSubject());
+
             ApplyDto applyDto = ApplyDto.builder()
                     .mateId(mateId)
-                    .applicantId(usersId)
+                    .applicantId(userId)
                     .isApply(ApplyStatus.대기)
                     .build();
 
@@ -79,7 +73,7 @@ public class ApplyController {
      * 받은 신청 목록에서 수락이나 거절 클릭 시, 해당 신청의 신청 상태(isApply 값) 변경
      *
      * @param applyId //해당 신청 ID
-     * @param isApply //클릭한 신청 상태(수락 or 거절)
+     * @param status //클릭한 신청 상태(수락 or 거절)
      * @return HTTP 상태 코드가 200(성공 시), 404(해당 신청을 찾지 못할 시), 500(서버 오류 발생 시)인 ResponseEntity 객체
      */
     @PatchMapping("/{applyId}")
@@ -126,15 +120,19 @@ public class ApplyController {
      *         서버 오류 발생 시 HTTP 상태 코드가 500인 ResponseEntity 객체
      */
     @GetMapping("/{mateId}/status")
-    public ResponseEntity<ApplyStatus> checkApplyStatus(@PathVariable Long mateId, HttpSession session) {
+    public ResponseEntity<ApplyStatus> checkApplyStatus(@PathVariable Long mateId, @RequestHeader("Authorization") String authorizationHeader) {
         try {
-            Long usersId = getSessionUsersId(session);
+            // 1. JWT 토큰 추출
+            String token = authorizationHeader.replace("Bearer ", "");
+
+            // 2. 토큰에서 userId 추출
+            Long userId = Long.valueOf(tokenProvider.getClaims(token).getSubject());
 
             //apply 유무 확인
-            boolean checkingApply = applyService.checkApplyColumn(mateId, usersId);
+            boolean checkingApply = applyService.checkApplyColumn(mateId, userId);
 
             if (checkingApply) {
-                ApplyDto applyDto = applyService.getApplyByMateIdAndUsersId(mateId, usersId);
+                ApplyDto applyDto = applyService.getApplyByMateIdAndUsersId(mateId, userId);
                 return ResponseEntity.ok(applyDto.getIsApply());
             } else {
                 //사용자가 해당 mate에 신청한 적이 없다면
@@ -154,10 +152,15 @@ public class ApplyController {
      *         서버 오류 발생 시 HTTP 상태 코드가 500인 ResponseEntity 객체
      */
     @GetMapping("/send")
-    public ResponseEntity<List<ApplyDto>> getSendApplyList(HttpSession session) {
+    public ResponseEntity<List<ApplyDto>> getSendApplyList(@RequestHeader("Authorization") String authorizationHeader) {
         try {
-            Long usersId = getSessionUsersId(session);
-            List<ApplyDto> sendApplyList = applyService.getSendApplyList(usersId);
+            // 1. JWT 토큰 추출
+            String token = authorizationHeader.replace("Bearer ", "");
+
+            // 2. 토큰에서 userId 추출
+            Long userId = Long.valueOf(tokenProvider.getClaims(token).getSubject());
+
+            List<ApplyDto> sendApplyList = applyService.getSendApplyList(userId);
             return ResponseEntity.ok(sendApplyList);
         } catch(Exception e) {
             e.printStackTrace();
@@ -173,10 +176,15 @@ public class ApplyController {
      *         서버 오류 발생 시 HTTP 상태 코드가 500인 ResponseEntity 객체
      */
     @GetMapping("/receive")
-    public ResponseEntity<List<ApplyDto>> getReceiveApplyList(HttpSession session) {
+    public ResponseEntity<List<ApplyDto>> getReceiveApplyList(@RequestHeader("Authorization") String authorizationHeader) {
         try {
-            Long usersId = getSessionUsersId(session);
-            List<ApplyDto> receiveApplyList = applyService.getReceiveApplyList(usersId);
+            // 1. JWT 토큰 추출
+            String token = authorizationHeader.replace("Bearer ", "");
+
+            // 2. 토큰에서 userId 추출
+            Long userId = Long.valueOf(tokenProvider.getClaims(token).getSubject());
+
+            List<ApplyDto> receiveApplyList = applyService.getReceiveApplyList(userId);
             return ResponseEntity.ok(receiveApplyList);
         } catch(Exception e) {
             e.printStackTrace();

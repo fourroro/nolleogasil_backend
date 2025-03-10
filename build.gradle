@@ -12,6 +12,10 @@ java {
     sourceCompatibility = '17'
 }
 
+repositories {
+    mavenCentral()
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -38,12 +42,11 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'com.h2database:h2'
-    runtimeOnly 'com.oracle.database.jdbc:ojdbc8'
+/*    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.oracle.database.jdbc:ojdbc8'*/
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
-
 
     implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
@@ -77,6 +80,15 @@ dependencies {
 
     // Json
     implementation 'org.json:json:20210307'
+
+    //redis
+    implementation 'org.springframework.data:spring-data-redis:3.1.5'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive' // 필요 시
+
+    implementation group: 'io.lettuce', name: 'lettuce-core', version: '6.2.6.RELEASE'
+    // Spring Session Redis
+    implementation 'org.springframework.session:spring-session-data-redis'
+
 }
 
 

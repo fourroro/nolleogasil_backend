@@ -42,12 +42,14 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
     public String findNickname(@Param("email")String email);
 
 
+
     @Query(value = "SELECT u.nickname FROM Users u WHERE u.usersId = :usersId")
     public String findNicknameByUsersId(@Param("usersId") Long usersId);
 
     public Users findUsersByEmail(String email);
 
     public Optional<Users> findByPhone(String phone);
+    public Optional<Users> findByName(String name);
 
     /** 사용자의 mateTemp 값 변경 */
     @Modifying

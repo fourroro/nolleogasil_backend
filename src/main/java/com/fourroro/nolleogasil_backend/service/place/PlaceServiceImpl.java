@@ -10,6 +10,7 @@ import com.fourroro.nolleogasil_backend.entity.place.Place;
 import com.fourroro.nolleogasil_backend.repository.place.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +20,7 @@ public class PlaceServiceImpl implements PlaceService {
 
     /** insert place */
     @Override
+    @Transactional
     public Place insertPlace(PlaceDto placeDto) {
         Place place = Place.changeToEntity(placeDto);
         Place savedPlace = placeRepository.save(place);
@@ -28,7 +30,8 @@ public class PlaceServiceImpl implements PlaceService {
 
     /** place 유무 확인 */
     @Override
-    public boolean checkPlaceColumn(Integer placeId) {
+    @Transactional
+    public boolean checkPlaceColumn(Long placeId) {
         return placeRepository.existsById(placeId);
     }
 

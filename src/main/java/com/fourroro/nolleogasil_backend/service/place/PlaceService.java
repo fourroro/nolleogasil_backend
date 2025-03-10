@@ -14,7 +14,7 @@ public interface PlaceService {
     public Place insertPlace(PlaceDto placeDto);
 
     /** place 유무 확인 */
-    public boolean checkPlaceColumn(Integer placeId);
+    public boolean checkPlaceColumn(Long placeId);
 
     /** place category 변경(string -> int) */
     public int changeToPlaceCat(String category);

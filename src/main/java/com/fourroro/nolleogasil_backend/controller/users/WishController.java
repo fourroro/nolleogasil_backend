@@ -5,9 +5,11 @@
  */
 package com.fourroro.nolleogasil_backend.controller.users;
 
+import com.fourroro.nolleogasil_backend.auth.jwt.util.TokenProvider;
 import com.fourroro.nolleogasil_backend.dto.place.PlaceDto;
 import com.fourroro.nolleogasil_backend.dto.users.UsersDto;
 import com.fourroro.nolleogasil_backend.dto.users.WishDto;
+import com.fourroro.nolleogasil_backend.entity.place.Place;
 import com.fourroro.nolleogasil_backend.entity.users.Wish;
 import com.fourroro.nolleogasil_backend.service.place.PlaceService;
 import com.fourroro.nolleogasil_backend.service.users.WishService;
@@ -27,17 +29,9 @@ public class WishController {
 
     private final WishService wishService;
     private final PlaceService placeService;
+    private final TokenProvider tokenProvider;
 
-    /**
-     * session에 저장된 UsersDto의 사용자 ID를 가져오는 함수
-     *
-     * @param session //현재 사용자의 세션 객체
-     * @return 현재 세션에 저장된 사용자 ID
-     */
-    private Long getSessionUsersId(HttpSession session) {
-        UsersDto usersSession = (UsersDto) session.getAttribute("users");
-        return usersSession.getUsersId();
-    }
+
 
     /**
      * 위시리스트(내 장소)에 추가 버튼(빈 하트) 클릭 시, 위시 정보 저장
@@ -48,17 +42,23 @@ public class WishController {
      * @return HTTP 상태 코드가 201(신청 저장 성공 시), 400(잘못된 요청 시), 500(서버 오류 발생 시)인 ResponseEntity 객체
      */
     @PostMapping
-    public ResponseEntity<Void> createWish(@RequestBody PlaceDto placeDto, @RequestParam String category, HttpSession session) {
+    public ResponseEntity<Void> createWish(@RequestBody PlaceDto placeDto, @RequestParam String category, @RequestHeader("Authorization") String authorizationHeader)  {
         try {
             int placeCat = placeService.changeToPlaceCat(category);
             if (placeCat == 0) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
             }
 
-            Long usersId = getSessionUsersId(session);
+            // 1. JWT 토큰 추출
+            String token = authorizationHeader.replace("Bearer ", "");
+
+            // 2. 토큰에서 userId 추출
+            Long userId = Long.valueOf(tokenProvider.getClaims(token).getSubject());
+
+
             placeDto.setPlaceCat(placeCat);
             WishDto wishDto = WishDto.builder()
-                    .usersId(usersId)
+                    .usersId(userId)
                     .place(placeDto)
                     .build();
 
@@ -66,8 +66,9 @@ public class WishController {
             if (placeService.checkPlaceColumn(placeDto.getPlaceId())) {
                 wishService.insertWish(wishDto);
             } else {
+                System.out.println("place가 존재하지 않습니다.");
                 //해당 place가 DB에 존재하지 않는다면, insert place
-                placeService.insertPlace(placeDto);
+                Place place = placeService.insertPlace(placeDto);
                 wishService.insertWish(wishDto);
             }
             return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -87,10 +88,15 @@ public class WishController {
      *         서버 오류 발생 시 HTTP 상태 코드가 500인 ResponseEntity 객체
      */
     @GetMapping("/{placeId}/status")
-    public ResponseEntity<Boolean> checkingWishStatus(@PathVariable Integer placeId, HttpSession session) {
+    public ResponseEntity<Boolean> checkingWishStatus(@PathVariable Integer placeId,  @RequestHeader("Authorization") String authorizationHeader) {
         try {
-            Long usersId = getSessionUsersId(session);
-            boolean isWish = wishService.checkWishColumn(usersId, placeId);
+            // 1. JWT 토큰 추출
+            String token = authorizationHeader.replace("Bearer ", "");
+
+            // 2. 토큰에서 userId 추출
+            Long userId = Long.valueOf(tokenProvider.getClaims(token).getSubject());
+
+            boolean isWish = wishService.checkWishColumn(userId, placeId);
 
             return ResponseEntity.ok(isWish);
         } catch (Exception e) {
@@ -111,15 +117,19 @@ public class WishController {
      */
     @GetMapping("/{placeCat}")
     public ResponseEntity<List<WishDto>> getWishList(@PathVariable int placeCat, @RequestParam String sortBy,
-                                                     HttpSession session) {
+                                                     @RequestHeader("Authorization") String authorizationHeader) {
         try {
-            Long usersId = getSessionUsersId(session);
+            // 1. JWT 토큰 추출
+            String token = authorizationHeader.replace("Bearer ", "");
+
+            // 2. 토큰에서 userId 추출
+            Long userId = Long.valueOf(tokenProvider.getClaims(token).getSubject());
 
             List<Wish> wishList;
             if (sortBy.equals("기본순")) {
-                wishList = wishService.getWishList(usersId, placeCat);
+                wishList = wishService.getWishList(userId, placeCat);
             } else {
-                wishList = wishService.getSortedWishList(usersId, placeCat, sortBy);
+                wishList = wishService.getSortedWishList(userId, placeCat, sortBy);
             }
 
             List<WishDto> wishDtoList = new ArrayList<>();
@@ -145,14 +155,19 @@ public class WishController {
      *         서버 오류 발생 시 HTTP 상태 코드가 500인 ResponseEntity 객체
      */
     @GetMapping("/{placeCat}/count")
-    public ResponseEntity<Long> countWish(@PathVariable int placeCat, HttpSession session) {
+    public ResponseEntity<Long> countWish(@PathVariable int placeCat, @RequestHeader("Authorization") String authorizationHeader) {
         try {
-            Long usersId = getSessionUsersId(session);
+            // 1. JWT 토큰 추출
+            String token = authorizationHeader.replace("Bearer ", "");
+
+            // 2. 토큰에서 userId 추출
+            Long userId = Long.valueOf(tokenProvider.getClaims(token).getSubject());
+
             Long count;
             if (placeCat == 0) {  //0: 전체
-                count = wishService.countWish(usersId);
+                count = wishService.countWish(userId);
             } else {  //1: 맛집, 2: 카페, 3: 관광지, 4: 숙소
-                count = wishService.countWishByPlaceCat(usersId, placeCat);
+                count = wishService.countWishByPlaceCat(userId, placeCat);
             }
             return ResponseEntity.ok(count);
         } catch (Exception e) {
@@ -173,17 +188,22 @@ public class WishController {
      */
     @DeleteMapping("/{wishId}")
     public ResponseEntity<Void> deleteWish(@PathVariable Long wishId, @RequestParam(required = false) Integer placeId,
-                                           HttpSession session) {
+                                           @RequestHeader("Authorization") String authorizationHeader) {
         try {
             if (wishId == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
             }
 
-            Long usersId = getSessionUsersId(session);
+            // 1. JWT 토큰 추출
+            String token = authorizationHeader.replace("Bearer ", "");
+
+            // 2. 토큰에서 userId 추출
+            Long userId = Long.valueOf(tokenProvider.getClaims(token).getSubject());
+
 
             //wishId가 0이라면, 지도에서 넘어온 요청 -> 삭제하고자 하는 wishId를 조회한 후, 삭제
             if (wishId == 0) {
-                Wish wish = wishService.getWishByUsersIdAndPlaceId(usersId, placeId);
+                Wish wish = wishService.getWishByUsersIdAndPlaceId(userId, placeId);
                 wishService.deleteWish(wish.getWishId());
             } else {
                 //wishId가 0이 아니라면 내 장소에서 넘어온 요청

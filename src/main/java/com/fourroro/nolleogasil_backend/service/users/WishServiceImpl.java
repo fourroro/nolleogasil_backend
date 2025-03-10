@@ -9,6 +9,7 @@ import com.fourroro.nolleogasil_backend.dto.users.WishDto;
 import com.fourroro.nolleogasil_backend.entity.place.Place;
 import com.fourroro.nolleogasil_backend.entity.users.Users;
 import com.fourroro.nolleogasil_backend.entity.users.Wish;
+import com.fourroro.nolleogasil_backend.repository.place.PlaceRepository;
 import com.fourroro.nolleogasil_backend.repository.users.WishRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,14 +23,14 @@ public class WishServiceImpl implements WishService {
 
     private final WishRepository wishRepository;
     private final UsersService usersService;
+    private final PlaceRepository placeRepository;
 
     /** insert wish */
     @Transactional
     @Override
     public void insertWish(WishDto wishDto) {
         Users users = usersService.findByUsersId(wishDto.getUsersId());
-        Place place = Place.changeToEntity(wishDto.getPlace());
-
+        Place place = placeRepository.findById(wishDto.getPlace().getPlaceId()).orElseThrow(()-> new RuntimeException("장소 정보가 없습니다."));
         Wish wish = Wish.changeToEntity(users, place);
         wishRepository.save(wish);
     }

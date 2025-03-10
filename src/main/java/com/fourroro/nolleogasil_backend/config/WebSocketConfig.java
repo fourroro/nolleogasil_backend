@@ -26,6 +26,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Value("${spring.rabbitmq.port}")
     private int rabbitPort;
+    private final WebSocketHandshakeInterceptor webSocketHandshakeInterceptor;
     // STOMP에서 사용하는 메시지 브로커 설정
         @Override
         public void configureMessageBroker(MessageBrokerRegistry config) {
@@ -55,7 +56,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
             // websocket 또는 sockJs client 가 웹소켓 핸드셰이크 커넥션을 생성할 경로
             registry.addEndpoint(("/ws")) //SockJS 연결 주소.
                     .setAllowedOriginPatterns("*")
-                    .addInterceptors(new MyHttpSessionHandShakeInterceptor())
+                    .addInterceptors(webSocketHandshakeInterceptor)
                     .withSockJS();
 
 
