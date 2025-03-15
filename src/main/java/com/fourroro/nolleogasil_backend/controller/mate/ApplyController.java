@@ -38,11 +38,8 @@ public class ApplyController {
      * @param session //현재 사용자의 세션 객체
      * @return 현재 세션에 저장된 사용자 ID
      */
-    //session에 있는 usersId 가져오기
     private Long getSessionUsersId(HttpSession session) {
         UsersDto usersSession = (UsersDto) session.getAttribute("users");
-        System.out.println("!!!!!!!");
-        System.out.println(usersSession.getName());
         return usersSession.getUsersId();
     }
 
